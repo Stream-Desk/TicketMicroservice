@@ -11,8 +11,8 @@ namespace Domain.Users
         Task<List<User>> GetUserById(Guid userId);
         Task<List<User>> CreateUser(User user);
         void updateUsers(Guid userId, User user);
-        void DeleteUser(User user);
-        void DeleteUserById(User user);
+        void DeleteUser(Guid userId);
+        void DeleteUserById(Guid userId);
         
     }
 }
