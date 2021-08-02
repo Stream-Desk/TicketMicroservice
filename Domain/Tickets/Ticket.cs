@@ -1,4 +1,5 @@
 using System;
+using Domain.Users;
 
 namespace Domain.Tickets
 {
@@ -9,6 +10,7 @@ namespace Domain.Tickets
         public string Summary { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
+        public User User { get; set; }
     }
 
     public enum Priority
