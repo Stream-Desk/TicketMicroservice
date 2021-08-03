@@ -1,11 +1,16 @@
 using System;
 using Domain.Users;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Tickets
 {
     public class Ticket
     {
-        public Guid Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        [BsonElement("Description")]
         public string Description { get; set; }
         public string Summary { get; set; }
         public Priority Priority  { get; set; }
