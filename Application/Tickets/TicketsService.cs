@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Tickets;
@@ -18,17 +17,28 @@ namespace Application.Tickets
         }
         public async Task<List<GetTicketModel>> GetTickets(CancellationToken cancellationToken = default)
         {
-            // // Map model to domain Entity
-            // var search = await _ticketCollection.GetTickets(cancellationToken);
-            // if (search == null || search.count < 1)
-            // {
-            //     return new List<GetTicketModel>();
-            // }
-            //
-            // foreach (var searches in search)
-            // {
-            //     
-            // }
+            var searchResults = await _ticketCollection.GetTickets(cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+
+            var result = new List<GetTicketModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetTicketModel
+                {
+                    Description = searchResult.Description,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    SubmitDate = searchResult.SubmitDate,
+                    User = searchResult.User
+                };
+                result.Add(model);
+            }
+
+            return result;
         }
 
         public async Task<GetTicketModel> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
@@ -44,6 +54,7 @@ namespace Application.Tickets
            {
                return new GetTicketModel();
            }
+
            var result = new GetTicketModel
            {
                Description = search.Description,
@@ -51,7 +62,7 @@ namespace Application.Tickets
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                User = search.User
-           }
+           };
            return result;
         }
 
