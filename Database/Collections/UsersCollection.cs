@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Database.Colections
+namespace Database.Collections
 {
-    public class UsersCollection : IUsersCollection
+    public class UsersCollection : IUserCollection
     {
-        private IMongoCollection<Users> _usersCollection;
+        private IMongoCollection<User> _userCollection;
 
         public UsersCollection(IConfiguration configuration)
         {
@@ -20,42 +20,42 @@ namespace Database.Colections
             var database = client.GetDatabase(dbName);
             var usersCollectionName = configuration.GetValue<string>("MongoDb:usersCollection");
 
-            _usersCollection = database.GetCollection<Userss>(usersCollectionName);
+            _userCollection = database.GetCollection<User>(usersCollectionName);
         }
 
-        public async Task<Users> CreateUsers(Userss tickets, CancellationToken cancellationToken = default)
+        public async Task<User> GetUserById(string userId, CancellationToken cancellationToken = default)
         {
-            await _usersCollection.InsertOneAsync(userss);
+            var cursor = await _userCollection.FindAsync(a => a.Id == userId);
 
-            return userss;
+            var user = await cursor.FirstOrDefaultAsync(cancellationToken);
+
+            return user;
         }
 
-        public void DeleteUsersById(string usersId)
+        public async Task<User> CreateUser(User user, CancellationToken cancellationToken = default)
         {
-            _usersCollection.DeleteOne(a => a.Id == usersId);
+            await _userCollection.InsertOneAsync(user, cancellationToken: cancellationToken);
+
+            return user;
         }
 
-        public async Task<Users> GetusersById(string usersId, CancellationToken cancellationToken = default)
+        public void UpdateUser(string userId, User user)
         {
-            var cursor = await _usersCollection.FindAsync(a => a.Id == usersId);
-
-            var users = await cursor.FirstOrDefaultAsync(cancellationToken);
-
-            return userss;
+            _userCollection.ReplaceOne(a => a.Id == userId, user);
         }
 
-        public async Task<List<Users>> GetUsers(CancellationToken cancellationToken = default)
+        public void DeleteUserById(string userId)
         {
-            var cursor = await _usersCollection.FindAsync(a => true);
-
-            var tickets = await cursor.ToListAsync(cancellationToken);
-
-            return tickets;
+            _userCollection.DeleteOne(a => a.Id == userId);
         }
-
-        public void UpdateAuthor(string usersId, Users users)
+        
+        public async Task<List<User>> GetUsers(CancellationToken cancellationToken = default)
         {
-            _userssCollection.ReplaceOne(a => a.Id == usersId, users);
+            var cursor = await _userCollection.FindAsync(a => true);
+
+            var user = await cursor.ToListAsync(cancellationToken);
+
+            return user;
         }
     }
 }

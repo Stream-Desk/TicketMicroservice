@@ -1,61 +1,61 @@
-﻿using Domain.Tickets;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Tickets;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
-namespace Database.Colections
+namespace Database.Collections
 {
-    public class TicketsCollection : ITicketsCollection
+    public class TicketsCollection : ITicketCollection
     {
-        private IMongoCollection<Tickets> _ticketsCollection;
+        private IMongoCollection<Ticket> _ticketsCollection;
 
         public TicketsCollection(IConfiguration configuration)
         {
-            var connectionString = configuration.GetValue<string>("mongodb+srv://CathyAkoth:<Malaika221188!>@stream-desk.pellu.mongodb.net/TicketsDB?retryWrites=true&w=majority");
+            var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
             var settings = MongoClientSettings.FromConnectionString(connectionString);
             var client = new MongoClient(settings);
-            var TicketsDB = configuration.GetValue<string>("MongoDb:Database");
-            var database = client.GetDatabase(TicketsDB);
-            var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketsCollection");
+            var dbName = configuration.GetValue<string>("MongoDb:Database");
+            var database = client.GetDatabase(dbName);
+            var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
 
-            _ticketsCollection = database.GetCollection<Tickets>(ticketsCollectionName);
+            _ticketsCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         }
-
-        public async Task<Tickets> CreateTickets(Tickets tickets, CancellationToken cancellationToken = default)
-        {
-            await _ticketsCollection.InsertOneAsync(tickets);
-
-            return tickets;
-        }
-
-        public void DeleteTicketsById(string ticketsId)
-        {
-            _ticketsCollection.DeleteOne(a => a.Id == ticketsId);
-        }
-
-        public async Task<Tickets> GetticketsById(string ticketsId, CancellationToken cancellationToken = default)
-        {
-            var cursor = await _ticketsCollection.FindAsync(a => a.Id == ticketsId);
-
-            var tickets = await cursor.FirstOrDefaultAsync(cancellationToken);
-
-            return tickets;
-        }
-
-        public async Task<List<Tickets>> GetTickets(CancellationToken cancellationToken = default)
+       
+        public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketsCollection.FindAsync(a => true);
-
-            var tickets = await cursor.ToListAsync(cancellationToken);
-
-            return tickets;
+        
+            var ticket = await cursor.ToListAsync(cancellationToken);
+        
+            return ticket;
         }
 
-        public void UpdateTickets(string ticketsId, Tickets tickets)
+        public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
-            _ticketsCollection.ReplaceOne(a => a.Id == ticketsId, tickets);
+            var cursor = await _ticketsCollection.FindAsync(a => a.Id == ticketId);
+            
+            var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
+            
+            return ticket;
+        }
+
+        public async Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default)
+        {
+            await _ticketsCollection.InsertOneAsync(ticket);
+            return ticket;
+        }
+
+        public void UpdateTicket(string ticketId, Ticket ticket)
+        {
+            _ticketsCollection.ReplaceOne(a => a.Id == ticketId, ticket);
+        }
+        
+        public void DeleteTicketById(string ticketId)
+        {
+            _ticketsCollection.DeleteOne(a => a.Id == ticketId);
         }
     }
+    
 }

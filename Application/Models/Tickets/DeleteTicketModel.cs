@@ -1,4 +1,4 @@
-namespace ClassLibrary1.Models.Tickets
+namespace Application.Models.Tickets
 {
     public class DeleteTicketModel
     {

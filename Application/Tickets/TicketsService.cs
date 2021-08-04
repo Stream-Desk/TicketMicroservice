@@ -1,4 +1,4 @@
-namespace ClassLibrary1.Tickets
+namespace Application.Tickets
 {
     public class TicketsService
     {
