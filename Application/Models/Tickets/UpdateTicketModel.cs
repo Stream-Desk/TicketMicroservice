@@ -1,4 +1,5 @@
 using System;
+using Domain.Tickets;
 
 namespace Application.Models.Tickets
 {
