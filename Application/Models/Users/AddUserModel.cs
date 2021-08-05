@@ -1,8 +1,15 @@
 ﻿using System;
 
-public class Class1
+namespace Application.Models.Users
 {
-	public Class1()
-	{
-	}
+    public class AddUserModel
+    {
+        public string Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string EmailAddress { get; set; }
+    }
 }

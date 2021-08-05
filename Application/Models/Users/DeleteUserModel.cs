@@ -1,8 +1,7 @@
-﻿using System;
-
-public class Class1
+﻿namespace Application.Models.Users
 {
-	public Class1()
-	{
-	}
+    public class DeleteUserModel
+    {
+        public string Id { get; set; }
+    }
 }

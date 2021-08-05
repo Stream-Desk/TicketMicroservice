@@ -1,8 +1,21 @@
-﻿using System;
+﻿using Application.Models.Users;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-public class Class1
+namespace Application.Users
 {
-	public Class1()
-	{
-	}
+    public interface IUserService
+    {
+        Task<List<GetUserModel>> GetUsers(CancellationToken cancellationToken = default);
+
+        Task<GetUserModel> GetUserById(string userId, CancellationToken cancellationToken = default);
+
+        Task<GetUserModel> CreateUser(AddUserModel model, CancellationToken cancellationToken = default);
+
+        void UpdateUser(string userId, UpdateUserModel model);
+
+        void DeleteUserById(DeleteUserModel model);
+    }
 }
+

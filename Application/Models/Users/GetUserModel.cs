@@ -1,8 +1,22 @@
-﻿using System;
+﻿using Application.Models.Tickets;
+using System;
+using System.Collections.Generic;
 
-public class Class1
+namespace Application.Models.Users
 {
-	public Class1()
-	{
-	}
+    public class GetUserModel
+    {
+        public string Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string EmailAddress { get; set; }
+
+
+
+        public List<GetUserModel> Users { get; set; } = new List<GetUserModel>();
+    }
 }
+
