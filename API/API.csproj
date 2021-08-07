@@ -5,19 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.2.0" />
-        <PackageReference Include="MicroElements.Swashbuckle.NodaTime" Version="4.0.1" />
-        <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Include="Controllers\TicketsController.cs" />
-      <Compile Include="Controllers\UsersController.cs" />
+      <ProjectReference Include="..\Database\Database.csproj" />
     </ItemGroup>
 
 </Project>
