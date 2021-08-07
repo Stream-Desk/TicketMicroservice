@@ -2,9 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\API",
+    "\\Application",
+    "\\Application\\Extensions",
+    "\\Application\\Models",
     "\\Database",
-    "\\Domain"
+    "\\Database\\Collections",
+    "\\Database\\Extensions"
   ],
-  "SelectedNode": "\\API\\API.csproj",
+  "SelectedNode": "\\Database\\Extensions\\DependencyInjectionExtensions.cs",
   "PreviewInSolutionExplorer": false
 }
