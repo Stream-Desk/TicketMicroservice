@@ -37,4 +37,13 @@ Global
 		{5DD661F4-A643-474B-B53F-F1B4E78574EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DD661F4-A643-474B-B53F-F1B4E78574EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+<<<<<<< Updated upstream
+=======
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5F54EB1-D882-4E13-ACA0-028D8A46EA88}
+	EndGlobalSection
+>>>>>>> Stashed changes
 EndGlobal

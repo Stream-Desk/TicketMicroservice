@@ -9,7 +9,7 @@ namespace Database.Collections
 {
     public class TicketsCollection : ITicketCollection
     {
-        private IMongoCollection<Ticket> _ticketsCollection;
+        private IMongoCollection<Ticket> _ticketCollection;
 
         public TicketsCollection(IConfiguration configuration)
         {
@@ -20,12 +20,12 @@ namespace Database.Collections
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
 
-            _ticketsCollection = database.GetCollection<Ticket>(ticketsCollectionName);
+            _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         }
        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketsCollection.FindAsync(a => true);
+            var cursor = await _ticketCollection.FindAsync(a => true);
         
             var ticket = await cursor.ToListAsync(cancellationToken);
         
@@ -34,7 +34,7 @@ namespace Database.Collections
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketsCollection.FindAsync(a => a.Id == ticketId);
+            var cursor = await _ticketCollection.FindAsync(a => a.Id == ticketId);
             
             var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
             
@@ -43,18 +43,18 @@ namespace Database.Collections
 
         public async Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default)
         {
-            await _ticketsCollection.InsertOneAsync(ticket);
+            await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
-            _ticketsCollection.ReplaceOne(a => a.Id == ticketId, ticket);
+            _ticketCollection.ReplaceOne(a => a.Id == ticketId, ticket);
         }
         
         public void DeleteTicketById(string ticketId)
         {
-            _ticketsCollection.DeleteOne(a => a.Id == ticketId);
+            _ticketCollection.DeleteOne(a => a.Id == ticketId);
         }
     }
     
