@@ -33,7 +33,8 @@ namespace Application.Tickets
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
                     SubmitDate = searchResult.SubmitDate,
-                    User = searchResult.User
+                    User = searchResult.User,
+                   
                 };
                 result.Add(model);
             }
@@ -61,7 +62,8 @@ namespace Application.Tickets
                Summary = search.Summary,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
-               User = search.User
+               User = search.User,
+               Comment = search.Comment,
            };
            return result;
         }
@@ -123,7 +125,7 @@ namespace Application.Tickets
             ticket.Description = model.Description;
             ticket.Priority = model.Priority;
             ticket.SubmitDate = model.SubmitDate;
-            
+            ticket.Comment = model.Comment;
             _ticketCollection.UpdateTicket(ticketId, ticket);
             
         }

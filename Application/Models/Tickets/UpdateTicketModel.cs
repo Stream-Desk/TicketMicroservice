@@ -11,5 +11,6 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         // public User User { get; set; }
+        public string Comment { get; set; }
     }
 }
