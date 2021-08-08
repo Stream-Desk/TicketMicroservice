@@ -10,13 +10,12 @@ namespace Domain.Tickets
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonElement("Description")]
-        public string Description { get; set; }
+        [BsonElement("Summary")]
         public string Summary { get; set; }
+        public string Description { get; set; }
         public Priority Priority  { get; set; }
-        public DateTime SubmitDate { get; set; }
+        public DateTime SubmitDate { get; set; } 
         public User User { get; set; }
-        
         public string Comment { get; set;}
     }
 

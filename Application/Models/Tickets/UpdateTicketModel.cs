@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 using Domain.Tickets;
 
 namespace Application.Models.Tickets
@@ -10,6 +11,7 @@ namespace Application.Models.Tickets
         public string Summary { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
+        public  string Image { get; set; }
         // public User User { get; set; }
         public string Comment { get; set; }
     }

@@ -1,3 +1,4 @@
+using API.Services;
 using Application.Extensions;
 using Database.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,8 @@ namespace API
             services.AddDataBaseLayer();
 
             services.AddApplicationLayer();
+            
+            services.AddTransient<IFileService, FileService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

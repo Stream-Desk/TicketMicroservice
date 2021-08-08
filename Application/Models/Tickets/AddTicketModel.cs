@@ -6,11 +6,13 @@ namespace Application.Models.Tickets
 {
     public class AddTicketModel
     {
-        public string Description { get; set; }
         public string Summary { get; set; }
+        public string Description { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         public User User { get; set; }
+        
+        public string Image { get; set; }
         public string Comment { get; set; }
     }
 }

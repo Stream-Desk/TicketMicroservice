@@ -84,8 +84,10 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
-                User = model.User
+                User = model.User,
             };
+            
+            
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             var result = new GetTicketModel
@@ -94,8 +96,8 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 SubmitDate = search.SubmitDate,
-                User = search.User
-            };
+                User = search.User,
+                };
 
             return result;
         }
