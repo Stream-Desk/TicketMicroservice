@@ -8,20 +8,21 @@ using Microsoft.AspNetCore.Http;
 
 namespace API.Services
 {
-    public class FileService :IFileService  
+    public class FileService : IFileService  
     {  
       
-        private IHostingEnvironment _hostingEnvironment;  
+        private IWebHostEnvironment _iWebHostEnvironment;  
          
-        public FileService(IHostingEnvironment hostingEnvironment)  
-        {  
-            _hostingEnvironment = hostingEnvironment;  
+        public FileService(IWebHostEnvironment iWebHostEnvironment)
+        {
+            _iWebHostEnvironment = iWebHostEnvironment;
+            ;
         }  
     
         public void UploadFile(List<IFormFile> files, string subDirectory)  
         {  
             subDirectory = subDirectory ?? string.Empty;  
-            var target = Path.Combine(_hostingEnvironment.ContentRootPath, subDirectory);  
+            var target = Path.Combine(_iWebHostEnvironment .ContentRootPath, subDirectory);  
   
             Directory.CreateDirectory(target);  
   

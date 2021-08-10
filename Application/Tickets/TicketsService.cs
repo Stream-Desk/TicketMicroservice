@@ -84,7 +84,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
-                Attachment= model.Attachment,
+                Attachment = model.Attachment,
             };
             
             
@@ -97,6 +97,7 @@ namespace Application.Tickets
                 Summary = search.Summary,
                 SubmitDate = search.SubmitDate,
                 User = search.User,
+                Attachment = search.Attachment
                 };
 
             return result;
@@ -127,11 +128,10 @@ namespace Application.Tickets
             ticket.Description = model.Description;
             ticket.Priority = model.Priority;
             ticket.SubmitDate = model.SubmitDate;
-            ticket.Comment = model.Comment;
-            _ticketCollection.UpdateTicket(ticketId, ticket);
+            
+           _ticketCollection.UpdateTicket(ticketId, ticket);
             
         }
-
         public void DeleteTicketById(DeleteTicketModel model)
         {
             // validation
