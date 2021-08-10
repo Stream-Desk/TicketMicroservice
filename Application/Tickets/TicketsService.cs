@@ -63,7 +63,7 @@ namespace Application.Tickets
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                User = search.User,
-               Comment = search.Comment,
+               Attachment = search.Attachment,
            };
            return result;
         }
@@ -84,7 +84,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
-                User = model.User,
+                Attachment= model.Attachment,
             };
             
             
