@@ -23,7 +23,19 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+            {
+                builder.WithOrigins("http://localhost:8881");
+            });
+
+            });
+            
+
             services.AddControllers();
+
+           
 
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +62,8 @@ namespace API
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
