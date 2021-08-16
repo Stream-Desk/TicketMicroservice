@@ -19,10 +19,10 @@ namespace API.Services
             ;
         }  
     
-        public void UploadFile(List<IFormFile> files, string subDirectory)  
+        public void UploadFile(List<IFormFile> files)  
         {  
-            subDirectory = subDirectory ?? string.Empty;  
-            var target = Path.Combine(_iWebHostEnvironment .ContentRootPath, subDirectory);  
+            // subDirectory = subDirectory ?? string.Empty;  
+            var target = Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments");  
   
             Directory.CreateDirectory(target);  
   
@@ -37,11 +37,11 @@ namespace API.Services
             });  
         }  
    
-        public (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory)  
+        public (string fileType, byte[] archiveData, string archiveName) DownloadFiles()  
         {  
             var zipName = $"archive-{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.zip";  
   
-            var files = Directory.GetFiles(Path.Combine(_iWebHostEnvironment.ContentRootPath, subDirectory)).ToList();  
+            var files = Directory.GetFiles(Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments")).ToList();  
   
             using (var memoryStream = new MemoryStream())  
             {  

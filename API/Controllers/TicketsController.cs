@@ -79,11 +79,11 @@ namespace API.Controllers
         // Upload and Download files
         // Upload File
         [HttpPost(nameof(Upload))]
-        public IActionResult Upload([Required] List<IFormFile> formFiles, [Required] string subDirectory)
+        public IActionResult Upload([Required] List<IFormFile> formFiles)
         {
             try
             {
-                _fileService.UploadFile(formFiles, subDirectory);
+                _fileService.UploadFile(formFiles);
                 return Ok(new
                 {
                     formFiles.Count, formFilesSize = _fileService.SizeConverter(formFiles.Sum(f => f.Length))
@@ -97,12 +97,12 @@ namespace API.Controllers
         
         // Download File
         [HttpGet(nameof(Download))]  
-        public IActionResult Download([Required]string subDirectory)  
+        public IActionResult Download()  
         {  
   
             try  
             {  
-                var (fileType, archiveData, archiveName) = _fileService.DownloadFiles(subDirectory);  
+                var (fileType, archiveData, archiveName) = _fileService.DownloadFiles();  
   
                 return File(archiveData, fileType, archiveName);  
             }  
