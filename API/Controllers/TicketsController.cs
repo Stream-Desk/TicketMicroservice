@@ -53,9 +53,10 @@ namespace API.Controllers
         // POST api/<TicketsController>
         [HttpPost]
         public async Task<ActionResult<GetTicketModel>> PostAsync(
-            [FromBody] AddTicketModel model)
+            [FromBody] AddTicketModel model, [Required] List<IFormFile> formFiles)
         {
             var response = await _ticketService.CreateTicket(model);
+         
             return Ok(response);
         }
         // PUT api/<TicketsController>/5
@@ -79,6 +80,7 @@ namespace API.Controllers
         // Upload and Download files
         // Upload File
         [HttpPost(nameof(Upload))]
+        
         public IActionResult Upload([Required] List<IFormFile> formFiles)
         {
             try
@@ -96,21 +98,20 @@ namespace API.Controllers
         }
         
         // Download File
-        [HttpGet(nameof(Download))]  
+        [HttpGet(nameof(Download))]
         public IActionResult Download()  
         {  
-  
+        
             try  
             {  
                 var (fileType, archiveData, archiveName) = _fileService.DownloadFiles();  
-  
+        
                 return File(archiveData, fileType, archiveName);  
             }  
             catch (Exception e)  
             {  
                 return BadRequest(e.Message);  
-            }  
-  
+            }
         }
     }
 }

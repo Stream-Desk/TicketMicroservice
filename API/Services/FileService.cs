@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -23,18 +24,22 @@ namespace API.Services
         {  
             // subDirectory = subDirectory ?? string.Empty;  
             var target = Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments");  
-  
+            
             Directory.CreateDirectory(target);  
   
             files.ForEach(async file =>  
             {  
                 if (file.Length <= 0) return;  
+                // string attachment =
+                //     new String((Path.GetFileNameWithoutExtension(file.FileName) ?? string.Empty).Take(10).ToArray()).Replace(' ', '-');
+                // attachment = attachment + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(file.FileName);
                 var filePath = Path.Combine(target, file.FileName);  
                 using (var stream = new FileStream(filePath, FileMode.Create))  
                 {  
                     await file.CopyToAsync(stream);  
-                }  
-            });  
+                }
+            });
+            
         }  
    
         public (string fileType, byte[] archiveData, string archiveName) DownloadFiles()  
