@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using API.Services;
 using Application.Extensions;
 using Database.Extensions;
@@ -38,14 +39,15 @@ namespace API
 
 
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
 
-
-          
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-                c.DescribeAllEnumsAsStrings();
             });
 
             services.AddDataBaseLayer();
