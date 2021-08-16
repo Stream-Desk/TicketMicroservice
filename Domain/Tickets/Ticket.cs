@@ -17,7 +17,7 @@ namespace Domain.Tickets
         public string Description { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Priority Priority  { get; set; }
-        public DateTime SubmitDate { get; set; } 
+        public DateTime SubmitDate { get; set; } = DateTime.Now;
         public User User { get; set; }
         public string Attachment { get; set; }
         
