@@ -30,16 +30,12 @@ namespace API.Services
             files.ForEach(async file =>  
             {  
                 if (file.Length <= 0) return;  
-                // string attachment =
-                //     new String((Path.GetFileNameWithoutExtension(file.FileName) ?? string.Empty).Take(10).ToArray()).Replace(' ', '-');
-                // attachment = attachment + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine(target, file.FileName);  
+               var filePath = Path.Combine(target, file.FileName);  
                 using (var stream = new FileStream(filePath, FileMode.Create))  
                 {  
                     await file.CopyToAsync(stream);  
                 }
             });
-            
         }  
    
         public (string fileType, byte[] archiveData, string archiveName) DownloadFiles()  

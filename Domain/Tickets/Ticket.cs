@@ -1,7 +1,9 @@
 using System;
+using System.Text.Json.Serialization;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Converters;
 
 namespace Domain.Tickets
 {
@@ -13,6 +15,7 @@ namespace Domain.Tickets
         [BsonElement("Summary")]
         public string Summary { get; set; }
         public string Description { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; } 
         public User User { get; set; }
