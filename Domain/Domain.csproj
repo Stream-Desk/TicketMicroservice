@@ -8,8 +8,4 @@
       <PackageReference Include="MongoDB.Bson" Version="2.13.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Comments" />
-    </ItemGroup>
-
 </Project>
