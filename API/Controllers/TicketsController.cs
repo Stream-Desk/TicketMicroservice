@@ -64,7 +64,6 @@ namespace API.Controllers
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
         {
             _ticketService.UpdateTicket(id, model);
-
             return NoContent();
         }
 

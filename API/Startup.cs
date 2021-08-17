@@ -25,7 +25,6 @@ namespace API
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -37,23 +36,18 @@ namespace API
                                   });
             });
 
-
-
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
 
             services.AddDataBaseLayer();
-
             services.AddApplicationLayer();
-            
             services.AddTransient<IFileService, FileService>(); 
         }
 
@@ -68,11 +62,8 @@ namespace API
             }
 
             // app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors(MyAllowSpecificOrigins);
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
