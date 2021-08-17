@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Comments;
@@ -25,10 +26,13 @@ namespace Database.Collections
             await _commentCollection.InsertOneAsync(comment);
             return comment;
         }
+        
 
-        public Task<Comment> GetComment(string commentId, CancellationToken cancellationToken = default)
+        public async Task<List<Comment>> GetComments(CancellationToken cancellationToken = default)
         {
-            var result = await _commentCollection.FindAsync()
+            var result = await _commentCollection.FindAsync(c => true);
+            var comments = await result.ToListAsync(cancellationToken);
+            return comments;
         }
     }
 }
