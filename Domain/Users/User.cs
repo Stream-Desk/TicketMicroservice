@@ -13,7 +13,6 @@ namespace Domain.Users
         public string EmailAddress { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        [BsonIgnore]
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }
