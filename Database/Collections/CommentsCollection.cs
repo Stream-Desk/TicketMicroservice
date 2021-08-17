@@ -20,14 +20,15 @@ namespace Database.Collections
             var commentCollectionName = configuration.GetValue<string>("MongoDb:CommentCollection");
             _commentCollection = database.GetCollection<Comment>(commentCollectionName);
         }
-        public Task<Comment> CreateComment(Comment comment, CancellationToken cancellationToken = default)
+        public async Task<Comment> CreateComment(Comment comment, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            await _commentCollection.InsertOneAsync(comment);
+            return comment;
         }
 
         public Task<Comment> GetComment(string commentId, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            var result = await _commentCollection.FindAsync()
         }
     }
 }
