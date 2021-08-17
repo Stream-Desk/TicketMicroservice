@@ -17,6 +17,7 @@ namespace Domain.Tickets
         public string Description { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; } = DateTime.Now.ToLocalTime();
+        
         public User User { get; set; }
         public string Attachment { get; set; }        
     }
