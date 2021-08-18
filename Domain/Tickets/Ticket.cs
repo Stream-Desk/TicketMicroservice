@@ -15,13 +15,14 @@ namespace Domain.Tickets
         [BsonElement("Summary")]
         public string Summary { get; set; }
         public string Description { get; set; }
-        public Priority Priority  { get; set; }
+        public Priority Priority { get; set; }
+
 
         public Status Status { get; set; }
         public DateTime SubmitDate { get; set; } = DateTime.Now.ToLocalTime();
-        
+
         public User User { get; set; }
-        public string Attachment { get; set; }        
+        public string Attachment { get; set; }
     }
 
     public enum Priority
@@ -38,7 +39,5 @@ namespace Domain.Tickets
         Resolved = 3,
         Closed = 4
     }
-
-
-
 }
+
