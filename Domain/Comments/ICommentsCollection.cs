@@ -7,5 +7,7 @@ namespace Domain.Comments
     public interface ICommentsCollection
     {
         Task<Comment> CreateComment(Comment comment, CancellationToken cancellationToken = default);
+        Task<List<Comment>> GetComments(CancellationToken cancellationToken = default);
+        Task<Comment> GetCommentById(string commentId, CancellationToken cancellationToken = default);
     }
 }
