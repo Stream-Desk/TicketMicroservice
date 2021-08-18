@@ -29,9 +29,16 @@ namespace Database.Collections
         
         public async Task<List<Comment>> GetComments(CancellationToken cancellationToken = default)
         {
-            var result = await _commentCollection.FindAsync(c => true);
-            var comments = await result.ToListAsync(cancellationToken);
+            var cursor = await _commentCollection.FindAsync(c => true);
+            var comments = await cursor.ToListAsync(cancellationToken);
             return comments;
+        }
+
+        public async Task<Comment> GetCommentById(string commentId, CancellationToken cancellationToken = default)
+        {
+            var cursor = await _commentCollection.FindAsync(c => c.Id == commentId);
+            var comment = await cursor.FirstOrDefaultAsync(cancellationToken);
+            return comment;
         }
     }
 }
