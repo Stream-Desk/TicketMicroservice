@@ -5,8 +5,8 @@ namespace API.Services
 {
     public interface IFileService
     {
-        void UploadFile(List<IFormFile> files, string subDirectory);  
-        (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory);  
+        void UploadFile(List<IFormFile> files);  
+        (string fileType, byte[] archiveData, string archiveName) DownloadFiles();  
         string SizeConverter(long bytes); 
     }
 }
