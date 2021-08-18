@@ -104,7 +104,6 @@ namespace Application.Users
 
                 response.Add(model);
             }
-
             return response;
         }
 
@@ -131,8 +130,6 @@ namespace Application.Users
             currentUser.FirstName = model.FirstName;
             currentUser.LastName = model.LastName;
             currentUser.EmailAddress = model.EmailAddress;
-
-
             _userCollection.UpdateUser(userId, currentUser);
         }
     }

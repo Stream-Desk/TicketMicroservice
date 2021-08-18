@@ -44,7 +44,6 @@ namespace API.Controllers
             [FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
-
             return Ok(response);
         }
 
@@ -53,7 +52,6 @@ namespace API.Controllers
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
         {
             _ticketService.UpdateTicket(id, model);
-
             return NoContent();
         }
 

@@ -94,7 +94,6 @@ namespace Application.Tickets
                 SubmitDate = search.SubmitDate,
                 User = search.User
             };
-
             return result;
         }
 

@@ -27,7 +27,6 @@ namespace Database.Collections
             return comment;
         }
         
-
         public async Task<List<Comment>> GetComments(CancellationToken cancellationToken = default)
         {
             var result = await _commentCollection.FindAsync(c => true);
