@@ -1,12 +1,20 @@
-﻿using System;
-using Application.Tickets;
+﻿using Application.Tickets;
 using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Application.Comments;
 using Application.Models.Comments;
 using Domain.Comments;
+using API.Services;
+using Domain.Tickets;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,8 +28,12 @@ namespace API.Controllers
         private readonly ITicketService _ticketService;
         
         public TicketsController(ITicketService ticketService)
+        private readonly IFileService _fileService;
+
+        public TicketsController(ITicketService ticketService, IFileService fileService)
         {
             _ticketService = ticketService;
+            _fileService = fileService;
         }
 
         // GET: api/<TicketsController>
@@ -46,9 +58,9 @@ namespace API.Controllers
             [FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
+         
             return Ok(response);
         }
-
         // PUT api/<TicketsController>/5
         [HttpPut("{id}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
@@ -65,5 +77,42 @@ namespace API.Controllers
             return NoContent();
         }
         
+        
+        // Upload and Download files
+        // Upload File
+        [HttpPost(nameof(Upload))]
+        
+        public IActionResult Upload([Required] List<IFormFile> formFiles)
+        {
+            try
+            {
+                _fileService.UploadFile(formFiles);
+                return Ok(new
+                {
+                    formFiles.Count, formFilesSize = _fileService.SizeConverter(formFiles.Sum(f => f.Length))
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        // Download File
+        [HttpGet(nameof(Download))]
+        public IActionResult Download()  
+        {  
+        
+            try  
+            {  
+                var (fileType, archiveData, archiveName) = _fileService.DownloadFiles();  
+        
+                return File(archiveData, fileType, archiveName);  
+            }  
+            catch (Exception e)  
+            {  
+                return BadRequest(e.Message);  
+            }
+        }
     }
 }

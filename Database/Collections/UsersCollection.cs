@@ -18,7 +18,7 @@ namespace Database.Collections
             var client = new MongoClient(settings);
             var dbName = configuration.GetValue<string>("MongoDb:Database");
             var database = client.GetDatabase(dbName);
-            var usersCollectionName = configuration.GetValue<string>("MongoDb:usersCollection");
+            var usersCollectionName = configuration.GetValue<string>("MongoDb:UserCollection");
 
             _userCollection = database.GetCollection<User>(usersCollectionName);
         }
