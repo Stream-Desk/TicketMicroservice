@@ -1,4 +1,5 @@
-﻿using Application.Tickets;
+﻿using System;
+using Application.Tickets;
 using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,8 +27,6 @@ namespace API.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly ITicketService _ticketService;
-        
-        public TicketsController(ITicketService ticketService)
         private readonly IFileService _fileService;
 
         public TicketsController(ITicketService ticketService, IFileService fileService)
