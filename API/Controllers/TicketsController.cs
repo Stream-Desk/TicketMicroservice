@@ -1,8 +1,12 @@
-﻿using Application.Tickets;
+﻿using System;
+using Application.Tickets;
 using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Comments;
+using Application.Models.Comments;
+using Domain.Comments;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,7 +18,7 @@ namespace API.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly ITicketService _ticketService;
-
+        
         public TicketsController(ITicketService ticketService)
         {
             _ticketService = ticketService;
@@ -25,7 +29,6 @@ namespace API.Controllers
         public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
         {
             var response = await _ticketService.GetTickets();
-
             return Ok(response);
         }
 
@@ -34,7 +37,6 @@ namespace API.Controllers
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
         {
             var response = await _ticketService.GetTicketById(id);
-
             return Ok(response);
         }
 
@@ -60,8 +62,8 @@ namespace API.Controllers
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
-
             return NoContent();
         }
+        
     }
 }

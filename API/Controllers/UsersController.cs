@@ -53,7 +53,6 @@ namespace API.Controllers
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateUserModel model)
         {
             _userService.UpdateUser(id, model);
-
             return NoContent();
         }
 
@@ -62,7 +61,6 @@ namespace API.Controllers
         public IActionResult Delete([FromRoute] string id)
         {
             _userService.DeleteUserById(new DeleteUserModel { Id = id });
-
             return NoContent();
         }
     }
