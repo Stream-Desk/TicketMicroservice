@@ -29,16 +29,16 @@ namespace Application.Tickets
             {
                 var model = new GetTicketModel
                 {
+                    Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
+                    Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
                     User = searchResult.User,
-                   
                 };
                 result.Add(model);
             }
-
             return result;
         }
 
@@ -58,12 +58,14 @@ namespace Application.Tickets
 
            var result = new GetTicketModel
            {
+               Id = search.Id,
                Description = search.Description,
                Summary = search.Summary,
                Priority = search.Priority,
+               Status = search.Status,
                SubmitDate = search.SubmitDate,
-               User = search.User,
                Attachment = search.Attachment,
+               User = search.User
            };
            return result;
         }
@@ -83,22 +85,21 @@ namespace Application.Tickets
                 Description = model.Description,
                 Summary = model.Summary,
                 Priority = model.Priority,
+                Status = model.Status,
                 SubmitDate = model.SubmitDate,
                 Attachment = model.Attachment,
             };
-            
-            
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             var result = new GetTicketModel
             {
                 Description = search.Description,
                 Priority = search.Priority,
+                Status = search.Status,
                 Summary = search.Summary,
                 SubmitDate = search.SubmitDate,
-                User = search.User,
                 Attachment = search.Attachment
-                };
+            };
 
             return result;
         }
@@ -106,7 +107,7 @@ namespace Application.Tickets
         public void UpdateTicket(string ticketId, UpdateTicketModel model)
         {
             // Validation
-            if (string.IsNullOrWhiteSpace((ticketId)))
+            if (string.IsNullOrWhiteSpace(ticketId))
             {
                 throw new Exception("Ticket Id does not exist");
             }
@@ -127,10 +128,10 @@ namespace Application.Tickets
             ticket.Summary = model.Summary;
             ticket.Description = model.Description;
             ticket.Priority = model.Priority;
+            ticket.Status = model.Status;
             ticket.SubmitDate = model.SubmitDate;
             
            _ticketCollection.UpdateTicket(ticketId, ticket);
-            
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {

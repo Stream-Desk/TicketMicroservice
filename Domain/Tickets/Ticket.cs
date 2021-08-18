@@ -1,7 +1,9 @@
 using System;
+using System.Text.Json.Serialization;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+
 
 namespace Domain.Tickets
 {
@@ -14,10 +16,12 @@ namespace Domain.Tickets
         public string Summary { get; set; }
         public string Description { get; set; }
         public Priority Priority  { get; set; }
-        public DateTime SubmitDate { get; set; } 
-        public User User { get; set; }
-        public string Attachment { get; set; }
+
+        public Status Status { get; set; }
+        public DateTime SubmitDate { get; set; } = DateTime.Now.ToLocalTime();
         
+        public User User { get; set; }
+        public string Attachment { get; set; }        
     }
 
     public enum Priority
@@ -26,4 +30,15 @@ namespace Domain.Tickets
         Medium = 2,
         High = 3
     }
+
+    public enum Status
+    {
+        Open = 1,
+        Pending = 2,
+        Resolved = 3,
+        Closed = 4
+    }
+
+
+
 }
