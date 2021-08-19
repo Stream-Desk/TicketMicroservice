@@ -32,6 +32,7 @@ namespace Application.Tickets
                     Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
+                    Category = searchResult.Category,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
@@ -61,6 +62,7 @@ namespace Application.Tickets
                Id = search.Id,
                Description = search.Description,
                Summary = search.Summary,
+               Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                Status = search.Status,
@@ -84,6 +86,7 @@ namespace Application.Tickets
             {
                 Description = model.Description,
                 Summary = model.Summary,
+                Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
                 Status = model.Status,
@@ -96,6 +99,7 @@ namespace Application.Tickets
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
+                Category = search.Category,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 Attachment = search.Attachment
@@ -129,6 +133,7 @@ namespace Application.Tickets
             ticket.Description = model.Description;
             ticket.Priority = model.Priority;
             ticket.SubmitDate = model.SubmitDate;
+            ticket.Category = model.Category;
             ticket.Status = model.Status;
             
            _ticketCollection.UpdateTicket(ticketId, ticket);
