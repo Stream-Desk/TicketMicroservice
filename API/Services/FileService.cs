@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -19,29 +20,29 @@ namespace API.Services
             ;
         }  
     
-        public void UploadFile(List<IFormFile> files, string subDirectory)  
+        public void UploadFile(List<IFormFile> files)  
         {  
-            subDirectory = subDirectory ?? string.Empty;  
-            var target = Path.Combine(_iWebHostEnvironment .ContentRootPath, subDirectory);  
-  
+            // subDirectory = subDirectory ?? string.Empty;  
+            var target = Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments");  
+            
             Directory.CreateDirectory(target);  
   
             files.ForEach(async file =>  
             {  
                 if (file.Length <= 0) return;  
-                var filePath = Path.Combine(target, file.FileName);  
+               var filePath = Path.Combine(target, file.FileName);  
                 using (var stream = new FileStream(filePath, FileMode.Create))  
                 {  
                     await file.CopyToAsync(stream);  
-                }  
-            });  
+                }
+            });
         }  
    
-        public (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory)  
+        public (string fileType, byte[] archiveData, string archiveName) DownloadFiles()  
         {  
             var zipName = $"archive-{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.zip";  
   
-            var files = Directory.GetFiles(Path.Combine(_iWebHostEnvironment.ContentRootPath, subDirectory)).ToList();  
+            var files = Directory.GetFiles(Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments")).ToList();  
   
             using (var memoryStream = new MemoryStream())  
             {  

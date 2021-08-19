@@ -10,8 +10,7 @@ namespace Application.Models.Tickets
         public string Description { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
-        public User User { get; set; }
-        
+        public Status Status { get; set; }
         public string Attachment{ get; set; }
    
     }
