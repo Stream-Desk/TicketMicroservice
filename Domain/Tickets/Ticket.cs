@@ -10,7 +10,7 @@ namespace Domain.Tickets
     public class Ticket
     {
         [BsonId]
-        [BsonRepresentation(BsonType.String)] 
+        [BsonRepresentation(BsonType.ObjectId)] 
         public string Id { get; set; }
         
         [BsonElement("Summary")]
