@@ -132,7 +132,6 @@ namespace Application.Tickets
             currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
-            currentTicket.SubmitDate = model.SubmitDate;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
             
