@@ -11,8 +11,7 @@ namespace Domain.Tickets
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
-        public string Id { get; set; }
-        
+        public string Id { get; set; }        
         [BsonElement("Summary")]
         public string Summary { get; set; }
         public string Category { get; set; }
