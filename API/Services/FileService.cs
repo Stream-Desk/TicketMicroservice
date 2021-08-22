@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Mail;
+using Application.Models.Tickets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 

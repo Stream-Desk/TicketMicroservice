@@ -72,7 +72,6 @@ namespace API.Controllers
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
-
             return NoContent();
         }
         
@@ -99,8 +98,7 @@ namespace API.Controllers
         // Download File
         [HttpGet(nameof(Download))]
         public IActionResult Download()  
-        {  
-        
+        {
             try  
             {  
                 var (fileType, archiveData, archiveName) = _fileService.DownloadFiles();  

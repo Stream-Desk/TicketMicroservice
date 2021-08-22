@@ -29,7 +29,6 @@ namespace Application.Tickets
             {
                 var model = new GetTicketModel
                 {
-                    Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
                     Category = searchResult.Category,
@@ -59,7 +58,6 @@ namespace Application.Tickets
 
            var result = new GetTicketModel
            {
-               Id = search.Id,
                Description = search.Description,
                Summary = search.Summary,
                Category = search.Category,
@@ -122,28 +120,28 @@ namespace Application.Tickets
             }
             
             // get ticket by Id
-            var ticket = _ticketCollection.GetTicketById(ticketId).Result;
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
              
-            if (ticket == null)
+            if (currentTicket == null)
             {
                 throw new Exception("Ticket not found");
             }
 
-            ticket.Summary = model.Summary;
-            ticket.Description = model.Description;
-            ticket.Priority = model.Priority;
-            ticket.SubmitDate = model.SubmitDate;
-            ticket.Category = model.Category;
-            ticket.Status = model.Status;
+            currentTicket.Summary = model.Summary;
+            currentTicket.Description = model.Description;
+            currentTicket.Priority = model.Priority;
+            currentTicket.SubmitDate = model.SubmitDate;
+            currentTicket.Category = model.Category;
+            currentTicket.Status = model.Status;
             
-           _ticketCollection.UpdateTicket(ticketId, ticket);
+           _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {
             // validation
             if (model == null)
             {
-                throw new Exception("Ticket not found");
+                throw new Exception("Ticket Id not found");
             }
             _ticketCollection.DeleteTicketById(model.Id);
         }
