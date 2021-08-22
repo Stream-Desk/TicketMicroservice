@@ -102,7 +102,6 @@ namespace Application.Tickets
                 Status = search.Status,
                 Attachment = search.Attachment
             };
-
             return result;
         }
 
