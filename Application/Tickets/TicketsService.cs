@@ -29,6 +29,7 @@ namespace Application.Tickets
             {
                 var model = new GetTicketModel
                 {
+                    Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
                     Category = searchResult.Category,
@@ -58,6 +59,7 @@ namespace Application.Tickets
 
            var result = new GetTicketModel
            {
+               Id = search.Id,
                Description = search.Description,
                Summary = search.Summary,
                Category = search.Category,
@@ -94,6 +96,7 @@ namespace Application.Tickets
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             var result = new GetTicketModel
             {
+                Id = search.Id,
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
