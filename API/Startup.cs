@@ -40,7 +40,7 @@ namespace API
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
- });
+            });
            
             services.AddSwaggerGen(c =>
             {
