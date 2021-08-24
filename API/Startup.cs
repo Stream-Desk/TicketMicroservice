@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Application.Settings;
 using API.Services;
 using Application.Extensions;
 using Database.Extensions;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Application.Services;
+
 
 namespace API
 {
@@ -25,17 +28,24 @@ namespace API
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
+            
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:8081")
+                                      builder.WithOrigins("http://localhost:8082")
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod();
                                   });
             });
-
+            
+           
+            
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -45,10 +55,14 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+            
 
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-            services.AddTransient<IFileService, FileService>(); 
+            services.AddTransient<IFileService, FileService>();
+           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
