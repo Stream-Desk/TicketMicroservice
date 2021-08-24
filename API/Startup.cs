@@ -37,9 +37,7 @@ namespace API
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:8082")
-                                      builder.WithOrigins("https://streamdesk-webapp.herokuapp.com", "http://localhost:8081")
+                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com", "http://localhost:8082")
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod();
                                   });
@@ -62,9 +60,6 @@ namespace API
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             services.AddTransient<IFileService, FileService>();
-           
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
