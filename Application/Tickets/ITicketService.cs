@@ -12,5 +12,6 @@ namespace Application.Tickets
         Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default);
         void UpdateTicket(string ticketId, UpdateTicketModel model);
         void DeleteTicketById(DeleteTicketModel model);
+       
     }
 }

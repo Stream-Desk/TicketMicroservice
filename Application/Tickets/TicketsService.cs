@@ -33,6 +33,7 @@ namespace Application.Tickets
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
+                    Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
                     User = searchResult.User,
                 };
@@ -62,6 +63,7 @@ namespace Application.Tickets
                Summary = search.Summary,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
+               Status = search.Status,
                Attachment = search.Attachment,
                User = search.User
            };
@@ -84,6 +86,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
+                Status = model.Status,
                 Attachment = model.Attachment,
             };
 
@@ -94,6 +97,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 SubmitDate = search.SubmitDate,
+                Status = search.Status,
                 Attachment = search.Attachment
             };
 
@@ -115,7 +119,7 @@ namespace Application.Tickets
             
             // get ticket by Id
             var ticket = _ticketCollection.GetTicketById(ticketId).Result;
-
+             
             if (ticket == null)
             {
                 throw new Exception("Ticket not found");
@@ -125,6 +129,7 @@ namespace Application.Tickets
             ticket.Description = model.Description;
             ticket.Priority = model.Priority;
             ticket.SubmitDate = model.SubmitDate;
+            ticket.Status = model.Status;
             
            _ticketCollection.UpdateTicket(ticketId, ticket);
         }

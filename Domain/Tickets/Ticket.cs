@@ -17,7 +17,7 @@ namespace Domain.Tickets
         public string Description { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; } = DateTime.Now.ToLocalTime();
-        
+        public Status Status { get; set; }
         public User User { get; set; }
         public string Attachment { get; set; }        
     }
@@ -27,5 +27,13 @@ namespace Domain.Tickets
         Low = 1,
         Medium = 2,
         High = 3
+    }
+
+    public enum Status
+    {
+        Open = 1,
+        Pending = 2,
+        Resolved = 3,
+        Closed = 4
     }
 }
