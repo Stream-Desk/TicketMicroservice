@@ -1,4 +1,5 @@
 using Database.Collections;
+using Domain.Comments;
 using Domain.Tickets;
 using Domain.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,8 @@ namespace Database.Extensions
         {
             services.AddScoped<IUserCollection, UsersCollection>();
             services.AddScoped<ITicketCollection, TicketsCollection>();
-           
+            services.AddScoped<ICommentsCollection, CommentsCollection>();
+
             return services;
         }
     }

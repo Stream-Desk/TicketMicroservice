@@ -13,6 +13,9 @@ namespace Domain.Users
         public string EmailAddress { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> Tickets { get; set; }
+        [BsonIgnore]
+        public List<Ticket> TicketList { get; set; } = new List<Ticket>();
     }
 }
