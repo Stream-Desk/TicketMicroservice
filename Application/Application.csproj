@@ -10,6 +10,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentEmail.Razor" Version="3.0.0" />
+      <PackageReference Include="FluentEmail.Smtp" Version="3.0.0" />
+      <PackageReference Include="MailKit" Version="2.15.0" />
+      <PackageReference Include="MimeKit" Version="2.15.0" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Database\Database.csproj" />
     </ItemGroup>
 
