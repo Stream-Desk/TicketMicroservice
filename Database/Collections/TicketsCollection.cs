@@ -26,18 +26,14 @@ namespace Database.Collections
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(a => true);
-        
             var ticket = await cursor.ToListAsync(cancellationToken);
-        
             return ticket;
         }
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(a => a.Id == ticketId);
-            
             var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
-            
             return ticket;
         }
 
