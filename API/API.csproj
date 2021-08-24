@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Attachments" />
+      <Folder Include="wwwroot\images" />
     </ItemGroup>
 
 </Project>

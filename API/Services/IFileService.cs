@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Application.Models.Tickets;
 using Microsoft.AspNetCore.Http;
 
 namespace API.Services

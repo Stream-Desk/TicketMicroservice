@@ -11,7 +11,7 @@ namespace Database.Extensions
         {
             services.AddScoped<IUserCollection, UsersCollection>();
             services.AddScoped<ITicketCollection, TicketsCollection>();
-
+           
             return services;
         }
     }

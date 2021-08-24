@@ -32,6 +32,7 @@ namespace Application.Tickets
                     Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
+                    Category = searchResult.Category,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
@@ -61,6 +62,7 @@ namespace Application.Tickets
                Id = search.Id,
                Description = search.Description,
                Summary = search.Summary,
+               Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                Status = search.Status,
@@ -84,6 +86,7 @@ namespace Application.Tickets
             {
                 Description = model.Description,
                 Summary = model.Summary,
+                Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = model.SubmitDate,
                 Status = model.Status,
@@ -93,14 +96,15 @@ namespace Application.Tickets
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             var result = new GetTicketModel
             {
+                Id = search.Id,
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
+                Category = search.Category,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 Attachment = search.Attachment
             };
-
             return result;
         }
 
@@ -118,27 +122,27 @@ namespace Application.Tickets
             }
             
             // get ticket by Id
-            var ticket = _ticketCollection.GetTicketById(ticketId).Result;
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
              
-            if (ticket == null)
+            if (currentTicket == null)
             {
                 throw new Exception("Ticket not found");
             }
 
-            ticket.Summary = model.Summary;
-            ticket.Description = model.Description;
-            ticket.Priority = model.Priority;
-            ticket.SubmitDate = model.SubmitDate;
-            ticket.Status = model.Status;
+            currentTicket.Summary = model.Summary;
+            currentTicket.Description = model.Description;
+            currentTicket.Priority = model.Priority;
+            currentTicket.Category = model.Category;
+            currentTicket.Status = model.Status;
             
-           _ticketCollection.UpdateTicket(ticketId, ticket);
+           _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {
             // validation
             if (model == null)
             {
-                throw new Exception("Ticket not found");
+                throw new Exception("Ticket Id not found");
             }
             _ticketCollection.DeleteTicketById(model.Id);
         }
