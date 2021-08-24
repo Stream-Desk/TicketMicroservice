@@ -8,6 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Application.Comments;
+using Application.Models.Comments;
+using Domain.Comments;
 using API.Services;
 using Domain.Tickets;
 using Microsoft.AspNetCore.Hosting;
@@ -71,6 +74,7 @@ namespace API.Controllers
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
             return NoContent();
         }
+        
         
         // Upload and Download files
         // Upload File
