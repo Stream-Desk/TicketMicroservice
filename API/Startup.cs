@@ -37,8 +37,7 @@ namespace API
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:8082")
+                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com", "http://localhost:8082")
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod();
                                   });
@@ -51,6 +50,7 @@ namespace API
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -60,9 +60,6 @@ namespace API
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             services.AddTransient<IFileService, FileService>();
-           
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
