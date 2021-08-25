@@ -88,7 +88,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = model.SubmitDate,
+                SubmitDate = DateTime.Now,
                 Status = model.Status,
                 Attachment = model.Attachment,
             };
@@ -101,7 +101,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = search.SubmitDate,
+                SubmitDate = DateTime.Now,
                 Status = search.Status,
                 Attachment = search.Attachment
             };
@@ -134,6 +134,7 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
+            currentTicket.SubmitDate = DateTime.Now;
             
            _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
