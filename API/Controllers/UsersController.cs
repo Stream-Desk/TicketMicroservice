@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id:length(24)}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<GetUserModel>> GetUserByIdAsync([FromRoute] string id)
         {
             var response = await _userService.GetUserById(id);
@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id:length(24)}")]
+        [HttpPut("{id}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateUserModel model)
         {
             _userService.UpdateUser(id, model);
@@ -57,7 +57,7 @@ namespace API.Controllers
         }
 
         // DELETE api/<UsersController>/5
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] string id)
         {
             _userService.DeleteUserById(new DeleteUserModel { Id = id });

@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Mail;
-using Application.Models.Tickets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -18,26 +17,26 @@ namespace API.Services
         public FileService(IWebHostEnvironment iWebHostEnvironment)
         {
             _iWebHostEnvironment = iWebHostEnvironment;
-        }
-
-        public void UploadFile(List<IFormFile> files)
-        {
-            var target = Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments");
-
-            Directory.CreateDirectory(target);
+            ;
+        }  
+    
+        public void UploadFile(List<IFormFile> files)  
+        {  
+            // subDirectory = subDirectory ?? string.Empty;  
+            var target = Path.Combine(_iWebHostEnvironment.ContentRootPath, "Attachments");  
             
-            files.ForEach(async file =>
-            {
-                if (file.Length <= 0) return;
-                var filePath = Path.Combine(target, file.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
+            Directory.CreateDirectory(target);  
+  
+            files.ForEach(async file =>  
+            {  
+                if (file.Length <= 0) return;  
+               var filePath = Path.Combine(target, file.FileName);  
+                using (var stream = new FileStream(filePath, FileMode.Create))  
+                {  
+                    await file.CopyToAsync(stream);  
                 }
-                
             });
-        }
-      
+        }  
    
         public (string fileType, byte[] archiveData, string archiveName) DownloadFiles()  
         {  
@@ -86,13 +85,6 @@ namespace API.Services
                     return "n/a";  
             }  
         }
-    }
-    
-    // //Save the File to the Directory (Folder).
-    // FileUpload1.SaveAs(folderPath + Path.GetFileName(FileUpload1.FileName));
-    //
-    // //Display the Picture in Image control.
-    // Image1.ImageUrl = "~/Images/" + Path.GetFileName(FileUpload1.FileName);
-
-   } 
+    }  
+} 
     
