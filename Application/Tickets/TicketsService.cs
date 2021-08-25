@@ -100,7 +100,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = search.SubmitDate,
+                SubmitDate = DateTime.Now,
                 Status = search.Status,
                 Attachment = search.Attachment
             };
