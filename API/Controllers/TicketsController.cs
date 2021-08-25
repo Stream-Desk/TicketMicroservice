@@ -44,7 +44,7 @@ namespace API.Controllers
         }
 
         // GET api/<TicketsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
         {
             var response = await _ticketService.GetTicketById(id);
@@ -61,7 +61,7 @@ namespace API.Controllers
             return Ok(response);
         }
         // PUT api/<TicketsController>/5
-        [HttpPut("{id}")]
+        [HttpPut("{id:length(24)}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
         {
             _ticketService.UpdateTicket(id, model);
@@ -69,7 +69,7 @@ namespace API.Controllers
         }
 
         // DELETE api/<TicketsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:length(24)}")]
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
