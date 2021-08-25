@@ -25,7 +25,7 @@ namespace API.Controllers
             }
 
             // GET: api/Comments/5
-            [HttpGet("{id}")]
+            [HttpGet("{id:length(24)}")]
             public async Task<ActionResult<GetCommentModel>> GetCommentByIdAsync([FromRoute] string id)
             {
                 var response = await _commentService.GetCommentById(id);
