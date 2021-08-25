@@ -50,7 +50,7 @@ namespace Application.Tickets
            {
                throw new Exception("Ticket not Found");
            }
-
+           
            var search = await _ticketCollection.GetTicketById(ticketId, cancellationToken);
            if (search == null)
            {
