@@ -39,7 +39,6 @@ namespace Database.Collections
         public void DeleteImageById(string imageId)
         {
             _fileCollection.DeleteOne(d => d.Id == imageId);
-            
         }
     }
 }

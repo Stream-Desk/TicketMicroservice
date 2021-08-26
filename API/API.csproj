@@ -17,4 +17,8 @@
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Database\Database.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Files" />
+    </ItemGroup>
 </Project>
