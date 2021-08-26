@@ -21,7 +21,6 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } = DateTime.Now;
         public Status Status { get; set; }
         public User User { get; set; }
-        public string Attachment { get; set; }        
     }
 
     public enum Priority

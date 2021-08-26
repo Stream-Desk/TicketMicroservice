@@ -32,7 +32,6 @@ namespace Application.Tickets
                     Id = searchResult.Id,
                     Description = searchResult.Description,
                     Summary = searchResult.Summary,
-                    Category = searchResult.Category,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
@@ -66,7 +65,6 @@ namespace Application.Tickets
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                Status = search.Status,
-               Attachment = search.Attachment,
                User = search.User
            };
            return result;
@@ -90,7 +88,6 @@ namespace Application.Tickets
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now,
                 Status = model.Status,
-                Attachment = model.Attachment,
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -103,7 +100,6 @@ namespace Application.Tickets
                 Category = search.Category,
                 SubmitDate = DateTime.Now,
                 Status = search.Status,
-                Attachment = search.Attachment
             };
             return result;
         }
