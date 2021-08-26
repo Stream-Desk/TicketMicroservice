@@ -140,7 +140,7 @@ namespace Application.Tickets
             // validation
             if (model == null)
             {
-                throw new Exception("Ticket Id not found");
+                throw new Exception("Ticket not found");
             }
             _ticketCollection.DeleteTicketById(model.Id);
         }

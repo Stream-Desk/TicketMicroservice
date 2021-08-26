@@ -18,9 +18,9 @@ namespace Database.Collections
             var client = new MongoClient(settings);
             var dbName = configuration.GetValue<string>("MongoDb:Database");
             var database = client.GetDatabase(dbName);
-            var ticketCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
+            var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
 
-            _ticketCollection = database.GetCollection<Ticket>(ticketCollectionName);
+            _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         }
        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
