@@ -13,7 +13,9 @@ namespace Domain.Tickets
         public string Id { get; set; }        
         [BsonElement("Summary")]
         public string Summary { get; set; }
+        [BsonElement("Category")]
         public string Category { get; set; }
+        [BsonElement("Description")]
         public string Description { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; } = DateTime.Now;

@@ -10,12 +10,10 @@ namespace Domain.Users
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonElement("Email")]
         public string EmailAddress { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        public List<string> Tickets { get; set; }
-        [BsonIgnore]
         public List<Ticket> TicketList { get; set; } = new List<Ticket>();
     }
 }
