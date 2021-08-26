@@ -34,6 +34,7 @@ namespace Application.Tickets
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
+                    Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
                     User = searchResult.User,
                 };
