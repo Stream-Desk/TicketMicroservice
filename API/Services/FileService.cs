@@ -55,8 +55,7 @@ namespace API.Services
                         using (var streamWriter = new StreamWriter(theFile.Open()))  
                         {  
                             streamWriter.Write(File.ReadAllText(file));  
-                        }  
-  
+                        }
                     });  
                 }  
   
@@ -87,12 +86,6 @@ namespace API.Services
             }  
         }
     }
-    
-    // //Save the File to the Directory (Folder).
-    // FileUpload1.SaveAs(folderPath + Path.GetFileName(FileUpload1.FileName));
-    //
-    // //Display the Picture in Image control.
-    // Image1.ImageUrl = "~/Images/" + Path.GetFileName(FileUpload1.FileName);
 
-   } 
+} 
     
