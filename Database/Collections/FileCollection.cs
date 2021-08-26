@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Files;
-using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 

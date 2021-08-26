@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mime;
 using Domain.Tickets;
 
 namespace Application.Models.Tickets

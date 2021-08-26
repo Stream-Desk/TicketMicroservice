@@ -3,7 +3,6 @@ using Application.Settings;
 using Application.Models;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Application.Services;
 using System;
 
 namespace Application.Services

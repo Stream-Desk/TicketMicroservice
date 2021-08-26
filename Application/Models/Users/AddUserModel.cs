@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Models.Users
+﻿namespace Application.Models.Users
 {
     public class AddUserModel
     {
