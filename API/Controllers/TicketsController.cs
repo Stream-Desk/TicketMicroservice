@@ -4,18 +4,10 @@ using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
-using Application.Comments;
-using Application.Models.Comments;
-using Domain.Comments;
 using API.Services;
-using Domain.Tickets;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
