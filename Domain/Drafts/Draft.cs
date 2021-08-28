@@ -1,14 +1,13 @@
-using System;
+﻿using System;
 using System.Text.Json.Serialization;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
-
-namespace Domain.Tickets
+namespace Domain.Drafts
 {
-    public class Ticket
+    public class Draft
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -24,25 +23,9 @@ namespace Domain.Tickets
         public User User { get; set; }
         public string Attachment { get; set; }
 
-        
-    }
-         
+
     }
 
-    public enum Priority
-    {
-        Low = 1,
-        Medium = 2,
-        High = 3
-    }
-
-    public enum Status
-    {
-        Open = 1,
-        Pending = 2,
-        Resolved = 3,
-        Closed = 4
-    }
+}
 
 
-        
