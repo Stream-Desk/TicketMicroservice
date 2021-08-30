@@ -4,8 +4,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Application.Files;
 using Application.Models.Files;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace API.Controllers
 {
@@ -14,10 +16,12 @@ namespace API.Controllers
     public class FilesController : ControllerBase
     {
         private readonly IFileService _fileService;
-        
-        public FilesController(IFileService fileService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _fileService = fileService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // POST: api/Files
@@ -26,10 +30,9 @@ namespace API.Controllers
         {
             foreach (var file in files)
             {
-                var basePath = Path.Combine(Directory.GetCurrentDirectory() + "/Files");
-                bool basePathExists = Directory.Exists(basePath);
-                if (!basePathExists) Directory.CreateDirectory(basePath);
-                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
+                var fileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
                 var extension = Path.GetExtension(file.FileName);
                 if (!System.IO.File.Exists(filePath))
@@ -41,7 +44,7 @@ namespace API.Controllers
 
                     var fileModel = new AddFileModel()
                     {
-                        CreatedOn = DateTime.UtcNow,
+                        CreatedOn = DateTime.Now,
                         FileType = file.ContentType,
                         Extension = extension,
                         Name = fileName,
@@ -54,6 +57,7 @@ namespace API.Controllers
                     throw new Exception("Upload Failed");
                 }
 
+                return Redirect(Path.Combine(baseUrl, filePath));
             }
             return Ok("Upload Successful");
         }
@@ -88,3 +92,5 @@ namespace API.Controllers
         // }
     }
 }
+   
+
