@@ -45,7 +45,7 @@ namespace API.Controllers
 
                     var fileModel = new AddFileModel()
                     {
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToLocalTime(),
                         FileType = file.ContentType,
                         Extension = extension,
                         Name = fileName,
@@ -55,10 +55,8 @@ namespace API.Controllers
                     Redirect(Path.Combine(baseUrl, filePath));
                     return Ok(response);
                 }
-
                 throw new Exception("Upload Failed");
             }
-
             return Ok("Upload Successful");
         }
 

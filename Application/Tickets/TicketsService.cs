@@ -87,7 +87,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now,
+                SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
             };
 
@@ -99,7 +99,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = DateTime.Now,
+                SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = search.Status,
             };
             return result;
