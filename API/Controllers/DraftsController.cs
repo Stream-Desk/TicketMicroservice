@@ -1,13 +1,8 @@
-﻿using System;
-using Application.Drafts;
+﻿using Application.Drafts;
 using Application.Models.Drafts;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using API.Services;
-using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
