@@ -7,6 +7,7 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace API.Controllers
@@ -24,7 +25,7 @@ namespace API.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // POST: api/Files
+        // POST: api/Files/Upload
         [HttpPost]
         public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files)
         {
@@ -50,19 +51,18 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath
                     };
-                    await _fileService.UploadFile(fileModel);
-                }
-                else
-                {
-                    throw new Exception("Upload Failed");
+                    var response = await _fileService.UploadFile(fileModel); 
+                    Redirect(Path.Combine(baseUrl, filePath));
+                    return Ok(response);
                 }
 
-                return Redirect(Path.Combine(baseUrl, filePath));
+                throw new Exception("Upload Failed");
             }
+
             return Ok("Upload Successful");
         }
 
-        // PUT: api/Files/5
+        // PUT: api/Files/Download
         [HttpGet("{id:Length(24)}")]
         public async Task<IActionResult> DownloadFile(string id)
         {
