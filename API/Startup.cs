@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Application.Settings;
-using API.Services;
 using Application.Extensions;
 using Database.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -49,7 +48,6 @@ namespace API
             
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-            services.AddTransient<IFileService, FileService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
         }
