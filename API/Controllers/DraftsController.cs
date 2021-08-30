@@ -19,12 +19,10 @@ namespace API.Controllers
     public class DraftsController : ControllerBase
     {
         private readonly IDraftService _draftService;
-        private readonly IFileService _fileService;
 
-        public DraftsController(IDraftService draftService, IFileService fileService)
+        public DraftsController(IDraftService draftService)
         {
             _draftService = draftService;
-            _fileService = fileService;
         }
 
         // GET: api/<TicketsController>
@@ -52,6 +50,7 @@ namespace API.Controllers
 
             return Ok(response);
         }
+
         // PUT api/<DraftsController>/5
         [HttpPut("{id:length(24)}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateDraftModel model)
@@ -66,45 +65,6 @@ namespace API.Controllers
         {
             _draftService.DeleteDraftById(new DeleteDraftModel { Id = id });
             return NoContent();
-        }
-
-
-        // Upload and Download files
-        // Upload File
-        [HttpPost(nameof(Upload))]
-
-        public IActionResult Upload([Required] List<IFormFile> formFiles)
-        {
-            try
-            {
-                _fileService.UploadFile(formFiles);
-                return Ok(new
-                {
-                    formFiles.Count,
-                    formFilesSize = _fileService.SizeConverter(formFiles.Sum(f => f.Length))
-                });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        // Download File
-        [HttpGet(nameof(Download))]
-        public IActionResult Download()
-        {
-
-            try
-            {
-                var (fileType, archiveData, archiveName) = _fileService.DownloadFiles();
-
-                return File(archiveData, fileType, archiveName);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
         }
     }
 }
