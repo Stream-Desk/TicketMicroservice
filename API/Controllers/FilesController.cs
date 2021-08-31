@@ -60,10 +60,10 @@ namespace API.Controllers
         }
 
         // PUT: api/Files/Download
-        [HttpGet("{id:Length(24)}")]
-        public async Task<IActionResult> DownloadFile(string id)
+        [HttpGet("{fileId:Length(24)}")]
+        public async Task<IActionResult> DownloadFile(string fileId)
         {
-            var file = await _fileService.DownloadImage(id);
+            var file = await _fileService.DownloadImage(fileId);
             if (file == null) return null;
             var memory = new MemoryStream();
             using (var stream = new FileStream(file.FilePath, FileMode.Open))

@@ -25,7 +25,7 @@ namespace Application.Files
             // Map model to domain Entity
             var file = new File()
             {
-                Id = model.Id,   
+                FileId = model.FileId,   
                 Name = model.Name,
                 FileType = model.FileType,
                 Extension = model.Extension,
@@ -36,7 +36,7 @@ namespace Application.Files
             var search = await _fileCollection.CreateImage(file, cancellationToken);
             var result = new DownloadFileModel
             {
-                Id = search.Id,   
+                FileId = search.FileId,   
                 Name = search.Name,
                 FileType = search.FileType,
                 Extension  = search.Extension,
@@ -61,7 +61,7 @@ namespace Application.Files
             }
             var result = new DownloadFileModel()
             {
-                Id = search.Id,   
+                FileId = search.FileId,   
                 Name = search.Name,
                 FileType = search.FileType,
                 Extension  = search.Extension,
@@ -79,7 +79,7 @@ namespace Application.Files
             {
                 throw new Exception("Ticket Id not found");
             }
-            _fileCollection.DeleteImageById(model.Id);
+            _fileCollection.DeleteImageById(model.FileId);
              return null;
         }
     }

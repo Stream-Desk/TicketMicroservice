@@ -24,7 +24,7 @@ namespace Database.Collections
 
         public async Task<File> DownloadImage(string imageId, CancellationToken cancellationToken = default)
         {
-            var cursor = await _fileCollection.FindAsync(d => d.Id == imageId);
+            var cursor = await _fileCollection.FindAsync(d => d.FileId == imageId);
             var image = await cursor.FirstOrDefaultAsync(cancellationToken);
             return image;
         }
@@ -37,7 +37,7 @@ namespace Database.Collections
 
         public void DeleteImageById(string imageId)
         {
-            _fileCollection.DeleteOne(d => d.Id == imageId);
+            _fileCollection.DeleteOne(d => d.FileId == imageId);
         }
     }
 }
