@@ -31,10 +31,12 @@ namespace API.Controllers
         {
             foreach (var file in files)
             {
+                string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                 var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
                 var fileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
                 var extension = Path.GetExtension(file.FileName);
+                Redirect(Path.Combine(baseUrl, filePath));
                 if (!System.IO.File.Exists(filePath))
                 {
                     using (var stream = new FileStream(filePath, FileMode.Create))

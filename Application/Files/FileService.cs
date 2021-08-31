@@ -25,8 +25,8 @@ namespace Application.Files
             // Map model to domain Entity
             var file = new File()
             {
-                 Id = model.Id,   
-                 Name = model.Name,
+                Id = model.Id,   
+                Name = model.Name,
                 FileType = model.FileType,
                 Extension = model.Extension,
                 CreatedOn = model.CreatedOn,
