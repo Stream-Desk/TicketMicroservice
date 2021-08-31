@@ -41,7 +41,6 @@ namespace API.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
-
                     var fileModel = new AddFileModel()
                     {
                         CreatedOn = DateTime.Now.ToLocalTime(),
