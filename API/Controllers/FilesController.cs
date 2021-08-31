@@ -36,7 +36,6 @@ namespace API.Controllers
                 var fileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
                 var extension = Path.GetExtension(file.FileName);
-                var urlPath = Redirect(Path.Combine(baseUrl, filePath));
                 if (!System.IO.File.Exists(filePath))
                 {
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -51,9 +50,10 @@ namespace API.Controllers
                         Extension = extension,
                         Name = fileName,
                         FilePath = filePath,
-                        urlpath = urlPath.ToString()
+                        urlpath = $"{Path.Combine(baseUrl, filePath)}"
                     };
-                  var response = await _fileService.UploadFile(fileModel); 
+                  var response =  await _fileService.UploadFile(fileModel); 
+                   // var response = Redirect(Path.Combine(baseUrl, filePath));
                   return Ok(response);
                 }
                 throw new Exception("Upload Failed");

@@ -15,6 +15,5 @@ namespace Domain.Files
         public DateTime? CreatedOn { get; set; }
         public string FilePath { get; set; }
         public string urlpath { get; set; }
-       
     }
 }
