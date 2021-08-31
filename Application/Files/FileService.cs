@@ -31,7 +31,6 @@ namespace Application.Files
                 Extension = model.Extension,
                 CreatedOn = model.CreatedOn,
                 FilePath = model.FilePath,
-                urlpath = model.urlpath
             };
 
             var search = await _fileCollection.CreateImage(file, cancellationToken);
@@ -43,7 +42,6 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
-                urlpath = model.urlpath
             };
             return result;
         }
@@ -69,7 +67,6 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
-                urlpath = search.urlpath
             };
             return result;
         }

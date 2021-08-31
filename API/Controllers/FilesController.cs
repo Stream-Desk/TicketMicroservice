@@ -31,7 +31,6 @@ namespace API.Controllers
         {
             foreach (var file in files)
             {
-                string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                 var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
                 var fileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
@@ -51,8 +50,7 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath,
                     }; 
-                    var response =  await _fileService.UploadFile(fileModel); 
-                   Redirect(Path.Combine(baseUrl, fileName));
+                    var response =  await _fileService.UploadFile(fileModel);
                     return Ok(response);
                 }
                 throw new Exception("Upload Failed");

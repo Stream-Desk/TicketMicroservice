@@ -67,7 +67,6 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                User = search.User,
-               urlPath = search.urlPath
            };
            return result;
         }
@@ -90,7 +89,6 @@ namespace Application.Tickets
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
-                urlPath = model.urlPath
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -103,7 +101,6 @@ namespace Application.Tickets
                 Category = search.Category,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = search.Status,
-                urlPath = search.urlPath
             };
             return result;
         }
@@ -135,10 +132,8 @@ namespace Application.Tickets
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
             currentTicket.SubmitDate = DateTime.Now.ToLocalTime();
-            currentTicket.urlPath = model.urlPath;
-            
-            
-           _ticketCollection.UpdateTicket(ticketId, currentTicket);
+
+            _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {
