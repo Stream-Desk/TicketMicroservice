@@ -51,9 +51,9 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath
                     };
-                    var response = await _fileService.UploadFile(fileModel); 
-                    Redirect(Path.Combine(baseUrl, filePath));
-                    return Ok(response);
+                  await _fileService.UploadFile(fileModel); 
+                  var urlPath =   Redirect(Path.Combine(baseUrl, filePath));
+                    return Ok(urlPath);
                 }
                 throw new Exception("Upload Failed");
             }

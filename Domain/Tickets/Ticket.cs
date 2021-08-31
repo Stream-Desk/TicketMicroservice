@@ -18,9 +18,11 @@ namespace Domain.Tickets
         [BsonElement("Description")]
         public string Description { get; set; }
         public Priority Priority  { get; set; }
-        public DateTime SubmitDate { get; set; } = DateTime.Now;
+        public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
+        
+        public string FileId { get; set; }
     }
 
     public enum Priority
