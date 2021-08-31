@@ -14,6 +14,7 @@ namespace Domain.Files
         public string Extension { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string FilePath { get; set; }
-        public string urlPath { get; set; }
+        public string urlpath { get; set; }
+       
     }
 }

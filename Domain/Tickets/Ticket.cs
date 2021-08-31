@@ -21,8 +21,7 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
-        
-        public string FileId { get; set; }
+        public string urlPath { get; set; }
     }
 
     public enum Priority
