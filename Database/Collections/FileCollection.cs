@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Files;
@@ -26,6 +27,13 @@ namespace Database.Collections
         {
             var cursor = await _fileCollection.FindAsync(d => d.FileId == imageId);
             var image = await cursor.FirstOrDefaultAsync(cancellationToken);
+            return image;
+        }
+
+        public async Task<List<File>> DownloadAllImages(CancellationToken cancellationToken = default)
+        {
+            var cursor = await _fileCollection.FindAsync(t => true);
+            var image = await cursor.ToListAsync(cancellationToken);
             return image;
         }
 

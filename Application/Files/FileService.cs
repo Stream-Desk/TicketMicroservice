@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
@@ -81,6 +83,28 @@ namespace Application.Files
             }
             _fileCollection.DeleteImageById(model.FileId);
              return null;
+        }
+
+        public async Task<List<DownloadFileModel>> ListFiles(CancellationToken cancellationToken = default)
+        {
+            var search = await _fileCollection.DownloadAllImages(cancellationToken);
+            if (search == null || search.Count < 1)
+            {
+                return new List<DownloadFileModel>();
+            }
+            var result = new List<DownloadFileModel>();
+
+            foreach (var result in search)
+            {
+                var model = new DownloadFileModel
+                {
+                    FileId = result.FileId,
+                    FilePath = result.FilePath,
+                    Name = result.Name,
+                    Extension = result.Extension,
+                    CreatedOn = result.CreatedOn
+                }
+            }
         }
     }
 }

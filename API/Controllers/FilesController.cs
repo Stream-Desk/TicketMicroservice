@@ -33,8 +33,8 @@ namespace API.Controllers
             {
                 string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                 var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-                var fileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
-                var filePath = Path.Combine(basePath, file.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+                var filePath = Path.Combine(basePath, fileName);
                 var extension = Path.GetExtension(file.FileName);
                 Redirect(Path.Combine(baseUrl, filePath));
                 if (!System.IO.File.Exists(filePath))
@@ -84,8 +84,7 @@ namespace API.Controllers
         //     {
         //         System.IO.File.Delete(file.FilePath);
         //     }
-        //     context.FilesOnFileSystem.Remove(file);
-        //     context.SaveChanges();
+        //     
         // }
     }
 }
