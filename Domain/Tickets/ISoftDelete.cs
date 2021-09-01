@@ -1,6 +1,6 @@
 namespace Domain.Tickets
 {
-    public interface IIsDeleted
+    public interface ISoftDelete
     {
         public bool IsDeleted { get; set; }
     }

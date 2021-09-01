@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Tickets
 {
-    public class Ticket : IIsDeleted 
+    public class Ticket : ISoftDelete 
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
@@ -21,7 +21,6 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
-        
         public bool IsDeleted { get; set; } = false;
     }
 
