@@ -43,6 +43,7 @@ namespace API.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
+
                     var fileModel = new AddFileModel()
                     {
                         CreatedOn = DateTime.Now.ToLocalTime(),
@@ -50,11 +51,9 @@ namespace API.Controllers
                         Extension = extension,
                         Name = fileName,
                         FilePath = filePath,
-                    }; 
-                    var response =  await _fileService.UploadFile(fileModel);
-                    return Ok(response);
+                    };
+                    await _fileService.UploadFile(fileModel);
                 }
-                throw new Exception("Upload Failed");
             }
             return Ok("Upload Successful");
         }
