@@ -43,7 +43,6 @@ namespace API.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
-
                     var fileModel = new AddFileModel()
                     {
                         CreatedOn = DateTime.Now.ToLocalTime(),
@@ -91,7 +90,6 @@ namespace API.Controllers
         //     {
         //         System.IO.File.Delete(file.FilePath);
         //     }
-        //     
         // }
     }
 }
