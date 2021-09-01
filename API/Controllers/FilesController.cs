@@ -59,7 +59,7 @@ namespace API.Controllers
             return Ok("Upload Successful");
         }
 
-        // PUT: api/Files/Download
+        // GET: api/Files/Download
         [HttpGet("{fileId:Length(24)}")]
         public async Task<IActionResult> DownloadFile(string fileId)
         {
@@ -73,6 +73,16 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
+        
+        // GET: api/<FilesController>
+        [HttpGet]
+        public async Task<ActionResult<List<DownloadFileModel>>> GetAsync()
+        {
+            var response = await _fileService.ListFiles();
+            return Ok(response);
+        }
+
+        
 
         // // DELETE: api/Files/5
         // [HttpDelete("{id=Length:24}")]
