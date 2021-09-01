@@ -85,9 +85,9 @@ namespace Application.Files
              return null;
         }
 
-        public async Task<List<DownloadFileModel>> ListFiles(CancellationToken cancellationToken = default)
+        public async Task<List<DownloadFileModel>> ListAllFiles(CancellationToken cancellationToken = default)
         {
-            var searchResults = await _fileCollection.DownloadAllImages(cancellationToken);
+            var searchResults = await _fileCollection.ListAllFiles(cancellationToken);
             if (searchResults == null || searchResults.Count < 1)
             {
                 return new List<DownloadFileModel>();
@@ -105,6 +105,7 @@ namespace Application.Files
                     Extension = searchResult.Extension,
                     CreatedOn = searchResult.CreatedOn
                 };
+                result.Add(model);
             }
             return result;
         }

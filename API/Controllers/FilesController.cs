@@ -78,11 +78,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DownloadFileModel>>> GetAsync()
         {
-            var response = await _fileService.ListFiles();
+            var response = await _fileService.ListAllFiles();
             return Ok(response);
         }
-
-        
 
         // // DELETE: api/Files/5
         // [HttpDelete("{id=Length:24}")]
