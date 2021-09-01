@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Domain.Users;
 using MongoDB.Bson;
@@ -26,7 +27,8 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; } 
     }
 
     public enum Priority
