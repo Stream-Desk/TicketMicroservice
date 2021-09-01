@@ -87,24 +87,26 @@ namespace Application.Files
 
         public async Task<List<DownloadFileModel>> ListFiles(CancellationToken cancellationToken = default)
         {
-            var search = await _fileCollection.DownloadAllImages(cancellationToken);
-            if (search == null || search.Count < 1)
+            var searchResults = await _fileCollection.DownloadAllImages(cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
             {
                 return new List<DownloadFileModel>();
             }
+            
             var result = new List<DownloadFileModel>();
 
-            foreach (var result in search)
+            foreach (var searchResult in searchResults)
             {
                 var model = new DownloadFileModel
                 {
-                    FileId = result.FileId,
-                    FilePath = result.FilePath,
-                    Name = result.Name,
-                    Extension = result.Extension,
-                    CreatedOn = result.CreatedOn
-                }
+                    FileId = searchResult.FileId,
+                    FilePath = searchResult.FilePath,
+                    Name = searchResult.Name,
+                    Extension = searchResult.Extension,
+                    CreatedOn = searchResult.CreatedOn
+                };
             }
+            return result;
         }
     }
 }
