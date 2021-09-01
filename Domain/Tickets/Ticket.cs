@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -10,11 +11,15 @@ namespace Domain.Tickets
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
-        public string Id { get; set; }        
+        [Required]
+        public string Id { get; set; }  
+        [Required]
         [BsonElement("Summary")]
         public string Summary { get; set; }
+        [Required]
         [BsonElement("Category")]
         public string Category { get; set; }
+        [Required]
         [BsonElement("Description")]
         public string Description { get; set; }
         public Priority Priority  { get; set; }
