@@ -31,6 +31,7 @@ namespace Application.Tickets
                 {
                     Id = searchResult.Id,
                     Description = searchResult.Description,
+                    TicketNumber = searchResult.TicketNumber,
                     Summary = searchResult.Summary,
                     Category = searchResult.Category,
                     Priority = searchResult.Priority,
@@ -61,6 +62,7 @@ namespace Application.Tickets
            {
                Id = search.Id,
                Description = search.Description,
+               TicketNumber = search.TicketNumber,
                Summary = search.Summary,
                Category = search.Category,
                Priority = search.Priority,
@@ -85,6 +87,7 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
+                TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -97,6 +100,7 @@ namespace Application.Tickets
             var result = new GetTicketModel
             {
                 Description = search.Description,
+                TicketNumber = search.TicketNumber,
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
@@ -129,6 +133,7 @@ namespace Application.Tickets
             }
 
             ticket.Summary = model.Summary;
+            ticket.TicketNumber = model.TicketNumber;
             ticket.Description = model.Description;
             ticket.Category = model.Category;
             ticket.Priority = model.Priority;

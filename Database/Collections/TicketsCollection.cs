@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace Database.Collections
 {
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
+        
 
+       
         public TicketsCollection(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
@@ -21,7 +26,12 @@ namespace Database.Collections
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
 
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
+
+           
+
+
         }
+        
        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
