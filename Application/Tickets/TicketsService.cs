@@ -144,5 +144,18 @@ namespace Application.Tickets
             }
             _ticketCollection.DeleteTicketById(model.Id);
         }
+        
+        // BO Delete
+        public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
+        {
+           // Validation of Deleted Entity
+           if (model == null)
+           {
+               throw new Exception("Ticket not found");
+           }
+           var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
+           softDeletedTicket.IsDeleted = true;
+           _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
+        }
     }
 }

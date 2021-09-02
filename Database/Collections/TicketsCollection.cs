@@ -22,7 +22,16 @@ namespace Database.Collections
 
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         }
-       
+        
+        // Banks BO List
+        public async Task<List<Ticket>> GetTicketsWithoutSoftDelete(CancellationToken cancellationToken = default)
+        {
+            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
+            var ticket = await cursor.ToListAsync(cancellationToken);
+            return ticket;
+        }
+
+        // Laboremus Ticket List
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(a => true);
@@ -53,7 +62,7 @@ namespace Database.Collections
             _ticketCollection.DeleteOne(a => a.Id == ticketId);
         }
 
-        public void IsSoftDeleted(string ticketId)
+        public void IsSoftDeleted(string ticketId, Ticket ticket)
         {
             _ticketCollection.DeleteOne(t => t.IsDeleted == true);
         }
