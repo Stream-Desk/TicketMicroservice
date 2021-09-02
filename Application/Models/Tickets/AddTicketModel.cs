@@ -11,6 +11,6 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; }
     }
 }
