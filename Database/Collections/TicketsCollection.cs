@@ -52,6 +52,11 @@ namespace Database.Collections
         {
             _ticketCollection.DeleteOne(a => a.Id == ticketId);
         }
+
+        public void IsSoftDeleted(string ticketId)
+        {
+            _ticketCollection.DeleteOne(t => t.IsDeleted == true);
+        }
     }
     
 }
