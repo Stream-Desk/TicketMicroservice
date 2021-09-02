@@ -192,6 +192,7 @@ namespace Application.Tickets
            }
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
            softDeletedTicket.IsDeleted = true;
+           softDeletedTicket.IsModified = true;
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
     }

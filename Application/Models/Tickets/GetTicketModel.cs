@@ -16,8 +16,6 @@ namespace Application.Models.Tickets
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
         public User User { get; set; }
-        [BsonDefaultValue(false)]
-        [DefaultValue(false)]
         public bool IsDeleted { get; set; } 
     }
 }
