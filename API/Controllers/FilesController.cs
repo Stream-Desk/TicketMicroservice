@@ -4,12 +4,9 @@ using System.IO;
 using System.Threading.Tasks;
 using Application.Files;
 using Application.Models.Files;
-using FluentEmail.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace API.Controllers
 {

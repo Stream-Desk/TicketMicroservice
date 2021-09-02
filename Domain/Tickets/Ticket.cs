@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Domain.SoftDelete;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -9,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Tickets
 {
-    public class Ticket : ISoftDelete 
+    public class Ticket
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
@@ -28,7 +27,9 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
+        [BsonDefaultValue(false)]
         public bool IsDeleted { get; set; } 
+        [BsonDefaultValue(false)]
         public bool IsModified { get; set; } 
         public DateTime? ModifiedAt { get; set; }
     }
