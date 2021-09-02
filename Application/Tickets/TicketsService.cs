@@ -27,18 +27,18 @@ namespace Application.Tickets
             
             var result = new List<GetTicketModel>();
             
-            foreach (var searchResult in searches)
+            foreach (var search in searches)
             {
                 var model = new GetTicketModel
                 {
-                    Id = searchResult.Id,
-                    Description = searchResult.Description,
-                    Summary = searchResult.Summary,
-                    Priority = searchResult.Priority,
-                    Status = searchResult.Status,
-                    Category = searchResult.Category,
-                    SubmitDate = searchResult.SubmitDate,
-                    User = searchResult.User,
+                    Id = search.Id,
+                    Description = search.Description,
+                    Summary = search.Summary,
+                    Priority = search.Priority,
+                    Status = search.Status,
+                    Category = search.Category,
+                    SubmitDate = search.SubmitDate,
+                    User = search.User,
                 };
                 result.Add(model);
             }
@@ -68,6 +68,7 @@ namespace Application.Tickets
                     Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
                     User = searchResult.User,
+                    IsDeleted = searchResult.IsDeleted
                 };
                 result.Add(model);
             }
@@ -98,6 +99,7 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                User = search.User,
+               IsDeleted = search.IsDeleted
            };
            return result;
         }

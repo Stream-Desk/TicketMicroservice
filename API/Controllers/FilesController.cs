@@ -44,6 +44,7 @@ namespace API.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
+                    
                     var fileModel = new AddFileModel
                     {
                         CreatedOn = DateTime.Now.ToLocalTime(),
@@ -53,6 +54,19 @@ namespace API.Controllers
                         FilePath = filePath,
                     };
                     await _fileService.UploadFile(fileModel);
+                    
+                    var search = await _fileService.UploadFile(fileModel);
+                    
+                    var result = new DownloadFileModel()
+                    {
+                        FileId = search.FileId,
+                        CreatedOn = search.CreatedOn,
+                        FileType = search.FileType,
+                        Extension = search.Extension,
+                        Name = search.Name,
+                        FilePath = search.FilePath,
+                    };
+                    return Ok(result);
                 }
                 throw new Exception("Upload Failed");
             }
