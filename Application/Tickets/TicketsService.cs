@@ -15,6 +15,37 @@ namespace Application.Tickets
         {
             _ticketCollection = ticketCollection;
         }
+        
+        // Banks BO Ticket List
+        public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
+        {
+            var searches = await _ticketCollection.GetTickets(cancellationToken);
+            if (searches == null || searches.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+            
+            var result = new List<GetTicketModel>();
+            
+            foreach (var searchResult in searches)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = searchResult.Id,
+                    Description = searchResult.Description,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    Status = searchResult.Status,
+                    Category = searchResult.Category,
+                    SubmitDate = searchResult.SubmitDate,
+                    User = searchResult.User,
+                };
+                result.Add(model);
+            }
+            return result;
+        }
+        
+        // Laboremus Ticket List
         public async Task<List<GetTicketModel>> GetTickets(CancellationToken cancellationToken = default)
         {
             var searchResults = await _ticketCollection.GetTickets(cancellationToken);
