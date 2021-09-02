@@ -122,7 +122,7 @@ namespace Application.Tickets
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
-                IsDeleted = model.IsDeleted
+                IsDeleted = false
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -135,7 +135,7 @@ namespace Application.Tickets
                 Category = search.Category,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = search.Status,
-                IsDeleted = model.IsDeleted
+                IsDeleted = false
             };
             return result;
         }
