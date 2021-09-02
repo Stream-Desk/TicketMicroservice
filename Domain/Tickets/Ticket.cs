@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Domain.SoftDelete;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -28,7 +29,7 @@ namespace Domain.Tickets
         public Status Status { get; set; }
         public User User { get; set; }
         [DefaultValue(false)]
-        public bool IsDeleted { get; set; } 
+        public bool IsDeleted { get; set; }
     }
 
     public enum Priority

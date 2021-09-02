@@ -1,4 +1,4 @@
-namespace Domain.Tickets
+namespace Domain.SoftDelete
 {
     public interface ISoftDelete
     {

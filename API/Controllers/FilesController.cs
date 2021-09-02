@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Application.Files;
 using Application.Models.Files;
+using FluentEmail.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +37,14 @@ namespace API.Controllers
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                 var filePath = Path.Combine(basePath, fileName);
                 var extension = Path.GetExtension(file.FileName);
-                Redirect(Path.Combine(baseUrl, filePath));
+                Redirect(Path.Combine(baseUrl, file.FileName));
                 if (!System.IO.File.Exists(filePath))
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    await using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
-                    var fileModel = new AddFileModel()
+                    var fileModel = new AddFileModel
                     {
                         CreatedOn = DateTime.Now.ToLocalTime(),
                         FileType = file.ContentType,
@@ -51,12 +52,11 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath,
                     };
-                   return Ok( await _fileService.UploadFile(fileModel));
+                    await _fileService.UploadFile(fileModel);
                 }
-
                 throw new Exception("Upload Failed");
             }
-            return Ok("Upload Successful");
+            return Ok();
         }
 
         // GET: api/Files/Download
@@ -66,7 +66,7 @@ namespace API.Controllers
             var file = await _fileService.DownloadImage(fileId);
             if (file == null) return null;
             var memory = new MemoryStream();
-            using (var stream = new FileStream(file.FilePath, FileMode.Open))
+            await using (var stream = new FileStream(file.FilePath, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
