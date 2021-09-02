@@ -28,8 +28,8 @@ namespace Domain.Tickets
         public DateTime SubmitDate { get; set; } 
         public Status Status { get; set; }
         public User User { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsModified { get; set; }
+        public bool IsDeleted { get; set; } 
+        public bool IsModified { get; set; } 
         public DateTime? ModifiedAt { get; set; }
     }
 
