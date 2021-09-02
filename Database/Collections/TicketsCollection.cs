@@ -24,7 +24,7 @@ namespace Database.Collections
         }
         
         // Banks BO List
-        public async Task<List<Ticket>> GetTicketsWithoutSoftDelete(CancellationToken cancellationToken = default)
+        public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
             var ticket = await cursor.ToListAsync(cancellationToken);

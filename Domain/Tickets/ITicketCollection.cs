@@ -7,7 +7,7 @@ namespace Domain.Tickets
     public interface ITicketCollection
     {
         // Banks BO List of Tickets
-        Task<List<Ticket>> GetTicketsWithoutSoftDelete(CancellationToken cancellationToken = default);
+        Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default);
         // Laboremus List of Tickets
         Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default);
         Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default);
