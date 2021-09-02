@@ -53,6 +53,7 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath,
                     };
+                    
                     await _fileService.UploadFile(fileModel);
                     
                     var search = await _fileService.UploadFile(fileModel);
@@ -70,7 +71,7 @@ namespace API.Controllers
                 }
                 throw new Exception("Upload Failed");
             }
-            return Ok();
+            return Ok("Upload Successful");
         }
 
         // GET: api/Files/Download
