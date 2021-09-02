@@ -28,7 +28,7 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files)
+        public async Task <IActionResult> UploadToFileSystem(List<IFormFile> files)
         {
             foreach (var file in files)
             {
@@ -61,17 +61,12 @@ namespace API.Controllers
                     var result = new DownloadFileModel()
                     {
                         FileId = search.FileId,
-                        CreatedOn = search.CreatedOn,
-                        FileType = search.FileType,
-                        Extension = search.Extension,
-                        Name = search.Name,
-                        FilePath = search.FilePath,
                     };
                     return Ok(result);
                 }
                 throw new Exception("Upload Failed");
             }
-            return Ok("Upload Successful");
+            return Ok();
         }
 
         // GET: api/Files/Download
