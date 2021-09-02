@@ -29,6 +29,8 @@ namespace Domain.Tickets
         public Status Status { get; set; }
         public User User { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public bool IsModified { get; set; } = false;
+        public DateTime? ModifiedAt { get; set; }
     }
 
     public enum Priority
