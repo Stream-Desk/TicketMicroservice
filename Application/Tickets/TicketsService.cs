@@ -19,7 +19,7 @@ namespace Application.Tickets
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var searches = await _ticketCollection.GetTickets(cancellationToken);
+            var searches = await _ticketCollection.GetTicketsWithSoftDeleteFalse(cancellationToken);
             if (searches == null || searches.Count < 1)
             {
                 return new List<GetTicketModel>();

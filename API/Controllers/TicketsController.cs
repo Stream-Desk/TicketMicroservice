@@ -19,20 +19,10 @@ namespace API.Controllers
         {
             _ticketService = ticketService;
         }
-            
-        // All Tickets Except Soft Deleted Tickets
         
         // GET: api/<TicketsController>
         [HttpGet]
-        public async Task<ActionResult<List<GetTicketModel>>> GetSotDeletedFalseAsync()
-        {
-            var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
-            return Ok(response);
-        }
-
-        // GET: api/<TicketsController>
-        [HttpGet]
-        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
+        public async Task<ActionResult<List<GetTicketModel>>> GetAllAsync()
         {
             var response = await _ticketService.GetTickets();
             return Ok(response);
@@ -67,16 +57,6 @@ namespace API.Controllers
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
-            return NoContent();
-        }
-        
-        // Soft Delete a Ticket
-        
-        // PUT api/<TicketsController>/5
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Put([FromRoute] string id, [FromBody] DeleteTicketModel model)
-        {
-            _ticketService.IsSoftDeleted(id, model);
             return NoContent();
         }
     }
