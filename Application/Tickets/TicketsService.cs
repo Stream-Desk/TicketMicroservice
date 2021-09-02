@@ -164,7 +164,9 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
-            currentTicket.SubmitDate = DateTime.Now.ToLocalTime();
+            currentTicket.SubmitDate = model.SubmitDate;
+            currentTicket.IsModified = true;
+            currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
 
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
