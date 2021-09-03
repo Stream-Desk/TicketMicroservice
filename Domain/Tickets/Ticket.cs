@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Domain.Files;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -32,6 +34,7 @@ namespace Domain.Tickets
         [BsonDefaultValue(false)]
         public bool IsModified { get; set; } 
         public DateTime? ModifiedAt { get; set; }
+        public List<File> Files { get; set; } = new List<File>();
     }
 
     public enum Priority
