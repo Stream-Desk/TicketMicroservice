@@ -12,6 +12,7 @@ namespace Domain.Users
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         [Required]
+        [BsonElement("EmailAddress")]
         public string EmailAddress { get; set; }
         [Required]
         [BsonElement("FirstName")]

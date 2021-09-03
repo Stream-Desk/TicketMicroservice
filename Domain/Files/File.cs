@@ -19,7 +19,7 @@ namespace Domain.Files
         [BsonElement("Extension")]
         public string Extension { get; set; }
         
-        [BsonElement("Date")]
+        [BsonElement("CreatedOn")]
         public DateTime? CreatedOn { get; set; }
         
         [BsonElement("FilePath")]
