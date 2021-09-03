@@ -15,6 +15,36 @@ namespace Application.Tickets
         {
             _ticketCollection = ticketCollection;
         }
+        
+        // Banks BO Ticket List
+        public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
+        {
+            var searches = await _ticketCollection.GetTicketsWithSoftDeleteFalse(cancellationToken);
+            if (searches == null || searches.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+            
+            var result = new List<GetTicketModel>();
+            
+            foreach (var search in searches)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = search.Id,
+                    Description = search.Description,
+                    Summary = search.Summary,
+                    Priority = search.Priority,
+                    Status = search.Status,
+                    Category = search.Category,
+                    SubmitDate = search.SubmitDate,
+                };
+                result.Add(model);
+            }
+            return result;
+        }
+        
+        // Laboremus Ticket List
         public async Task<List<GetTicketModel>> GetTickets(CancellationToken cancellationToken = default)
         {
             var searchResults = await _ticketCollection.GetTickets(cancellationToken);
@@ -36,7 +66,8 @@ namespace Application.Tickets
                     Status = searchResult.Status,
                     Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
-                    User = searchResult.User,
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified
                 };
                 result.Add(model);
             }
@@ -66,7 +97,8 @@ namespace Application.Tickets
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                Status = search.Status,
-               User = search.User,
+               IsDeleted = search.IsDeleted,
+               IsModified = search.IsModified
            };
            return result;
         }
@@ -89,6 +121,8 @@ namespace Application.Tickets
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
+                IsDeleted = model.IsDeleted,
+                IsModified = model.IsModified
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -99,8 +133,10 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = DateTime.Now.ToLocalTime(),
+                SubmitDate = search.SubmitDate,
                 Status = search.Status,
+                IsDeleted = search.IsDeleted,
+                IsModified = search.IsModified
             };
             return result;
         }
@@ -131,7 +167,8 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
-            currentTicket.SubmitDate = DateTime.Now.ToLocalTime();
+            currentTicket.IsModified = true;
+            currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
 
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
@@ -143,6 +180,20 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
             _ticketCollection.DeleteTicketById(model.Id);
+        }
+        
+        // BO Delete
+        public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
+        {
+           // Validation of Deleted Entity
+           if (model == null)
+           {
+               throw new Exception("Ticket not found");
+           }
+           var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
+           softDeletedTicket.IsDeleted = true;
+           softDeletedTicket.IsModified = true;
+           _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
     }
 }
