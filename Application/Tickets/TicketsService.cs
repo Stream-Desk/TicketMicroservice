@@ -38,7 +38,6 @@ namespace Application.Tickets
                     Status = search.Status,
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
-                    User = search.User,
                 };
                 result.Add(model);
             }
@@ -67,7 +66,6 @@ namespace Application.Tickets
                     Status = searchResult.Status,
                     Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
-                    User = searchResult.User,
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified
                 };
@@ -99,7 +97,6 @@ namespace Application.Tickets
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
                Status = search.Status,
-               User = search.User,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified
            };
