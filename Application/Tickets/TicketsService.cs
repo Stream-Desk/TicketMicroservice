@@ -133,7 +133,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = DateTime.Now.ToLocalTime(),
+                SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 IsDeleted = search.IsDeleted
             };
@@ -166,7 +166,7 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
-            currentTicket.SubmitDate = model.SubmitDate;
+            // currentTicket.SubmitDate = model.SubmitDate;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
 
