@@ -38,6 +38,7 @@ namespace Application.Tickets
                     Status = search.Status,
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
+                    IsModified = search.IsModified
                 };
                 result.Add(model);
             }
@@ -67,7 +68,7 @@ namespace Application.Tickets
                     Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
                     IsDeleted = searchResult.IsDeleted,
-                    IsModified = searchResult.IsModified
+                    IsModified = searchResult.IsModified,
                 };
                 result.Add(model);
             }
@@ -98,7 +99,8 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                IsDeleted = search.IsDeleted,
-               IsModified = search.IsModified
+               IsModified = search.IsModified,
+               User = search.User
            };
            return result;
         }
@@ -122,7 +124,8 @@ namespace Application.Tickets
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
                 IsDeleted = model.IsDeleted,
-                IsModified = model.IsModified
+                IsModified = model.IsModified,
+                User = model.User
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
