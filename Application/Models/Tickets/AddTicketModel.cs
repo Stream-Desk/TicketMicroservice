@@ -16,5 +16,6 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsDeleted { get; set; } 
+        public bool IsModified { get; set; }
     }
 }

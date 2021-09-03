@@ -13,15 +13,17 @@ namespace Domain.Tickets
     public class Ticket
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)] 
-        [Required]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }  
+        
         [Required]
         [BsonElement("Summary")]
         public string Summary { get; set; }
+        
         [Required]
         [BsonElement("Category")]
         public string Category { get; set; }
+        
         [Required]
         [BsonElement("Description")]
         public string Description { get; set; }
@@ -32,6 +34,7 @@ namespace Domain.Tickets
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; } 
         public DateTime? ModifiedAt { get; set; }
+        
         public List<File> Files { get; set; } = new List<File>();
     }
 

@@ -34,7 +34,7 @@ namespace API.Controllers
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                 var filePath = Path.Combine(basePath, fileName);
                 var extension = Path.GetExtension(file.FileName);
-                string fileUrl = Path.Combine(baseUrl, file.Name);
+                string fileUrl = Path.Combine(baseUrl, file.FileName);
                 if (!System.IO.File.Exists(filePath))
                 {
                     await using (var stream = new FileStream(filePath, FileMode.Create))

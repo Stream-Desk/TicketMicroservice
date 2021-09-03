@@ -68,7 +68,8 @@ namespace Application.Tickets
                     Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
                     User = searchResult.User,
-                    IsDeleted = searchResult.IsDeleted
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified
                 };
                 result.Add(model);
             }
@@ -99,7 +100,8 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                User = search.User,
-               IsDeleted = search.IsDeleted
+               IsDeleted = search.IsDeleted,
+               IsModified = search.IsModified
            };
            return result;
         }
@@ -122,7 +124,8 @@ namespace Application.Tickets
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.ToLocalTime(),
                 Status = model.Status,
-                IsDeleted = model.IsDeleted
+                IsDeleted = model.IsDeleted,
+                IsModified = model.IsModified
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -135,7 +138,8 @@ namespace Application.Tickets
                 Category = search.Category,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
-                IsDeleted = search.IsDeleted
+                IsDeleted = search.IsDeleted,
+                IsModified = search.IsModified
             };
             return result;
         }
@@ -166,7 +170,6 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
-            // currentTicket.SubmitDate = model.SubmitDate;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
 
