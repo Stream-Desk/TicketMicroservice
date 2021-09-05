@@ -1,13 +1,8 @@
-﻿using System;
-using Application.Registrations;
+﻿using Application.Registrations;
 using Application.Models.Registrations;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using API.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
