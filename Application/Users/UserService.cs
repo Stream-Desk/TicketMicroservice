@@ -31,8 +31,7 @@ namespace Application.Users
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                EmailAddress = model.EmailAddress,
-
+                EmailAddress = model.EmailAddress
             };
 
             var result = await _userCollection.CreateUser(user, cancellationToken);
@@ -53,7 +52,6 @@ namespace Application.Users
             {
                 throw new Exception("User Id is empty");
             }
-
             _userCollection.DeleteUserById(model.Id);
         }
 
