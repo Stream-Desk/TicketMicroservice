@@ -30,13 +30,6 @@ namespace Database.Collections
             return image;
         }
 
-        public async Task<List<File>> ListAllFiles(CancellationToken cancellationToken = default)
-        {
-            var cursor = await _fileCollection.FindAsync(t => true);
-            var image = await cursor.ToListAsync(cancellationToken);
-            return image;
-        }
-
         public async Task<File> CreateImage(File file, CancellationToken cancellationToken = default)
         {
             await _fileCollection.InsertOneAsync(file);

@@ -21,7 +21,7 @@ namespace API.Controllers
         }
         
         // GET: api/<TicketsController>
-        [HttpGet("Laboremus")]
+        [HttpGet("Labo")]
         public async Task<ActionResult<List<GetTicketModel>>> GetAllAsync()
         {
             var response = await _ticketService.GetTickets();
@@ -29,7 +29,7 @@ namespace API.Controllers
         }
 
         // GET api/<TicketsController>/5
-        [HttpGet("Laboremus/{id:length(24)}")]
+        [HttpGet("Labo/{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
         {
             var response = await _ticketService.GetTicketById(id);
@@ -53,7 +53,7 @@ namespace API.Controllers
         }
 
         // DELETE api/<TicketsController>/5
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("Labo/{id:length(24)}")]
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.DeleteTicketById(new DeleteTicketModel { Id = id });
@@ -62,7 +62,7 @@ namespace API.Controllers
         
         // Soft Delete a Ticket
         // PUT api/<TicketsController>/5
-        [HttpPut("BackOffice/{id:length(24)}")]
+        [HttpPut("BO/{id:length(24)}")]
         public IActionResult Put([FromRoute] string id,[FromBody] DeleteTicketModel model)
         {
             _ticketService.IsSoftDeleted(id, model);
@@ -70,7 +70,7 @@ namespace API.Controllers
         }
         
         // GET: api/<TicketsController>
-        [HttpGet("BackOffice")]
+        [HttpGet("BO")]
         public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
         {
             var response = await _ticketService.GetTicketsWithSoftDeleteFalse();

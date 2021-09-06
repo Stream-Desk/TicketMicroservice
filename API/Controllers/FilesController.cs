@@ -7,6 +7,8 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using Org.BouncyCastle.Asn1.X9;
 
 namespace API.Controllers
 {
@@ -34,7 +36,6 @@ namespace API.Controllers
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                 var filePath = Path.Combine(basePath, fileName);
                 var extension = Path.GetExtension(file.FileName);
-                string fileUrl = Path.Combine(baseUrl, file.FileName);
                 if (!System.IO.File.Exists(filePath))
                 {
                     await using (var stream = new FileStream(filePath, FileMode.Create))
@@ -58,6 +59,7 @@ namespace API.Controllers
                     var result = new DownloadFileModel()
                     {
                         FileId = search.FileId,
+                        fileUrl = $"{baseUrl}/api/Files/{search.FileId}"
                     };
                     return Ok(result);
                 }
@@ -81,13 +83,6 @@ namespace API.Controllers
             return File(memory, file.FileType, file.Name + file.Extension);
         }
         
-        // GET: api/<FilesController>
-        [HttpGet]
-        public async Task<ActionResult<List<DownloadFileModel>>> GetAsync()
-        {
-            var response = await _fileService.ListAllFiles();
-            return Ok(response);
-        }
 
         // // DELETE: api/Files/5
         // [HttpDelete("{id=Length:24}")]
