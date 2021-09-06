@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Domain.Files;
 using Domain.Users;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MongoDB.Driver;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
 

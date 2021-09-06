@@ -1,7 +1,5 @@
 using System;
 using System.ComponentModel;
-using Domain.Tickets;
-using Domain.Users;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -22,7 +20,7 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
-
+        public bool IsClosed { get; set; }
         public DateTime ModifiedAt { get; set; }
     }
 }
