@@ -90,12 +90,11 @@ namespace Application.Tickets
                return new GetTicketModel();
            }
 
-           if (search.IsClosed == true)
+           if (search.Closed == true)
            {
                return new GetTicketModel
                {
-                   IsClosed = true,
-                   ClosedAt = DateTime.Now.ToLocalTime(),
+                   ClosureDateTime = DateTime.Now.ToLocalTime(),
                };
            }
 
@@ -112,6 +111,7 @@ namespace Application.Tickets
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
+               Closed = search.Closed
                // User = search.User
            };
            return result;
@@ -185,6 +185,8 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
+            currentTicket.Closed = model.Closed;
+            currentTicket.ClosureDateTime = model.ClosureDateTime;
 
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
 
