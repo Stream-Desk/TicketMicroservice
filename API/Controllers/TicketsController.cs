@@ -29,7 +29,7 @@ namespace API.Controllers
         }
 
         // GET api/<TicketsController>/5
-        [HttpGet("Labo/{id:length(24)}")]
+        [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
         {
             var response = await _ticketService.GetTicketById(id);
