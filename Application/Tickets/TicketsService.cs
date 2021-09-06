@@ -100,7 +100,8 @@ namespace Application.Tickets
                Status = search.Status,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
-               User = search.User
+               ModifiedAt = search.ModifiedAt,
+               // User = search.User
            };
            return result;
         }
@@ -125,7 +126,6 @@ namespace Application.Tickets
                 Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                User = model.User
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -196,6 +196,7 @@ namespace Application.Tickets
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
            softDeletedTicket.IsDeleted = true;
            softDeletedTicket.IsModified = true;
+           softDeletedTicket.ModifiedAt = DateTime.Now.ToLocalTime();
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
     }

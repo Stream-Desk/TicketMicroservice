@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -9,5 +10,6 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }
