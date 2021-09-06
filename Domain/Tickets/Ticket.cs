@@ -44,6 +44,8 @@ namespace Domain.Tickets
         public DateTime ModifiedAt { get; set; }
 
         public bool IsClosed { get; set; }
+
+        public DateTime ClosureDateTime { get; set; }
         
         public DateTime? ClosedAt { get; set; }
         
@@ -52,8 +54,6 @@ namespace Domain.Tickets
     }
 }
          
-    
-
     public enum Priority
     {
         Low = 1,

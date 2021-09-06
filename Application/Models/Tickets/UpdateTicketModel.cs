@@ -12,11 +12,15 @@ namespace Application.Models.Tickets
         public string Category { get; set; }
         public Priority Priority  { get; set; }
         public Status Status { get; set; }
+        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
+        
         public bool IsModified { get; set; }
+        
         public DateTime? ModifiedAt { get; set; }
+        
         public bool IsClosed { get; set; }
     }
 }

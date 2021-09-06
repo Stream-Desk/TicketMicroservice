@@ -90,6 +90,15 @@ namespace Application.Tickets
                return new GetTicketModel();
            }
 
+           if (search.IsClosed == true)
+           {
+               return new GetTicketModel
+               {
+                   IsClosed = true,
+                   ClosedAt = DateTime.Now.ToLocalTime(),
+               };
+           }
+
            var result = new GetTicketModel
            {
                Id = search.Id,
