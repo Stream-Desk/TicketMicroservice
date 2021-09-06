@@ -21,6 +21,7 @@ namespace Application.Models.Tickets
         
         public DateTime? ModifiedAt { get; set; }
         
-        public bool IsClosed { get; set; }
+        public bool Closed { get; set; }
+        public DateTime ClosureDateTime { get; set; }
     }
 }

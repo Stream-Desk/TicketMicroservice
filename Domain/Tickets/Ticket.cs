@@ -42,12 +42,9 @@ namespace Domain.Tickets
         
         [BsonElement("ModifiedAt")]
         public DateTime ModifiedAt { get; set; }
-
-        public bool IsClosed { get; set; }
+        public bool Closed { get; set; }
 
         public DateTime ClosureDateTime { get; set; }
-        
-        public DateTime? ClosedAt { get; set; }
         
         public List<File> Files { get; set; } = new List<File>();
 
