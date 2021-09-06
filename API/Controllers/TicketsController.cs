@@ -76,6 +76,5 @@ namespace API.Controllers
             var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
             return Ok(response);
         }
-
     }
 }
