@@ -38,7 +38,9 @@ namespace Application.Tickets
                     Status = search.Status,
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
-                    IsModified = search.IsModified
+                    IsModified = search.IsModified,
+                    Closed = search.Closed,
+                    ClosureDateTime = search.ClosureDateTime
                 };
                 result.Add(model);
             }
@@ -70,6 +72,8 @@ namespace Application.Tickets
                     SubmitDate = searchResult.SubmitDate,
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
                 };
                 result.Add(model);
             }
@@ -89,15 +93,7 @@ namespace Application.Tickets
            {
                return new GetTicketModel();
            }
-
-           if (search.Closed == true)
-           {
-               return new GetTicketModel
-               {
-                   ClosureDateTime = DateTime.Now.ToLocalTime(),
-               };
-           }
-
+           
            var result = new GetTicketModel
            {
                Id = search.Id,
@@ -186,7 +182,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-            currentTicket.Closed = model.Closed;
+            currentTicket.Closed = false;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
