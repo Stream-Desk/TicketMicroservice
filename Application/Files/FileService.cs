@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
 using Domain.Files;
+using Microsoft.Extensions.Hosting;
+using Org.BouncyCastle.Asn1.Ocsp;
 using File = Domain.Files.File;
 
 namespace Application.Files
@@ -23,6 +25,7 @@ namespace Application.Files
                 throw new Exception("Image details empty");
             }
             
+            
             // Map model to domain Entity
             var file = new File()
             {
@@ -32,9 +35,11 @@ namespace Application.Files
                 Extension = model.Extension,
                 CreatedOn = model.CreatedOn,
                 FilePath = model.FilePath,
+                fileUrl = model.fileUrl
             };
 
             var search = await _fileCollection.CreateImage(file, cancellationToken);
+            
             var result = new DownloadFileModel
             {
                 FileId = search.FileId,   
@@ -43,6 +48,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
+                fileUrl = search.fileUrl
             };
             return result;
         }
@@ -71,8 +77,7 @@ namespace Application.Files
             };
             return result;
         }
-        
-        
+
         public  Task<DeleteFileModel> DeleteFile(DeleteFileModel model, CancellationToken cancellationToken = default)
         {
             // validation
@@ -83,30 +88,6 @@ namespace Application.Files
             _fileCollection.DeleteImageById(model.FileId);
              return null;
         }
-
-        public async Task<List<DownloadFileModel>> ListAllFiles(CancellationToken cancellationToken = default)
-        {
-            var searchResults = await _fileCollection.ListAllFiles(cancellationToken);
-            if (searchResults == null || searchResults.Count < 1)
-            {
-                return new List<DownloadFileModel>();
-            }
-            
-            var result = new List<DownloadFileModel>();
-
-            foreach (var searchResult in searchResults)
-            {
-                var model = new DownloadFileModel
-                {
-                    FileId = searchResult.FileId,
-                    FilePath = searchResult.FilePath,
-                    Name = searchResult.Name,
-                    Extension = searchResult.Extension,
-                    CreatedOn = searchResult.CreatedOn
-                };
-                result.Add(model);
-            }
-            return result;
-        }
+        
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Application.Models.Files
 {
@@ -10,5 +11,6 @@ namespace Application.Models.Files
         public string Extension { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string FilePath { get; set; }
+        public string fileUrl  { get; set; } 
     }
 }
