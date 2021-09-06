@@ -20,7 +20,7 @@ namespace Application.Models.Tickets
         public bool IsModified { get; set; }
         
         public DateTime? ModifiedAt { get; set; }
-        
+        [DefaultValue(false)]
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
     }
