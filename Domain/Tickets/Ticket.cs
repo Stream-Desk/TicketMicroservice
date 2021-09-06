@@ -22,20 +22,15 @@ namespace Domain.Tickets
         [Required]
         [BsonElement("Summary")]
         public string Summary { get; set; }
-      
-        public string TicketNumber { get; set; }       
-       
+        public string TicketNumber { get; set; }
         [Required]
         [BsonElement("Category")]
         public string Category { get; set; }
-        
         [Required]
         [BsonElement("Description")]
         public string Description { get; set; }
-      
         [BsonElement("Priority")]
         public Priority Priority  { get; set; }
-        
         [BsonElement("SubmitDate")]
         public DateTime SubmitDate { get; set; }
       
@@ -44,7 +39,6 @@ namespace Domain.Tickets
         public User User { get; set; }
 
         public object Value { get; private set; }
-
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; } 
         
