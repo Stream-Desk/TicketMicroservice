@@ -20,6 +20,6 @@ namespace Domain.Users
         [Required]
         [BsonElement("LastName")]
         public string LastName { get; set; }
-        public List<Ticket> TicketList { get; set; } = new List<Ticket>();
+        // public List<Ticket> TicketList { get; set; } = new List<Ticket>();
     }
 }
