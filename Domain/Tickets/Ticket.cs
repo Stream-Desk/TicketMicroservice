@@ -1,5 +1,7 @@
 using System;
-using System.Text.Json.Serialization;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Domain.Files;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MongoDB.Driver;
@@ -15,23 +17,45 @@ namespace Domain.Tickets
        
 
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)] 
+        public string Id { get; set; }   
+        
+        [Required]
         [BsonElement("Summary")]
         public string Summary { get; set; }
-        public string TicketNumber { get; set; }
+      
+        public string TicketNumber { get; set; }       
        
-        public string Description { get; set; }
+        [Required]
+        [BsonElement("Category")]
         public string Category { get; set; }
-        public Priority Priority { get; set; }
-        [BsonElement("date")]
-        public DateTime SubmitDate { get; set; } 
+        
+        [Required]
+        [BsonElement("Description")]
+        public string Description { get; set; }
+      
+        [BsonElement("Priority")]
+        public Priority Priority  { get; set; }
+        
+        [BsonElement("SubmitDate")]
+        public DateTime SubmitDate { get; set; }
+      
+        [BsonElement("Status")]
         public Status Status { get; set; }
+
         public User User { get; set; }
-        public string Attachment { get; set; }
+
         public object Value { get; private set; }
 
+        public bool IsDeleted { get; set; }
         
+        public bool IsModified { get; set; } 
+        
+        [BsonElement("ModifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+        
+        public List<File> Files { get; set; } = new List<File>();
+
     }
 }
          

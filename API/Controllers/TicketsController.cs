@@ -19,10 +19,10 @@ namespace API.Controllers
         {
             _ticketService = ticketService;
         }
-
+        
         // GET: api/<TicketsController>
         [HttpGet]
-        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
+        public async Task<ActionResult<List<GetTicketModel>>> GetAllAsync()
         {
             var response = await _ticketService.GetTickets();
             return Ok(response);
@@ -42,7 +42,6 @@ namespace API.Controllers
             [FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
-         
             return Ok(response);
         }
         // PUT api/<TicketsController>/5

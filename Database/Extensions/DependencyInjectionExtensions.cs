@@ -1,5 +1,6 @@
 using Database.Collections;
 using Domain.Comments;
+using Domain.Files;
 using Domain.Tickets;
 using Domain.Drafts;
 using Domain.Users;
@@ -17,6 +18,8 @@ namespace Database.Extensions
             services.AddScoped<ICommentsCollection, CommentsCollection>();
             services.AddScoped<IDraftCollection, DraftsCollection>();
             services.AddScoped<IRegistrationCollection, RegistrationsCollection>();
+            services.AddScoped<IFileCollection, FileCollection>();
+          
             return services;
         }
     }

@@ -19,6 +19,7 @@ namespace API
         {
             Configuration = configuration;
         }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -26,6 +27,8 @@ namespace API
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -35,6 +38,7 @@ namespace API
                                                           .AllowAnyMethod();
                                   });
             });
+
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -45,11 +49,10 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-            
+
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IMailService, MailService>();
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,9 +67,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthorization();
-
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

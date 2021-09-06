@@ -1,5 +1,4 @@
 ﻿using Application.Models.Tickets;
-using System;
 using System.Collections.Generic;
 
 namespace Application.Models.Users
