@@ -177,7 +177,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket not found");
             }
-            
+
             currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
@@ -187,6 +187,11 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
             currentTicket.Closed = model.Closed;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
+            
+            if (model.Closed == true)
+            {
+                currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
+            }
 
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
 
