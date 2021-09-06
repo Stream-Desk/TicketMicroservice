@@ -14,7 +14,6 @@ namespace Domain.Tickets
 {
     public class Ticket
     {
-       
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
