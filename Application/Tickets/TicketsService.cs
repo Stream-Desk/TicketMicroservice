@@ -38,7 +38,9 @@ namespace Application.Tickets
                     Status = search.Status,
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
-                    IsModified = search.IsModified
+                    IsModified = search.IsModified,
+                    Closed = search.Closed,
+                    ClosureDateTime = search.ClosureDateTime
                 };
                 result.Add(model);
             }
@@ -70,6 +72,8 @@ namespace Application.Tickets
                     SubmitDate = searchResult.SubmitDate,
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
                 };
                 result.Add(model);
             }
@@ -89,7 +93,7 @@ namespace Application.Tickets
            {
                return new GetTicketModel();
            }
-
+           
            var result = new GetTicketModel
            {
                Id = search.Id,
@@ -103,6 +107,8 @@ namespace Application.Tickets
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
+               Closed = search.Closed,
+               ClosureDateTime = search.ClosureDateTime
                // User = search.User
            };
            return result;
@@ -168,7 +174,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket not found");
             }
-            
+
             currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
@@ -176,9 +182,15 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-
+            currentTicket.Closed = false || true;
+            currentTicket.ClosureDateTime = model.ClosureDateTime;
+            
+            if (model.Closed == true)
+            {
+                currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
+                currentTicket.Status = Status.Resolved;
+            }
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
-
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {

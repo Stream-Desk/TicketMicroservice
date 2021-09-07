@@ -7,8 +7,6 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using Org.BouncyCastle.Asn1.X9;
 
 namespace API.Controllers
 {

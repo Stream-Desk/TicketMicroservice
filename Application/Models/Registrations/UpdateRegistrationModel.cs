@@ -1,6 +1,4 @@
 using System;
-using System.Net.Mime;
-using Domain.Registrations;
 
 namespace Application.Models.Registrations
 {
