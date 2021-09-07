@@ -22,7 +22,6 @@ namespace Application.Comments
             {
                 Text = model.Text,
                 TimeStamp = model.TimeStamp,
-                UserId = model.UserId,
                 TicketId = model.TicketId
             };
 
@@ -31,7 +30,6 @@ namespace Application.Comments
             {
                 Text = newComment.Text,
                 TimeStamp = newComment.TimeStamp,
-                UserId = newComment.UserId,
                 TicketId = newComment.TicketId
             };
                 return response;
