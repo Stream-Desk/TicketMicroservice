@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
 using Domain.Files;
-using Microsoft.Extensions.Hosting;
-using Org.BouncyCastle.Asn1.Ocsp;
 using File = Domain.Files.File;
 
 namespace Application.Files

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using Domain.Users;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Drafts
