@@ -40,7 +40,8 @@ namespace Application.Tickets
                     SubmitDate = search.SubmitDate,
                     IsModified = search.IsModified,
                     Closed = search.Closed,
-                    ClosureDateTime = search.ClosureDateTime
+                    ClosureDateTime = search.ClosureDateTime,
+                    TicketNumber = search.TicketNumber
                 };
                 result.Add(model);
             }
