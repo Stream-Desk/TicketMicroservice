@@ -4,7 +4,6 @@ using Domain.Files;
 using Domain.Tickets;
 using Domain.Drafts;
 using Domain.Users;
-using Domain.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Database.Extensions
@@ -17,7 +16,6 @@ namespace Database.Extensions
             services.AddScoped<ITicketCollection, TicketsCollection>();
             services.AddScoped<ICommentsCollection, CommentsCollection>();
             services.AddScoped<IDraftCollection, DraftsCollection>();
-            services.AddScoped<IRegistrationCollection, RegistrationsCollection>();
             services.AddScoped<IFileCollection, FileCollection>();
           
             return services;
