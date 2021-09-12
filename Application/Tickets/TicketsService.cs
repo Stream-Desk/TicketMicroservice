@@ -190,6 +190,12 @@ namespace Application.Tickets
                 currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
                 currentTicket.Status = Status.Resolved;
             }
+            
+            else if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Open;
+            }
+                
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
@@ -212,8 +218,7 @@ namespace Application.Tickets
            }
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
            softDeletedTicket.IsDeleted = true;
-           softDeletedTicket.IsModified = true;
-           softDeletedTicket.ModifiedAt = DateTime.Now.ToLocalTime();
+          
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
     }
