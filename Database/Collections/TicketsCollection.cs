@@ -57,6 +57,15 @@ namespace Database.Collections
             return ticket;
         }
 
+        public async Task<List<Ticket>> SearchTicket(CancellationToken cancellationToken = default)
+        {
+            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
+            _ticketCollection.Indexes.CreateOne(keys);
+            var filter = Builders<Ticket>.Filter.Text("");
+            var result = _ticketCollection.Find(filter).ToList();
+            return result;
+        }
+
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
             _ticketCollection.ReplaceOne(a => a.Id == ticketId, ticket);

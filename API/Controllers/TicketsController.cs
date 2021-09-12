@@ -3,6 +3,8 @@ using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Tickets;
+using MongoDB.Driver;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,6 +30,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
@@ -35,7 +38,7 @@ namespace API.Controllers
             var response = await _ticketService.GetTicketById(id);
             return Ok(response);
         }
-
+        
         // POST api/<TicketsController>
         [HttpPost]
         public async Task<ActionResult<GetTicketModel>> PostAsync(
