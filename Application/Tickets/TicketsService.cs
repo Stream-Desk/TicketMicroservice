@@ -226,7 +226,7 @@ namespace Application.Tickets
 
         public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
         {
-            var searchResults = await _ticketCollection.SearchTicket(searchTerm);
+            var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
             if (searchResults == null || searchResults.Count < 1)
             {
                 return new List<GetTicketModel>();

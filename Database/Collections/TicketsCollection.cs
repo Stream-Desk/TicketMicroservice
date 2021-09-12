@@ -57,12 +57,12 @@ namespace Database.Collections
             return ticket;
         }
 
-        public async Task<List<Ticket>> SearchTicket(string searchTerm)
+        public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
-            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary == searchTerm);
-            _ticketCollection.Indexes.CreateOne(keys);
+            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
+             _ticketCollection.Indexes.CreateOne(keys);
             var filter = Builders<Ticket>.Filter.Text(searchTerm);
-            var result = _ticketCollection.Find(filter).ToList();
+            var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
 

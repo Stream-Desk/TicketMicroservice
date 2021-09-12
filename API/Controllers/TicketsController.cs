@@ -31,7 +31,7 @@ namespace API.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<ActionResult<List<Ticket>>> SearchTickets(string searchTerm)
+        public async Task<ActionResult<List<GetTicketModel>>> SearchTickets(string searchTerm)
         {
             var response = _ticketService.SearchTickets(searchTerm);
             return Ok(response);
