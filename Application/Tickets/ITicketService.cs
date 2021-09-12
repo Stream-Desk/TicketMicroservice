@@ -18,6 +18,6 @@ namespace Application.Tickets
         void UpdateTicket(string ticketId, UpdateTicketModel model);
         void DeleteTicketById(DeleteTicketModel model);
         void IsSoftDeleted(string ticketId, DeleteTicketModel model);
-        Task<List<GetTicketModel>> SearchTickets(CancellationToken cancellationToken = default);
+        Task<List<GetTicketModel>> SearchTickets(string searchTerm);
     }
 }

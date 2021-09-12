@@ -29,8 +29,14 @@ namespace API.Controllers
             var response = await _ticketService.GetTickets();
             return Ok(response);
         }
-
-
+        
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Ticket>>> SearchTickets(string searchTerm)
+        {
+            var response = _ticketService.SearchTickets(searchTerm);
+            return Ok(response);
+        }
+            
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)
