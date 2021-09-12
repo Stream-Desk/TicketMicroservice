@@ -59,7 +59,7 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm)
         {
-            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
+            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary == searchTerm);
             _ticketCollection.Indexes.CreateOne(keys);
             var filter = Builders<Ticket>.Filter.Text(searchTerm);
             var result = _ticketCollection.Find(filter).ToList();

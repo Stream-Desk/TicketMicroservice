@@ -224,7 +224,7 @@ namespace Application.Tickets
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
 
-        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm)
+        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
         {
             var searchResults = await _ticketCollection.SearchTicket(searchTerm);
             if (searchResults == null || searchResults.Count < 1)
