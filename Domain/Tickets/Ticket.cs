@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Domain.Comments;
 using Domain.Files;
 using Domain.Users;
 using MongoDB.Bson;
@@ -46,6 +47,7 @@ namespace Domain.Tickets
         public int ticketNumber { get; set; }
         
         public List<File> Attachments { get; set; } = new List<File>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
          
