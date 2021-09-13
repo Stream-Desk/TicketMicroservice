@@ -110,8 +110,7 @@ namespace Application.Tickets
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
-               ClosureDateTime = search.ClosureDateTime, 
-               // User = search.User
+               ClosureDateTime = search.ClosureDateTime,
            };
            return result;
         }
