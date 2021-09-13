@@ -34,8 +34,6 @@ namespace Domain.Tickets
         [BsonElement("Status")]
         public Status Status { get; set; }
         
-        public User User { get; set; }
-
         public object Value { get; private set; }
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; } 
@@ -43,12 +41,11 @@ namespace Domain.Tickets
         [BsonElement("ModifiedAt")]
         public DateTime ModifiedAt { get; set; }
         public bool Closed { get; set; }
-
         public DateTime ClosureDateTime { get; set; }
-        
-        public List<File> Files { get; set; } = new List<File>();
-        
+
         public int ticketNumber { get; set; }
+        
+        public List<File> Attachments { get; set; } = new List<File>();
     }
 }
          

@@ -13,7 +13,7 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         
         public DateTime SubmitDate { get; set; }
-        // public User User { get; set; }
+        // public string UserId { get; set; }
         public Status Status { get; set; }
         
         [BsonDefaultValue(false)]
