@@ -47,7 +47,8 @@ namespace Domain.Tickets
         public DateTime ClosureDateTime { get; set; }
         
         public List<File> Files { get; set; } = new List<File>();
-
+        
+        public int ticketNumber { get; set; }
     }
 }
          

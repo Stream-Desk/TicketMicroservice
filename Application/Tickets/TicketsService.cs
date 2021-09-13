@@ -42,7 +42,7 @@ namespace Application.Tickets
                     SubmitDate = search.SubmitDate,
                     IsModified = search.IsModified,
                     Closed = search.Closed,
-                    ClosureDateTime = search.ClosureDateTime
+                    ClosureDateTime = search.ClosureDateTime,
                 };
                 result.Add(model);
             }
@@ -75,7 +75,7 @@ namespace Application.Tickets
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
                     Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime
+                    ClosureDateTime = searchResult.ClosureDateTime,
                 };
                 result.Add(model);
             }
@@ -110,7 +110,7 @@ namespace Application.Tickets
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
-               ClosureDateTime = search.ClosureDateTime
+               ClosureDateTime = search.ClosureDateTime, 
                // User = search.User
            };
            return result;
