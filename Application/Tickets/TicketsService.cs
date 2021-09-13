@@ -184,7 +184,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-            currentTicket.Closed = false || true;
+            currentTicket.Closed = false;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
@@ -192,7 +192,6 @@ namespace Application.Tickets
                 currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
                 currentTicket.Status = Status.Resolved;
             }
-            
             else if (model.IsModified == true)
             {
                 currentTicket.Status = Status.Open;

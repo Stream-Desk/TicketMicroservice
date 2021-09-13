@@ -23,6 +23,9 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
+        
+        [BsonDefaultValue(false)]
+        [DefaultValue(false)]
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public DateTime ModifiedAt { get; set; }
