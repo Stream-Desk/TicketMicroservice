@@ -43,6 +43,7 @@ namespace Application.Tickets
                     IsModified = search.IsModified,
                     Closed = search.Closed,
                     ClosureDateTime = search.ClosureDateTime,
+                    TicketNumber = search.TicketNumber
                 };
                 result.Add(model);
             }
@@ -75,7 +76,7 @@ namespace Application.Tickets
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
                     Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime,
+                    ClosureDateTime = searchResult.ClosureDateTime
                 };
                 result.Add(model);
             }
