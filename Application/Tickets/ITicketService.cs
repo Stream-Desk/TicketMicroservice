@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Tickets;
+using Domain.Tickets;
+using MongoDB.Driver;
 
 namespace Application.Tickets
 {
@@ -16,6 +18,6 @@ namespace Application.Tickets
         void UpdateTicket(string ticketId, UpdateTicketModel model);
         void DeleteTicketById(DeleteTicketModel model);
         void IsSoftDeleted(string ticketId, DeleteTicketModel model);
-
+        Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default);
     }
 }

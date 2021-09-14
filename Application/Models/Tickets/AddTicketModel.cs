@@ -13,7 +13,6 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         
         public DateTime SubmitDate { get; set; }
-        // public User User { get; set; }
         public Status Status { get; set; }
         
         [BsonDefaultValue(false)]
@@ -23,7 +22,8 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
-        
+        [BsonDefaultValue(false)]
+        [DefaultValue(false)]
         public bool Closed { get; set; }
         
         public DateTime ModifiedAt { get; set; }

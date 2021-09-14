@@ -22,7 +22,6 @@ namespace Application.Comments
             {
                 Text = model.Text,
                 TimeStamp = model.TimeStamp,
-                TicketId = model.TicketId
             };
 
             var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
@@ -30,7 +29,6 @@ namespace Application.Comments
             {
                 Text = newComment.Text,
                 TimeStamp = newComment.TimeStamp,
-                TicketId = newComment.TicketId
             };
                 return response;
         }

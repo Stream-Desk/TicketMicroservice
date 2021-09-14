@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Tickets;
 using Domain.Tickets;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace Application.Tickets
 {
@@ -109,8 +111,7 @@ namespace Application.Tickets
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
-               ClosureDateTime = search.ClosureDateTime
-               // User = search.User
+               ClosureDateTime = search.ClosureDateTime,
            };
            return result;
         }
@@ -183,7 +184,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-            currentTicket.Closed = false || true;
+            currentTicket.Closed = false;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
@@ -191,6 +192,11 @@ namespace Application.Tickets
                 currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
                 currentTicket.Status = Status.Resolved;
             }
+            else if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Open;
+            }
+                
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
@@ -213,9 +219,40 @@ namespace Application.Tickets
            }
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
            softDeletedTicket.IsDeleted = true;
-           softDeletedTicket.IsModified = true;
-           softDeletedTicket.ModifiedAt = DateTime.Now.ToLocalTime();
+          
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
+        }
+
+        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
+        {
+            var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+
+            var result = new List<GetTicketModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = searchResult.Id,
+                    Description = searchResult.Description,
+                    TicketNumber = searchResult.TicketNumber,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    Status = searchResult.Status,
+                    Category = searchResult.Category,
+                    SubmitDate = searchResult.SubmitDate,
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
+                };
+                result.Add(model);
+            }
+            return result;
         }
     }
 }
