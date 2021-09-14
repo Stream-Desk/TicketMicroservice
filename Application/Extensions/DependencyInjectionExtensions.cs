@@ -3,7 +3,6 @@ using Application.Files;
 using Application.Users;
 using Application.Tickets;
 using Application.Drafts;
-using Application.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions
@@ -16,7 +15,6 @@ namespace Application.Extensions
             services.AddScoped<ITicketService, TicketsService>();
             services.AddScoped<IDraftService, DraftsService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<IFileService, FileService>();
 
             return services;

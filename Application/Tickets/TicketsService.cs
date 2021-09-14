@@ -129,7 +129,7 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
-                TicketNumber = model.TicketNumber,
+                //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
