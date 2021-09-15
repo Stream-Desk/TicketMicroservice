@@ -30,9 +30,7 @@ namespace Domain.Tickets
         public DateTime ModifiedAt { get; set; }
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
-
         public int ticketNumber { get; set; }
-        
         public List<File> Attachments { get; set; } = new List<File>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
     }
