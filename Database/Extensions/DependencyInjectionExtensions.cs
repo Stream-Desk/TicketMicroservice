@@ -1,4 +1,5 @@
 using Database.Collections;
+using Domain.Appointments;
 using Domain.Comments;
 using Domain.Files;
 using Domain.Tickets;
@@ -17,6 +18,7 @@ namespace Database.Extensions
             services.AddScoped<ICommentsCollection, CommentsCollection>();
             services.AddScoped<IDraftCollection, DraftsCollection>();
             services.AddScoped<IFileCollection, FileCollection>();
+            services.AddScoped<IAppointmentCollection, AppointmentsCollection>();
           
             return services;
         }
