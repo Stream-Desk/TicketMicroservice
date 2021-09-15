@@ -53,6 +53,7 @@ namespace API.Controllers
             var response = await _ticketService.CreateTicket(model);
             return Ok(response);
         }
+        
         // PUT api/<TicketsController>/5
         [HttpPut("{id:length(24)}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
