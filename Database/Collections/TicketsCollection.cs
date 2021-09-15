@@ -53,7 +53,7 @@ namespace Database.Collections
 
         public async Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default)
         {
-            await _ticketCollection.InsertOneAsync(ticket, cancellationToken: cancellationToken);
+            await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
 
