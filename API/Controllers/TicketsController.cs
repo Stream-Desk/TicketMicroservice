@@ -47,8 +47,7 @@ namespace API.Controllers
         
         // POST api/<TicketsController>
         [HttpPost]
-        public async Task<ActionResult<GetTicketModel>> PostAsync(
-            [FromBody] AddTicketModel model)
+        public async Task<ActionResult<GetTicketModel>> PostAsync([FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
             return Ok(response);
