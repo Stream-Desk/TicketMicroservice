@@ -9,6 +9,6 @@ namespace Domain.Appointments
         public DateTime BookingDate { get; set; } 
         public DateTime AppointmentDate { get; set; }
         public DateAndTime AppointmentTime { get; set; }
-        public string UserName { get; set; }
+        public string UserId { get; set; }
     }
 }

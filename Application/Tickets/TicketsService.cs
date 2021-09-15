@@ -182,7 +182,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-            currentTicket.Closed = false;
+            currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
