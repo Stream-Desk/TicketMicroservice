@@ -15,31 +15,18 @@ namespace Domain.Tickets
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
-        public string Id { get; set; }   
-        
-        [Required]
-        [BsonElement("Summary")]
+        public string Id { get; set; }
         public string Summary { get; set; }
         public string TicketNumber { get; set; }
-        [Required]
-        [BsonElement("Category")]
         public string Category { get; set; }
-        [Required]
-        [BsonElement("Description")]
         public string Description { get; set; }
-        [BsonElement("Priority")]
         public Priority Priority  { get; set; }
-        [BsonElement("SubmitDate")]
         public DateTime SubmitDate { get; set; }
-      
-        [BsonElement("Status")]
         public Status Status { get; set; }
         
         public object Value { get; private set; }
         public bool IsDeleted { get; set; }
-        public bool IsModified { get; set; } 
-        
-        [BsonElement("ModifiedAt")]
+        public bool IsModified { get; set; }
         public DateTime ModifiedAt { get; set; }
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
