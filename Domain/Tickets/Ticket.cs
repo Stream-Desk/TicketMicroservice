@@ -12,16 +12,22 @@ namespace Domain.Tickets
 {
     public class Ticket
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)] 
         public string Id { get; set; }
+        [BsonElement("Summary")]
         public string Summary { get; set; }
+        [BsonElement("TicketNumber")]
         public string TicketNumber { get; set; }
+        [BsonElement("Category")]
         public string Category { get; set; }
+        [BsonElement("Description")]
         public string Description { get; set; }
+        [BsonElement("Priority")]
         public Priority Priority  { get; set; }
+        [BsonElement("SubmitDate")]
         public DateTime SubmitDate { get; set; }
+        [BsonElement("Status")]
         public Status Status { get; set; }
         
         public object Value { get; private set; }

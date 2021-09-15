@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Domain.Files;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -17,7 +19,7 @@ namespace Domain.Drafts
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
         public User User { get; set; }
-        public string Attachment { get; set; }
+        public List<File> Attachments { get; set; } = new List<File>();
 
 
     }
