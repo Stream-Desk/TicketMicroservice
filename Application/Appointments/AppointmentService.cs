@@ -15,14 +15,55 @@ namespace Application.Appointments
         {
             _appointmentCollection = appointmentCollection;
         }
-        public Task<List<GetAppointmentsModel>> GetAppointments(CancellationToken cancellationToken = default)
+        public async Task<List<GetAppointmentsModel>> GetAppointments(CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            var searchResults = await _appointmentCollection.GetAppointments(cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetAppointmentsModel>();
+            }
+
+            var result = new List<GetAppointmentsModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetAppointmentsModel()
+                {
+                    AppointmentId = searchResult.AppointmentId,
+                    AppointmentDate = searchResult.AppointmentDate,
+                    AppointmentTime = searchResult.AppointmentTime,
+                    BookingDate = searchResult.BookingDate,
+                    UserId = searchResult.UserId
+                };
+                result.Add(model);
+            }
+
+            return result;
         }
 
-        public Task<GetAppointmentsModel> GetAppointmentById(string appointmentId, CancellationToken cancellationtoken = default)
+        public async Task<GetAppointmentsModel> GetAppointmentById(string appointmentId, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            // String validation
+            if (string.IsNullOrWhiteSpace(appointmentId))
+            {
+                throw new Exception("Draft not found");
+            }
+
+            var cursor = await _appointmentCollection.GetAppointmentById(appointmentId, cancellationToken);
+            if (cursor == null)
+            {
+                return new GetAppointmentsModel();
+            }
+
+            var result = new GetAppointmentsModel()
+            {
+                AppointmentId = cursor.AppointmentId,
+                AppointmentDate = cursor.AppointmentDate,
+                AppointmentTime = cursor.AppointmentTime,
+                BookingDate = cursor.BookingDate,
+                UserId = cursor.UserId
+            };
+            return result;
         }
 
         public async Task<GetAppointmentsModel> CreateAppointment(AddAppointmentModel model, CancellationToken cancellationtoken = default)

@@ -9,7 +9,7 @@ namespace Application.Appointments
     public interface IAppointmentService
     {
         Task<List<GetAppointmentsModel>> GetAppointments(CancellationToken cancellationToken = default);
-        Task<GetAppointmentsModel> GetAppointmentById(string appointmentId, CancellationToken cancellationtoken = default);
+        Task<GetAppointmentsModel> GetAppointmentById(string appointmentId, CancellationToken cancellationToken = default);
         Task<GetAppointmentsModel> CreateAppointment(AddAppointmentModel model, CancellationToken cancellationtoken = default);
         void CancelAppointment(CancelAppointmnentModel model);
     }
