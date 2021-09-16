@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Tickets;
 using Domain.Tickets;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 
 namespace Application.Tickets
 {
