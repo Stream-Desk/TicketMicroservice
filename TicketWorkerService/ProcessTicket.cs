@@ -12,23 +12,26 @@ namespace TicketWorkerService
     public class ProcessTicket : IInvocable
     {
         private readonly ILogger<ProcessTicket> logger;
+        private readonly ITicketConnector ticketConnector;
    
         public ProcessTicket(ILogger<ProcessTicket> logger)
         {
             this.logger = logger;
+            this.ticketConnector = ticketConnector;
         }
-        public Task Invoke()
+        public async Task Invoke()
         {
-            var ticket = new Ticket
+            var nextTicket = await ticketConnector.GetNextTicket();
+            if (nextTicket != null)
             {
-                Summary ="cant send pictures",
-                Description = "i am failing to send emails",
-                TicketNumber = "6"
-            };
+                logger.LogInformation("Processing ticket {@nextTicket}", nextTicket);
 
-            logger.LogInformation("Processing ticket{@ticket}", ticket);
+                //Todo: Implement ticket processing
 
-            return Task.FromResult(true);
+                await ticketConnector.RemoveTicket(nextTicket);
+            }
+           
+       
         }
     }
 }

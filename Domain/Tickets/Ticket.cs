@@ -50,7 +50,14 @@ namespace Domain.Tickets
         public List<File> Files { get; set; } = new List<File>();
 
 
+    
+    public string QueueMessageId { get; set; }
+
+    public string QueuePopReceipt { get; set; }
+
     }
+
+
 
     public enum Priority
     {

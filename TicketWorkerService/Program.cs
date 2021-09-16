@@ -51,6 +51,7 @@ namespace TicketWorkerService
                 .UseSerilog()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddSingleton<ITicketConnector, TicketQueueConnector>();
                     services.AddScheduler();
                     services.AddTransient<ProcessTicket>();
                 });
