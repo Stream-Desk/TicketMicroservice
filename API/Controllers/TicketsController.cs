@@ -86,10 +86,17 @@ namespace API.Controllers
             return Ok(response);
         }
         
-        [HttpGet("Page")]
+        [HttpGet("SearchResult")]
         public async Task<ActionResult<List<GetTicketModel>>> SearchResult(string q, int page)
         {
             var response = await _ticketService.SearchResult(q,page);
+            return Ok(response);
+        }
+        
+        [HttpGet("pagination")]
+        public async Task<ActionResult<List<GetTicketModel>>> Pagination(int page)
+        {
+            var response = await _ticketService.Pagination(page);
             return Ok(response);
         }
     }

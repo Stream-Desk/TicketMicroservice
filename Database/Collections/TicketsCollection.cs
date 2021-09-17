@@ -88,5 +88,12 @@ namespace Database.Collections
             var data = _ticketCollection.Find(indexFilter).Skip((page - 1) * pageSize).Limit(pageSize).ToList();
             return data;
         }
+
+        public async Task<List<Ticket>> Pagination(int page, CancellationToken cancellationToken = default)
+        {
+            var pageSize = 5;
+            var tickets = _ticketCollection.Find(t => true).Skip((page - 1) * pageSize).Limit(pageSize).ToList();
+            return tickets;
+        }
     }
 }

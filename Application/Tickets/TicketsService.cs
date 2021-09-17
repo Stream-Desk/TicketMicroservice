@@ -287,6 +287,37 @@ namespace Application.Tickets
             }
             return result;
         }
-        
+
+        public async Task<List<GetTicketModel>> Pagination(int page, CancellationToken cancellationToken = default)
+        {
+            var searchResults = await _ticketCollection.Pagination(page);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+
+            var result = new List<GetTicketModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = searchResult.Id,
+                    Description = searchResult.Description,
+                    TicketNumber = searchResult.TicketNumber,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    Status = searchResult.Status,
+                    Category = searchResult.Category,
+                    SubmitDate = searchResult.SubmitDate,
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
+                };
+                result.Add(model);
+            }
+            return result;
+        }
     }
 }

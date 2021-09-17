@@ -19,5 +19,6 @@ namespace Domain.Tickets
         void IsSoftDeleted(string ticketId, Ticket ticket);
         // Paging
         Task<List<Ticket>> SearchResult(string q, int page);
+        Task<List<Ticket>> Pagination(int page, CancellationToken cancellationToken = default);
     }
 }

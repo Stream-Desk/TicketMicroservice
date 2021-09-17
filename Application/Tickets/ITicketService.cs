@@ -20,5 +20,7 @@ namespace Application.Tickets
         void IsSoftDeleted(string ticketId, DeleteTicketModel model);
         Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default);
         Task<List<GetTicketModel>> SearchResult(string q, int page);
+        Task<List<GetTicketModel>> Pagination( int page, CancellationToken cancellationToken = default);
+
     }
 }
