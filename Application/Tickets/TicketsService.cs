@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Models.Tickets;
 using Domain.Tickets;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Application.Tickets
@@ -254,5 +255,38 @@ namespace Application.Tickets
             }
             return result;
         }
+
+        public async Task<List<GetTicketModel>> SearchResult(string q, int page)
+        {
+            var searchResults = await _ticketCollection.SearchResult(q, page);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+
+            var result = new List<GetTicketModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = searchResult.Id,
+                    Description = searchResult.Description,
+                    TicketNumber = searchResult.TicketNumber,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    Status = searchResult.Status,
+                    Category = searchResult.Category,
+                    SubmitDate = searchResult.SubmitDate,
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
+                };
+                result.Add(model);
+            }
+            return result;
+        }
+        
     }
 }

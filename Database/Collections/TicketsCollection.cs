@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Database.Collections
@@ -10,9 +11,7 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        
 
-       
         public TicketsCollection(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
@@ -21,7 +20,6 @@ namespace Database.Collections
             var dbName = configuration.GetValue<string>("MongoDb:Database");
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
-
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
@@ -40,7 +38,7 @@ namespace Database.Collections
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(a => true);
-            var ticket = await cursor.ToListAsync(cancellationToken);
+            var ticket = await cursor.ToListAsync();
             return ticket;
         }
 
@@ -79,6 +77,16 @@ namespace Database.Collections
         public void IsSoftDeleted(string ticketId, Ticket ticket)
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
+        }
+
+        public async Task<List<Ticket>> SearchResult(string q, int page)
+        {
+            var indexFilter = Builders<Ticket>.Filter.Text(q);
+            var totalRecords = await _ticketCollection.CountDocumentsAsync(indexFilter);
+            // Hard coded page size
+            var pageSize = 15;
+            var data = _ticketCollection.Find(indexFilter).Skip((page - 1) * pageSize).Limit(pageSize).ToList();
+            return data;
         }
     }
 }
