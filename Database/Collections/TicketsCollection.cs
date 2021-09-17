@@ -79,15 +79,15 @@ namespace Database.Collections
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
 
-        public async Task<List<Ticket>> SearchResult(string q, int page)
-        {
-            var indexFilter = Builders<Ticket>.Filter.Text(q);
-            var totalRecords = await _ticketCollection.CountDocumentsAsync(indexFilter);
-            // Hard coded page size
-            var pageSize = 15;
-            var data = _ticketCollection.Find(indexFilter).Skip((page - 1) * pageSize).Limit(pageSize).ToList();
-            return data;
-        }
+        // public async Task<List<Ticket>> SearchResult(string q, int page)
+        // {
+        //     var indexFilter = Builders<Ticket>.Filter.Text(q);
+        //     var totalRecords = await _ticketCollection.CountDocumentsAsync(indexFilter);
+        //     // Hard coded page size
+        //     var pageSize = 15;
+        //     var data = _ticketCollection.Find(indexFilter).Skip((page - 1) * pageSize).Limit(pageSize).ToList();
+        //     return data;
+        // }
 
         public async Task<List<Ticket>> Pagination(int page, CancellationToken cancellationToken = default)
         {

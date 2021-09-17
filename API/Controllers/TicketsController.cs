@@ -85,14 +85,7 @@ namespace API.Controllers
             var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
             return Ok(response);
         }
-        
-        [HttpGet("SearchResult")]
-        public async Task<ActionResult<List<GetTicketModel>>> SearchResult(string q, int page)
-        {
-            var response = await _ticketService.SearchResult(q,page);
-            return Ok(response);
-        }
-        
+
         [HttpGet("pagination")]
         public async Task<ActionResult<List<GetTicketModel>>> Pagination(int page)
         {
