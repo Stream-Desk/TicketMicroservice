@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace TicketWorkerService
 {
-    public interface ITicketConnector
+    public interface IQueueService
     {
-        Task<Ticket> GetNextTicket();
+        public interface IQueueService
+        {
+            void SendMessage(string queueName, string message);
+        }
 
-        Task RemoveTicket(Ticket ticket);
+        Task GetNextTicket();
     }
 }

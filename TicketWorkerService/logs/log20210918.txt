@@ -1,0 +1,16 @@
+{"Timestamp":"2021-09-18T13:40:38.2941225-07:00","Level":"Information","MessageTemplate":"Starting our service..."}
+{"Timestamp":"2021-09-18T13:40:48.2441471-07:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T13:40:48.4909379-07:00","Level":"Information","MessageTemplate":"Hosting environment: {envName}","Properties":{"envName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T13:40:48.5979063-07:00","Level":"Information","MessageTemplate":"Content root path: {contentRoot}","Properties":{"contentRoot":"C:\\Users\\Win 10 Pro\\Documents\\TicketMicroservice\\TicketWorkerService","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T13:43:27.2502184-07:00","Level":"Information","MessageTemplate":"Starting our service..."}
+{"Timestamp":"2021-09-18T13:43:35.7327191-07:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T13:43:36.0889686-07:00","Level":"Information","MessageTemplate":"Hosting environment: {envName}","Properties":{"envName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T13:43:36.1620720-07:00","Level":"Information","MessageTemplate":"Content root path: {contentRoot}","Properties":{"contentRoot":"C:\\Users\\Win 10 Pro\\Documents\\TicketMicroservice\\TicketWorkerService","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:11:13.3846317-07:00","Level":"Information","MessageTemplate":"Starting our service..."}
+{"Timestamp":"2021-09-18T14:11:22.8665292-07:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:11:22.9249222-07:00","Level":"Information","MessageTemplate":"Hosting environment: {envName}","Properties":{"envName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:11:22.9419413-07:00","Level":"Information","MessageTemplate":"Content root path: {contentRoot}","Properties":{"contentRoot":"C:\\Users\\Win 10 Pro\\Documents\\TicketMicroservice\\TicketWorkerService","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:19:09.2864798-07:00","Level":"Information","MessageTemplate":"Starting our service..."}
+{"Timestamp":"2021-09-18T14:19:16.4323515-07:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:19:16.5127783-07:00","Level":"Information","MessageTemplate":"Hosting environment: {envName}","Properties":{"envName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2021-09-18T14:19:16.6556190-07:00","Level":"Information","MessageTemplate":"Content root path: {contentRoot}","Properties":{"contentRoot":"C:\\Users\\Win 10 Pro\\Documents\\TicketMicroservice\\TicketWorkerService","SourceContext":"Microsoft.Hosting.Lifetime"}}

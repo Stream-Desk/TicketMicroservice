@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Domain.Tickets;
+using MessageSender.Services;
 
 namespace TicketWorkerService 
 {
     public class ProcessTicket : IInvocable
     {
         private readonly ILogger<ProcessTicket> logger;
-        private readonly ITicketConnector ticketConnector;
+        private readonly IQueueService ticketConnector;
    
         public ProcessTicket(ILogger<ProcessTicket> logger)
         {
@@ -21,7 +22,7 @@ namespace TicketWorkerService
         }
         public async Task Invoke()
         {
-            var nextTicket = await ticketConnector.GetNextTicket();
+            var nextTicket = await QueueService.GettNextTicket();
             if (nextTicket != null)
             {
                 logger.LogInformation("Processing ticket {@nextTicket}", nextTicket);

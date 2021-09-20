@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TicketWorkerServiceASP"
   ],
-  "SelectedNode": "\\TickettingMicroservice.sln",
+  "SelectedNode": "\\TicketWorkerServiceASP\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

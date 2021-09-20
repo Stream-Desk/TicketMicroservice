@@ -152,7 +152,15 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified
             };
+
+            //   await _taskQueue.QueueBackgroundWorkItemAsync(SendEmail);
+
             return result;
+        }
+
+        public async ValueTask SendEmail(CancellationToken token)
+        {
+            //send email
         }
 
         public void UpdateTicket(string ticketId, UpdateTicketModel model)
