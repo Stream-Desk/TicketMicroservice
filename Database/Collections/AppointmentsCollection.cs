@@ -31,7 +31,7 @@ namespace Database.Collections
 
         public async Task<Appointment> GetAppointmentById(string appointmentId, CancellationToken cancellationtoken = default)
         {
-            var cursor = await _appointmentCollection.FindAsync(a => a.AppointmentId == appointmentId);
+            var cursor = await _appointmentCollection.FindAsync(a => a.Id == appointmentId);
             var appointment = await cursor.FirstOrDefaultAsync(cancellationtoken);
             return appointment;
         }
@@ -44,7 +44,7 @@ namespace Database.Collections
 
         public void CancelAppointment(string appointmentId)
         {
-            _appointmentCollection.DeleteOne(a => a.AppointmentId == appointmentId);
+            _appointmentCollection.DeleteOne(a => a.Id == appointmentId);
         }
     }
 }

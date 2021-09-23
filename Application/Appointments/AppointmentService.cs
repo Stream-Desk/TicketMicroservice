@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Mail;
 using Application.Models;
 using Application.Models.Appointments;
-using Application.Services;
+using Application.Models.Mail;
 using Application.Settings;
 using Domain.Appointments;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
@@ -23,6 +26,7 @@ namespace Application.Appointments
             _appointmentCollection = appointmentCollection;
             _mailSettings = options.Value;
         }
+        
         public async Task<List<GetAppointmentsModel>> GetAppointments(CancellationToken cancellationToken = default)
         {
             var searchResults = await _appointmentCollection.GetAppointments(cancellationToken);
@@ -37,15 +41,14 @@ namespace Application.Appointments
             {
                 var model = new GetAppointmentsModel()
                 {
-                    AppointmentId = searchResult.AppointmentId,
-                    AppointmentDate = searchResult.AppointmentDate,
-                    AppointmentTime = searchResult.AppointmentTime,
-                    BookingDate = searchResult.BookingDate,
-                    UserId = searchResult.UserId
+                    Id = searchResult.Id, 
+                    Date = searchResult.Date,
+                    StartTime = searchResult.StartTime,
+                    EndTime = searchResult.EndTime,
+                    Summary = searchResult.Summary
                 };
                 result.Add(model);
             }
-
             return result;
         }
 
@@ -65,11 +68,11 @@ namespace Application.Appointments
 
             var result = new GetAppointmentsModel()
             {
-                AppointmentId = cursor.AppointmentId,
-                AppointmentDate = cursor.AppointmentDate,
-                AppointmentTime = cursor.AppointmentTime,
-                BookingDate = cursor.BookingDate,
-                UserId = cursor.UserId
+                Id = cursor.Id, 
+                Date = cursor.Date,
+                StartTime = cursor.StartTime,
+                EndTime = cursor.EndTime,
+                Summary = cursor.Summary
             };
             return result;
         }
@@ -85,23 +88,36 @@ namespace Application.Appointments
             // Map the model to the domain Entity
 
             var appointment = new Appointment()
-            {
-                AppointmentDate = model.AppointmentDate,
-                BookingDate = model.BookingDate,
-                UserId = model.UserId,
-                AppointmentTime = model.AppointmentTime
+            {   
+                Date = model.Date,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                Summary = model.Summary,
+                UserEmail = model.UserEmail,
+                UserName = model.UserName
             };
 
             var cursor = await _appointmentCollection.CreateAppointment(appointment, cancellationtoken);
             var result = new GetAppointmentsModel()
             {
-                AppointmentId = cursor.AppointmentId,
-                AppointmentDate = cursor.AppointmentDate,
-                AppointmentTime = cursor.AppointmentTime,
-                BookingDate = cursor.BookingDate,
-                UserId = cursor.UserId
+                Id = cursor.Id,
+                Date = cursor.Date,
+                StartTime = cursor.StartTime,
+                EndTime = cursor.EndTime,
+                Summary = cursor.Summary,
+                UserEmail = cursor.UserEmail,
+                UserName = cursor.UserName
+              
             };
-            SendEmail(new MailData());
+             
+            SendEmail(new MailData
+            {
+                EmailToId = model.UserEmail,
+                EmailToName = model.UserName,
+                EmailBody = $"{"Hello  "+model.UserName+ "\nYou have an appointment scheduled for "+ model.Date.Date + " at " + model.StartTime.TimeOfDay + "." + " \nKind Regards"  }",
+                EmailSubject = model.Summary,
+            });
+     
             return result;
         }
 
@@ -111,7 +127,7 @@ namespace Application.Appointments
             {
                 throw new Exception(" Appointment not found");
             }
-            _appointmentCollection.CancelAppointment(model.AppointmentId);
+            _appointmentCollection.CancelAppointment(model.Id);
         }
 
         public bool SendEmail(MailData mailData)
@@ -126,15 +142,11 @@ namespace Application.Appointments
                 MailboxAddress emailTo = new MailboxAddress(mailData.EmailToName, mailData.EmailToId);
                 emailMessage.To.Add(emailTo);
 
-                emailMessage.Subject = "Appointment confirmed";
+                emailMessage.Subject = mailData.EmailSubject;
 
                 BodyBuilder emailBodyBuilder = new BodyBuilder();
                 emailBodyBuilder.TextBody = mailData.EmailBody;
-                // emailMessage.Body = emailBodyBuilder.ToMessageBody();
-                emailMessage.Body = new TextPart("plain")
-                {
-                    Text = "Appointment Confirmed"
-                };
+                emailMessage.Body = emailBodyBuilder.ToMessageBody();
 
                 SmtpClient emailClient = new SmtpClient();
                 emailClient.Connect(_mailSettings.Host, _mailSettings.Port, _mailSettings.UseSSL);
@@ -145,10 +157,35 @@ namespace Application.Appointments
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception("Error Occured");
+                //Log Exception Details
+                return false;
             }
+        }
+
+        public async Task AppointmentMail(MailData mailData)
+        {
+            string FilePath = Directory.GetCurrentDirectory() + "/wwwroot/Templates/appointmentTemplate.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+            
+            MailText = MailText.Replace("[username]", mailData.UserName).Replace("[email]", mailData.Email);
+            var email = new MimeMessage();
+            
+            email.Sender = MailboxAddress.Parse(_mailSettings.EmailId);
+            email.To.Add(MailboxAddress.Parse(mailData.EmailToName));
+            email.Subject = $"Hello {mailData.UserName}";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.EmailId, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
         }
     }
 }

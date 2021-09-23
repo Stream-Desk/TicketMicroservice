@@ -1,13 +1,19 @@
 using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Appointments
 {
     public class Appointment
     {
-        public string AppointmentId { get; set; }
-        public DateTime BookingDate { get; set; } 
-        public DateTime AppointmentDate { get; set; }
-        public DateTime AppointmentTime { get; set; }
-        public string UserId { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public DateTime Date { get; set; }
+        public string Summary { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
     }
 }
