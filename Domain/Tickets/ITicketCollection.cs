@@ -15,5 +15,6 @@ namespace Domain.Tickets
         void UpdateTicket(string ticketId, Ticket ticket);
         void DeleteTicketById(string ticketId);
         void IsSoftDeleted(string ticketId, Ticket ticket);
+        Task CreateTicket();
     }
 }

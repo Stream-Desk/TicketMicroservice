@@ -2,20 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Models;
 using Application.Models.Tickets;
+using Application.Services;
+using Application.Settings;
 using Domain.Tickets;
+using Infrastracture;
+using MailKit.Net.Smtp;
+using MimeKit;
+using Application.Tickets;
+using Microsoft.Extensions.DependencyInjection;
+using FluentEmail.Core;
 
 namespace Application.Tickets
 {
     public class TicketsService : ITicketService
     {
+        // Injecting in MailService, Background Task Queue and  TicketCollection.
         private readonly ITicketCollection _ticketCollection;
 
-        public TicketsService(ITicketCollection ticketCollection)
+        
+        private readonly IMailService _mailService;
+
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly object SendEmail;
+
+        public TicketsService(
+            ITicketCollection ticketCollection, 
+            IServiceScopeFactory scopeFactory,
+            IBackgroundTaskQueue backgroundTaskQueue, 
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
+            _backgroundTaskQueue = backgroundTaskQueue;
+
+            _mailService = mailService;
+            _scopeFactory = scopeFactory;
         }
-        
+
+
+
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -24,9 +52,9 @@ namespace Application.Tickets
             {
                 return new List<GetTicketModel>();
             }
-            
+
             var result = new List<GetTicketModel>();
-            
+
             foreach (var search in searches)
             {
                 var model = new GetTicketModel
@@ -47,7 +75,7 @@ namespace Application.Tickets
             }
             return result;
         }
-        
+
         // Laboremus Ticket List
         public async Task<List<GetTicketModel>> GetTickets(CancellationToken cancellationToken = default)
         {
@@ -83,36 +111,36 @@ namespace Application.Tickets
 
         public async Task<GetTicketModel> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
-           // validate
-           if (string.IsNullOrWhiteSpace(ticketId))
-           {
-               throw new Exception("Ticket not Found");
-           }
-           
-           var search = await _ticketCollection.GetTicketById(ticketId, cancellationToken);
-           if (search == null)
-           {
-               return new GetTicketModel();
-           }
-           
-           var result = new GetTicketModel
-           {
-               Id = search.Id,
-               Description = search.Description,
-               TicketNumber = search.TicketNumber,
-               Summary = search.Summary,
-               Category = search.Category,
-               Priority = search.Priority,
-               SubmitDate = search.SubmitDate,
-               Status = search.Status,
-               IsDeleted = search.IsDeleted,
-               IsModified = search.IsModified,
-               ModifiedAt = search.ModifiedAt,
-               Closed = search.Closed,
-               ClosureDateTime = search.ClosureDateTime
-               // User = search.User
-           };
-           return result;
+            // validate
+            if (string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("Ticket not Found");
+            }
+
+            var search = await _ticketCollection.GetTicketById(ticketId, cancellationToken);
+            if (search == null)
+            {
+                return new GetTicketModel();
+            }
+
+            var result = new GetTicketModel
+            {
+                Id = search.Id,
+                Description = search.Description,
+                TicketNumber = search.TicketNumber,
+                Summary = search.Summary,
+                Category = search.Category,
+                Priority = search.Priority,
+                SubmitDate = search.SubmitDate,
+                Status = search.Status,
+                IsDeleted = search.IsDeleted,
+                IsModified = search.IsModified,
+                ModifiedAt = search.ModifiedAt,
+                Closed = search.Closed,
+                ClosureDateTime = search.ClosureDateTime
+                // User = search.User
+            };
+            return result;
         }
 
         public async Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default)
@@ -123,7 +151,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket details empty");
             }
-            
+
             // Map model to domain Entity
             var ticket = new Ticket
             {
@@ -153,16 +181,26 @@ namespace Application.Tickets
                 IsModified = search.IsModified
             };
 
-            //   await _taskQueue.QueueBackgroundWorkItemAsync(SendEmail);
+            await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
+            {
+                var scope = _scopeFactory.CreateScope();
+               
+                    var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
 
+                    mailService.SendEmail(new MailData
+                    {
+                        EmailBody = "cather",
+                        EmailSubject = "bbbb",
+                        EmailToId = "catherinececilia22@gmail.com",
+                        EmailToName = "cathy"
+                    });
+               
+            });
+        
+            
             return result;
         }
-
-        public async ValueTask SendEmail(CancellationToken token)
-        {
-            //send email
-        }
-
+    
         public void UpdateTicket(string ticketId, UpdateTicketModel model)
         {
             // Validation

@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using Domain.Tickets;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -29,5 +31,10 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
        
         public DateTime ClosureDateTime { get; set; }
+
+        internal static Task CreateTicket()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

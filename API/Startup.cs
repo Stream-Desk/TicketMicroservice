@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Application.Services;
-
+using Infrastracture;
+using Microsoft.AspNet.SignalR.Hosting;
 
 namespace API
 {
@@ -21,10 +22,13 @@ namespace API
         }
 
         public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+       
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
@@ -52,7 +56,11 @@ namespace API
 
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-         
+            
+            services.AddHostedService<QueuedHostedService>();
+            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddSingleton<BackgroundTaskQueue>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{F57BF267-9F42-4225-BFFA-0C2F06D76A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketWorkerServiceASP", "TicketWorkerServiceASP\TicketWorkerServiceASP.csproj", "{F00C32ED-7EEF-4E93-89E9-3312F45B2F8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastracture", "Infrastracture\Infrastracture.csproj", "{E3DB65EB-D7C1-43EA-8DFC-A6642F49CFD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{F57BF267-9F42-4225-BFFA-0C2F06D76A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F57BF267-9F42-4225-BFFA-0C2F06D76A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F57BF267-9F42-4225-BFFA-0C2F06D76A90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F00C32ED-7EEF-4E93-89E9-3312F45B2F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00C32ED-7EEF-4E93-89E9-3312F45B2F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F00C32ED-7EEF-4E93-89E9-3312F45B2F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F00C32ED-7EEF-4E93-89E9-3312F45B2F8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3DB65EB-D7C1-43EA-8DFC-A6642F49CFD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3DB65EB-D7C1-43EA-8DFC-A6642F49CFD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3DB65EB-D7C1-43EA-8DFC-A6642F49CFD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3DB65EB-D7C1-43EA-8DFC-A6642F49CFD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

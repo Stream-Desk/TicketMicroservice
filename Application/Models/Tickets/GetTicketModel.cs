@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using Domain.Tickets;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets

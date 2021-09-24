@@ -4,6 +4,8 @@ using Application.Models;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
+using System.Threading.Tasks;
+using Application.Tickets;
 
 namespace Application.Services
 {
@@ -16,6 +18,7 @@ namespace Application.Services
         }
 
         public bool SendEmail(MailData mailData)
+        
         {
             try
             {
@@ -49,10 +52,9 @@ namespace Application.Services
             }
         }
 
-        public bool SendMail(MailData mailData)
-        {
-            throw new System.NotImplementedException();
-        }
+       
+
+        
     }
 }
 

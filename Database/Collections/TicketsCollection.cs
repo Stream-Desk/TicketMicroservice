@@ -71,5 +71,10 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
+
+        public Task CreateTicket()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
