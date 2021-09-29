@@ -30,8 +30,9 @@ namespace Application.Users
             var user = new User
             {
                 FirstName = model.FirstName,
-                LastName = model.LastName,
-                EmailAddress = model.EmailAddress
+                UserName = model.UserName,
+                EmailAddress = model.EmailAddress,
+                Password = model.Password,
             };
 
             var result = await _userCollection.CreateUser(user, cancellationToken);
@@ -39,8 +40,9 @@ namespace Application.Users
             var response = new GetUserModel
             {
                 FirstName = result.FirstName,
-                LastName = result.LastName,
+                UserName = result.UserName,
                 EmailAddress = result.EmailAddress,
+                Password = result.Password,
             };
 
             return response;
@@ -72,8 +74,9 @@ namespace Application.Users
             var response = new GetUserModel
             {
                 FirstName = result.FirstName,
-                LastName = result.LastName,
+                UserName = result.UserName,
                 EmailAddress = result.EmailAddress,
+                Password = result.Password,
             };
 
             return response;
@@ -96,8 +99,9 @@ namespace Application.Users
                 var model = new GetUserModel
                 {
                     FirstName = result.FirstName,
-                    LastName = result.LastName,
+                    UserName = result.UserName,
                     EmailAddress = result.EmailAddress,
+                    Password = result.Password,
                 };
 
                 response.Add(model);
@@ -126,8 +130,9 @@ namespace Application.Users
             }
 
             currentUser.FirstName = model.FirstName;
-            currentUser.LastName = model.LastName;
+            currentUser.UserName = model.UserName;
             currentUser.EmailAddress = model.EmailAddress;
+            currentUser.Password = model.Password;
             _userCollection.UpdateUser(userId, currentUser);
         }
     }

@@ -13,11 +13,13 @@ namespace Domain.Users
         public string Id { get; set; }
         [BsonElement("EmailAddress")]
         public string EmailAddress { get; set; }
+        [BsonElement("UserName")]
+        public string UserName { get; set; }
         [BsonElement("FirstName")]
         public string FirstName { get; set; }
-        [BsonElement("LastName")]
-        public string LastName { get; set; }
-        
+        [BsonElement("Password")]
+
+        public string Password { get; set; }
         public List<Ticket> TicketList { get; set; } = new List<Ticket>();
     }
 }

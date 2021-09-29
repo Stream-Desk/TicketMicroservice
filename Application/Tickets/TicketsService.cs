@@ -129,6 +129,7 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
+                //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -142,6 +143,7 @@ namespace Application.Tickets
             var result = new GetTicketModel
             {
                 Id = search.Id,
+                TicketNumber = search.TicketNumber,
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
@@ -176,6 +178,7 @@ namespace Application.Tickets
             }
 
             currentTicket.Summary = model.Summary;
+            //currentTicket.TicketNumber = model.TicketNumber;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
