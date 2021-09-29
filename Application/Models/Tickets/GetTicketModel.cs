@@ -10,7 +10,7 @@ namespace Application.Models.Tickets
     public class GetTicketModel
     {
         public string Id { get; set; }
-        public string TicketNumber { get; set; }
+        public int TicketNumber { get; set; }
         public string Description { get; set; }
         public string Summary { get; set; }
         public string  Category { get; set; }

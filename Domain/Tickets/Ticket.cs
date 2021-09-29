@@ -18,7 +18,7 @@ namespace Domain.Tickets
         [BsonElement("Summary")]
         public string Summary { get; set; }
         [BsonElement("TicketNumber")]
-        public string TicketNumber { get; set; }
+        public int TicketNumber { get; set; }
         [BsonElement("Category")]
         public string Category { get; set; }
         [BsonElement("Description")]

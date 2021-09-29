@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Database.Collections
@@ -10,9 +11,8 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        
+        private object ticketNumber;
 
-       
         public TicketsCollection(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
@@ -59,12 +59,16 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
+            
+
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
             var filter = Builders<Ticket>.Filter.Text(searchTerm);
             var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
+
+        
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
