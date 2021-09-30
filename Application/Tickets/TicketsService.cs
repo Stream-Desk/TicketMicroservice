@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Models.Tickets;
 using Domain.Tickets;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Application.Tickets
@@ -129,7 +130,6 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
-                //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -144,7 +144,6 @@ namespace Application.Tickets
             {
                 Id = search.Id,
                 Description = search.Description,
-                TicketNumber = search.TicketNumber,
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
@@ -184,7 +183,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
-            currentTicket.Closed = false;
+            currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
@@ -226,6 +225,39 @@ namespace Application.Tickets
         public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
         {
             var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<GetTicketModel>();
+            }
+
+            var result = new List<GetTicketModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new GetTicketModel
+                {
+                    Id = searchResult.Id,
+                    Description = searchResult.Description,
+                    TicketNumber = searchResult.TicketNumber,
+                    Summary = searchResult.Summary,
+                    Priority = searchResult.Priority,
+                    Status = searchResult.Status,
+                    Category = searchResult.Category,
+                    SubmitDate = searchResult.SubmitDate,
+                    IsDeleted = searchResult.IsDeleted,
+                    IsModified = searchResult.IsModified,
+                    Closed = searchResult.Closed,
+                    ClosureDateTime = searchResult.ClosureDateTime
+                };
+                result.Add(model);
+            }
+            return result;
+        }
+        
+
+        public async Task<List<GetTicketModel>> Pagination(int page, CancellationToken cancellationToken = default)
+        {
+            var searchResults = await _ticketCollection.Pagination(page);
             if (searchResults == null || searchResults.Count < 1)
             {
                 return new List<GetTicketModel>();

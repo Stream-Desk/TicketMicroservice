@@ -3,8 +3,6 @@ using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain.Tickets;
-using MongoDB.Driver;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,12 +45,12 @@ namespace API.Controllers
         
         // POST api/<TicketsController>
         [HttpPost]
-        public async Task<ActionResult<GetTicketModel>> PostAsync(
-            [FromBody] AddTicketModel model)
+        public async Task<ActionResult<GetTicketModel>> PostAsync([FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
             return Ok(response);
         }
+        
         // PUT api/<TicketsController>/5
         [HttpPut("{id:length(24)}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)
@@ -83,6 +81,13 @@ namespace API.Controllers
         public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
         {
             var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
+            return Ok(response);
+        }
+
+        [HttpGet("pagination")]
+        public async Task<ActionResult<List<GetTicketModel>>> Pagination(int page)
+        {
+            var response = await _ticketService.Pagination(page);
             return Ok(response);
         }
     }

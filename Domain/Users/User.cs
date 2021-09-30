@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Domain.Tickets;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -11,13 +10,10 @@ namespace Domain.Users
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        [Required]
         [BsonElement("EmailAddress")]
         public string EmailAddress { get; set; }
-        [Required]
         [BsonElement("FirstName")]
         public string FirstName { get; set; }
-        [Required]
         [BsonElement("LastName")]
         public string LastName { get; set; }
         
