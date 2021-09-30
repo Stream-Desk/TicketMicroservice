@@ -1,13 +1,9 @@
 using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
-namespace Domain.Appointments
+namespace Application.Models.Appointments
 {
-    public class Appointment
+    public class GetAppointmentsModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

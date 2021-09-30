@@ -49,9 +49,7 @@ namespace API.Controllers
                         Name = fileName,
                         FilePath = filePath,
                     };
-                    
-                    await _fileService.UploadFile(fileModel);
-                    
+                  
                     var search = await _fileService.UploadFile(fileModel);
                     
                     var result = new DownloadFileModel()
@@ -95,5 +93,3 @@ namespace API.Controllers
         // }
     }
 }
-   
-

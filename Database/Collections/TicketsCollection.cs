@@ -21,7 +21,6 @@ namespace Database.Collections
             var dbName = configuration.GetValue<string>("MongoDb:Database");
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
-
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
@@ -40,7 +39,7 @@ namespace Database.Collections
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(a => true);
-            var ticket = await cursor.ToListAsync(cancellationToken);
+            var ticket = await cursor.ToListAsync();
             return ticket;
         }
 
