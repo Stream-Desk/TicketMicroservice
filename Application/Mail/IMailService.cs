@@ -5,7 +5,7 @@ namespace Application.Mail
 {
     public interface IMailService
     {
-        bool SendEmail(MailData mailData);
+        public bool SendEmail(MailData mailData);
         public Task AppointmentMail(MailData mailData);
     }
 }

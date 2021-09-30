@@ -21,8 +21,7 @@ namespace Application.Files
             {
                 throw new Exception("Image details empty");
             }
-            
-            
+
             // Map model to domain Entity
             var file = new File()
             {
@@ -71,6 +70,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
+                fileUrl  = search.fileUrl,
             };
             return result;
         }

@@ -110,7 +110,7 @@ namespace Application.Appointments
               
             };
              
-            SendEmail(new MailData
+            SendEmail(new MailData()
             {
                 EmailToId = model.UserEmail,
                 EmailToName = model.UserName,

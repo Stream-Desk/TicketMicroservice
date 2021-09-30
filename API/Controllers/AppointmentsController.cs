@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Api.Controllers;
 using Application.Appointments;
-using Application.Models;
 using Application.Models.Appointments;
 using Application.Models.Mail;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace API.Controllers
 {
