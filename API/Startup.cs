@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Application.Settings;
 using Application.Extensions;
+using Application.Mail;
 using Database.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
+
 
 namespace API
 {
@@ -56,8 +58,6 @@ namespace API
 
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-
-           
          
         }
 
@@ -74,8 +74,6 @@ namespace API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            
-
             app.UseCors(MyAllowSpecificOrigins);
 
 
