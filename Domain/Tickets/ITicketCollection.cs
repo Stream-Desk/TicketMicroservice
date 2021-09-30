@@ -17,7 +17,5 @@ namespace Domain.Tickets
         void UpdateTicket(string ticketId, Ticket ticket);
         void DeleteTicketById(string ticketId);
         void IsSoftDeleted(string ticketId, Ticket ticket);
-        // Paging
-        Task<List<Ticket>> Pagination(int page, CancellationToken cancellationToken = default);
     }
 }
