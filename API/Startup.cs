@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Application.Services;
 using Infrastracture;
-using Microsoft.AspNet.SignalR.Hosting;
 
 namespace API
 {
@@ -31,36 +30,41 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IMailService, MailService>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                                  builder =>
-                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com", "http://localhost:8080", "http://localhost:8082", "https://8082-scarlet-blackbird-ylncjra7.ws-eu15.gitpod.io/")
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod();
-                                  });
-            });
-
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
-           
-            services.AddSwaggerGen(c =>
+
+            services.AddCors(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                options.AddPolicy(
+                    MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins(
+                            "https://streamdesk-webapp.herokuapp.com", 
+                            "http://localhost:8080", 
+                            "http://localhost:8082", 
+                            "https://8082-scarlet-blackbird-ylncjra7.ws-eu15.gitpod.io/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
             });
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();                                           
 
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             
             services.AddHostedService<QueuedHostedService>();
-            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            services.AddSingleton<BackgroundTaskQueue>();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
