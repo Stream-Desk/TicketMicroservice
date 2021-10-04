@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
@@ -31,7 +32,7 @@ namespace Application.Files
                 Extension = model.Extension,
                 CreatedOn = model.CreatedOn,
                 FilePath = model.FilePath,
-                fileUrl = model.fileUrl
+                FileUrl = model.FileUrl
             };
 
             var search = await _fileCollection.CreateImage(file, cancellationToken);
@@ -44,7 +45,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
-                fileUrl = search.fileUrl
+                FileUrl = search.FileUrl
             };
             return result;
         }
@@ -70,7 +71,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
-                fileUrl  = search.fileUrl,
+                FileUrl  = search.FileUrl,
             };
             return result;
         }
