@@ -211,6 +211,7 @@ namespace Application.Tickets
             _ticketCollection.DeleteTicketById(model.Id);
         }
         
+
         // BO Delete
         public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
