@@ -22,6 +22,8 @@ namespace Application.Comments
             {
                 Text = model.Text,
                 TimeStamp = model.TimeStamp,
+                TicketId = model.TicketId,
+                UserId = model.UserId
             };
 
             var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
@@ -29,6 +31,8 @@ namespace Application.Comments
             {
                 Text = newComment.Text,
                 TimeStamp = newComment.TimeStamp,
+                TicketId = newComment.TicketId,
+                UserId = newComment.UserId
             };
                 return response;
         }
@@ -50,7 +54,9 @@ namespace Application.Comments
             {
                 Id = result.Id,
                 Text = result.Text,
-                TimeStamp = result.TimeStamp
+                TimeStamp = result.TimeStamp,
+                UserId = result.UserId,
+                TicketId = result.TicketId
             };
             return response;
         }
@@ -71,6 +77,8 @@ namespace Application.Comments
                     Id = result.Id,
                     Text = result.Text,
                     TimeStamp = result.TimeStamp,
+                    UserId = result.UserId,
+                    TicketId = result.TicketId
                 };
                 response.Add(model);
             }
