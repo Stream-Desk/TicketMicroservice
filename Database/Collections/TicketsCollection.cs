@@ -24,7 +24,6 @@ namespace Database.Collections
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
-        
 
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
@@ -35,7 +34,6 @@ namespace Database.Collections
         }
 
         // Laboremus Ticket List
-        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(t => true);
@@ -58,7 +56,6 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
-            
 
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
@@ -66,8 +63,6 @@ namespace Database.Collections
             var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
-
-        
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
@@ -78,7 +73,6 @@ namespace Database.Collections
         {
             _ticketCollection.DeleteOne(t => t.Id == ticketId);
         }
-        
 
         public void IsSoftDeleted(string ticketId, Ticket ticket)
         {

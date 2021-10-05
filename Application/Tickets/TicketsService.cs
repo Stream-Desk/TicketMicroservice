@@ -134,8 +134,8 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now.ToLocalTime(),
-                Status = model.Status,
+                SubmitDate = DateTime.Now,
+                Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
             };
@@ -257,6 +257,5 @@ namespace Application.Tickets
             }
             return result;
         }
-
     }
 }
