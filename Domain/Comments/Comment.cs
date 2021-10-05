@@ -13,7 +13,6 @@ namespace Domain.Comments
         public string Text { get; set; }
         [BsonElement("TimeStamp")]
         public DateTime TimeStamp { get; set; }
-
         public string TicketId { get; set; }
         public string UserId { get; set; }
     }
