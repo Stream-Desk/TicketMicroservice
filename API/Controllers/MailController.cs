@@ -1,4 +1,4 @@
-﻿using Application.Mail;
+﻿using Application.Service;
 using Application.Models.Mail;
 using Microsoft.AspNetCore.Mvc;
 
