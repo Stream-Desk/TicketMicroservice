@@ -133,7 +133,7 @@ namespace Application.Tickets
                 //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
-                Priority = model.Priority,
+                Priority = Priority.Low,
                 SubmitDate = DateTime.Now,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
