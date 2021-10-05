@@ -21,6 +21,11 @@ namespace Application.Users
             _userCollection = userCollection;
         }
 
+        public Task Authenticate(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<GetUserModel> CreateUser(
             AddUserModel model,
             CancellationToken cancellationToken = default)
