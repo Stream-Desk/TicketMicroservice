@@ -2,11 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Models;
 using Application.Models.Tickets;
+using Application.Service;
+using Application.Settings;
 using Domain.Tickets;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using Infrastracture;
+using MailKit.Net.Smtp;
+using MimeKit;
+using Application.Tickets;
+using Microsoft.Extensions.DependencyInjection;
+using FluentEmail.Core;
+using Application.Models.Mail;
 
 namespace Application.Tickets
 {
@@ -14,11 +21,27 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
 
-        public TicketsService(ITicketCollection ticketCollection)
+        private readonly IMailService _mailService;
+
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly object SendEmail;
+
+        public TicketsService(
+            ITicketCollection ticketCollection,
+            IServiceScopeFactory scopeFactory,
+            IBackgroundTaskQueue backgroundTaskQueue,
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
+            _backgroundTaskQueue = backgroundTaskQueue;
+
+            _mailService = mailService;
+            _scopeFactory = scopeFactory;
         }
-        
+
+
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -154,6 +177,22 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified
             };
+
+            await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
+            {
+                var scope = _scopeFactory.CreateScope();
+
+                var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
+
+                mailService.SendEmail(new MailData
+                {
+                    EmailBody = "cather",
+                    EmailSubject = "bbbb",
+                    EmailToId = "catherinececilia22@gmail.com",
+                    EmailToName = "cathy"
+                });
+
+            });
             return result;
         }
 

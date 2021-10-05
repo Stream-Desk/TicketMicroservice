@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Application.Settings;
 using Application.Extensions;
-using Application.Mail;
+using Application.Service;
 using Database.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
