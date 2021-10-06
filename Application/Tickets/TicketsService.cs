@@ -186,8 +186,8 @@ namespace Application.Tickets
 
                 mailService.SendEmail(new MailData
                 {
-                    EmailBody = "cather",
-                    EmailSubject = "bbbb",
+                    EmailBody = "Hello Catherine, your ticket has been received, you will receive feedback shortly",
+                    EmailSubject = "Ticket Received",
                     EmailToId = "catherinececilia22@gmail.com",
                     EmailToName = "cathy"
                 });
