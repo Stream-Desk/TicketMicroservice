@@ -141,6 +141,29 @@ namespace Application.Tickets
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
+            
+            switch (search.Category)
+            {
+                case Category.Bug:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    search.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    search.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    search.Priority = Priority.High;
+                    break;  
+                default:
+                    search.Priority = Priority.Low;
+                    break;
+            }
+
             var result = new GetTicketModel
             {
                 Id = search.Id,
@@ -155,26 +178,7 @@ namespace Application.Tickets
                 IsModified = search.IsModified
             };
 
-            if (search.Category == Category.Bug || search.Category == Category.FreezingScreen ||
-                search.Category == Category.Login)
-            {
-                 search.Priority = Priority.High;
-            }
-
-            else if (search.Category == Category.Uploads)
-            {
-                search.Priority = Priority.Medium;
-            }
-            
-            else if (search.Category == Category.Other)
-            {
-                search.Priority = Priority.Low;
-            }
-            else
-            {
-                search.Priority = Priority.Low;
-            }
-            
+           
             return result;
         }
 
