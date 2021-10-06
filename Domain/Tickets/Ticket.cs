@@ -54,14 +54,14 @@ namespace Domain.Tickets
         Resolved = 3
     }
 
-public enum Category
-{
-    Bug = 1,
-    FreezingScreen = 2,
-    Uploads = 3,
-    Login = 4,
-    Other = 5
-}
+    public enum Category
+    {
+        Bug = 1,
+        FreezingScreen = 2,
+        Uploads = 3,
+        Login = 4,
+        Other = 5
+    }
 
 
         
