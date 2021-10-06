@@ -156,9 +156,9 @@ namespace Application.Tickets
                 //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
-                Priority = model.Priority,
-                SubmitDate = DateTime.Now.ToLocalTime(),
-                Status = model.Status,
+                Priority = Priority.Low,
+                SubmitDate = DateTime.Now,
+                Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
             };
@@ -250,6 +250,7 @@ namespace Application.Tickets
             _ticketCollection.DeleteTicketById(model.Id);
         }
         
+
         // BO Delete
         public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
@@ -295,6 +296,5 @@ namespace Application.Tickets
             }
             return result;
         }
-
     }
 }

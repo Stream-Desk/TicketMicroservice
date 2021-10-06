@@ -24,7 +24,6 @@ namespace Database.Collections
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
-        
 
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
@@ -35,17 +34,16 @@ namespace Database.Collections
         }
 
         // Laboremus Ticket List
-        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(a => true);
+            var cursor = await _ticketCollection.FindAsync(t => true);
             var ticket = await cursor.ToListAsync();
             return ticket;
         }
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(a => a.Id == ticketId);
+            var cursor = await _ticketCollection.FindAsync(t => t.Id == ticketId);
             var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
             return ticket;
         }
@@ -58,7 +56,6 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
-            
 
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
@@ -67,16 +64,14 @@ namespace Database.Collections
             return result;
         }
 
-        
-
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
-            _ticketCollection.ReplaceOne(a => a.Id == ticketId, ticket);
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
         
         public void DeleteTicketById(string ticketId)
         {
-            _ticketCollection.DeleteOne(a => a.Id == ticketId);
+            _ticketCollection.DeleteOne(t => t.Id == ticketId);
         }
 
         public void IsSoftDeleted(string ticketId, Ticket ticket)
