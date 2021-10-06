@@ -133,7 +133,7 @@ namespace Application.Tickets
                 //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
-                Priority = Priority.Low,
+                Priority = model.Priority,
                 SubmitDate = DateTime.Now,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
@@ -154,6 +154,27 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified
             };
+
+            if (search.Category == Category.Bug || search.Category == Category.FreezingScreen ||
+                search.Category == Category.Login)
+            {
+                 search.Priority = Priority.High;
+            }
+
+            else if (search.Category == Category.Uploads)
+            {
+                search.Priority = Priority.Medium;
+            }
+            
+            else if (search.Category == Category.Other)
+            {
+                search.Priority = Priority.Low;
+            }
+            else
+            {
+                search.Priority = Priority.Low;
+            }
+            
             return result;
         }
 

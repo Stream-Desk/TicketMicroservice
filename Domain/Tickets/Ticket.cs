@@ -18,7 +18,7 @@ namespace Domain.Tickets
         [BsonElement("TicketNumber")]
         public int TicketNumber { get; set; }
         [BsonElement("Category")]
-        public string Category { get; set; }
+        public Category Category { get; set; }
         [BsonElement("Description")]
         public string Description { get; set; }
         [BsonElement("Priority")]
@@ -53,6 +53,15 @@ namespace Domain.Tickets
         Pending = 2,
         Resolved = 3
     }
+
+public enum Category
+{
+    Bug = 1,
+    FreezingScreen = 2,
+    Uploads = 3,
+    Login = 4,
+    Other = 5
+}
 
 
         
