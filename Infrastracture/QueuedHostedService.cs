@@ -43,6 +43,7 @@ namespace Infrastracture
                 {
                     await workItem(stoppingToken);
                 }
+                
                 catch (Exception ex)
                 {
                     _logger.LogError(ex,

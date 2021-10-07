@@ -24,5 +24,6 @@ namespace Application.Models.Tickets
         [DefaultValue(false)]
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
+        public string FileUrl { get; set; }
     }
 }

@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Files;
 using Application.Models;
+using Application.Models.Comments;
+using Application.Models.Files;
 using Application.Models.Tickets;
 using Application.Service;
 using Application.Settings;
@@ -14,6 +17,8 @@ using Application.Tickets;
 using Microsoft.Extensions.DependencyInjection;
 using FluentEmail.Core;
 using Application.Models.Mail;
+using Domain.Comments;
+using Domain.Files;
 
 namespace Application.Tickets
 {
@@ -22,6 +27,8 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
 
         private readonly IMailService _mailService;
+        private readonly IFileCollection _fileCollection;
+        private readonly IFileService _fileService;
 
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
@@ -32,12 +39,13 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService)
+            IMailService mailService, IFileCollection fileCollection)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
 
             _mailService = mailService;
+            _fileCollection = fileCollection;
             _scopeFactory = scopeFactory;
         }
 
@@ -136,6 +144,8 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
+               Attachments = new List<DownloadFileModel>(),
+               Comments = new List<GetCommentModel>()
            };
            return result;
         }
@@ -161,6 +171,8 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
+                Attachments = new List<File>(),
+                Comments = new List<Comment>()
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -175,7 +187,9 @@ namespace Application.Tickets
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
-                IsModified = search.IsModified
+                IsModified = search.IsModified,
+                Attachments = new List<DownloadFileModel>(),
+                Comments = new List<GetCommentModel>()
             };
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -193,6 +207,7 @@ namespace Application.Tickets
                 });
 
             });
+            
             return result;
         }
 
@@ -217,8 +232,8 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
-            currentTicket.Summary = model.Summary;
             //currentTicket.TicketNumber = model.TicketNumber;
+            currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
@@ -227,7 +242,8 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            
+            currentTicket.Attachments = new List<File>();
+
             if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
