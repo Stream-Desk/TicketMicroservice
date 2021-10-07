@@ -186,8 +186,6 @@ namespace Application.Tickets
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
             };
-            
-            
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
@@ -276,38 +274,6 @@ namespace Application.Tickets
            softDeletedTicket.IsDeleted = true;
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
-        }
-
-        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
-        {
-            var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
-            if (searchResults == null || searchResults.Count < 1)
-            {
-                return new List<GetTicketModel>();
-            }
-
-            var result = new List<GetTicketModel>();
-
-            foreach (var searchResult in searchResults)
-            {
-                var model = new GetTicketModel
-                {
-                    Id = searchResult.Id,
-                    Description = searchResult.Description,
-                    TicketNumber = searchResult.TicketNumber,
-                    Summary = searchResult.Summary,
-                    Priority = searchResult.Priority,
-                    Status = searchResult.Status,
-                    Category = searchResult.Category,
-                    SubmitDate = searchResult.SubmitDate,
-                    IsDeleted = searchResult.IsDeleted,
-                    IsModified = searchResult.IsModified,
-                    Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime
-                };
-                result.Add(model);
-            }
-            return result;
         }
     }
 }
