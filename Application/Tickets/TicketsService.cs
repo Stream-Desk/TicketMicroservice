@@ -27,9 +27,7 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
 
         private readonly IMailService _mailService;
-        private readonly IFileCollection _fileCollection;
-        private readonly IFileService _fileService;
-
+      
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -39,13 +37,12 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService, IFileCollection fileCollection)
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
 
             _mailService = mailService;
-            _fileCollection = fileCollection;
             _scopeFactory = scopeFactory;
         }
 
@@ -189,6 +186,8 @@ namespace Application.Tickets
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
             };
+            
+            
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
