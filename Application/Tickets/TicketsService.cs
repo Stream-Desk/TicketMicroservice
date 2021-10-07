@@ -188,7 +188,6 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
-                Comments = new List<GetCommentModel>()
             };
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
