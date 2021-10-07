@@ -172,7 +172,6 @@ namespace Application.Tickets
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
                 Attachments = new List<File>(),
-                Comments = new List<Comment>()
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
