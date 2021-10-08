@@ -21,10 +21,21 @@ namespace Application.Users
             _userCollection = userCollection;
         }
 
-        public Task Authenticate(string userName, string password)
+        public async Task<UserModel> Authenticate(string userName, string password)
         {
-            throw new NotImplementedException();
+            var response = await _userCollection.Authenticate(userName, password);
+
+            if (null == response)
+                return null;
+
+            return new UserModel
+            {
+                UserName = response.UserName,
+                EmailAddress = response.EmailAddress,
+                Password = response.Password
+            };
         }
+
 
         public async Task<GetUserModel> CreateUser(
             AddUserModel model,

@@ -155,8 +155,8 @@ namespace Application.Tickets
                 //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
-                Priority = Priority.Low,
-                SubmitDate = DateTime.Now,
+                Priority = model.Priority,
+                SubmitDate = DateTime.Now.Date,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
@@ -164,6 +164,29 @@ namespace Application.Tickets
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
+            
+            switch (search.Category)
+            {
+                case Category.Bug:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    search.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    search.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    search.Priority = Priority.High;
+                    break;  
+                default:
+                    search.Priority = Priority.Low;
+                    break;
+            }
+
             var result = new GetTicketModel
             {
                 Id = search.Id,
@@ -173,7 +196,7 @@ namespace Application.Tickets
                 Summary = search.Summary,
                 Category = search.Category,
                 SubmitDate = search.SubmitDate,
-                Status = search.Status,
+                Status = Status.Open,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
@@ -195,6 +218,7 @@ namespace Application.Tickets
 
             });
             
+
             return result;
         }
 
@@ -226,16 +250,17 @@ namespace Application.Tickets
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
-            currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
+            currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Attachments = new List<File>();
 
             if (model.Closed == true)
             {
-                currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
+                currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
             }
+            
             else if (model.IsModified == true)
             {
                 currentTicket.Status = Status.Open;
