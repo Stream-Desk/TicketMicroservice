@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Files;
 using Application.Models.Files;
+using Domain.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +18,13 @@ namespace API.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IAttachmentService _attachmentService;
 
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment)
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
+            _attachmentService = attachmentService;
         }
 
         // POST: api/Files/Upload
@@ -74,18 +78,21 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
-        
 
-        // // DELETE: api/Files/5
-        // [HttpDelete("{id=Length:24}")]
-        // public Task<IActionResult> DeleteFile(DeleteFileModel model)
-        // {
-        //     var file = _fileService.DeleteFile(model);
-        //     if (file == null) return null;
-        //     if (System.IO.File.Exists(file.FilePath))
-        //     {
-        //         System.IO.File.Delete(file.FilePath);
-        //     }
-        // }
+        [HttpPost("UploadAttachment")]
+        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync([FromRoute] FileRequest request, List<IFormFile> files)
+        {
+            var baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+
+            var payload = new FileRequest()
+            {
+                BaseUrl = baseUrl,
+                Files = files
+            };
+
+            var response = await _attachmentService.UploadFile(payload);
+
+            return Ok(response);
+        }
     }
 }

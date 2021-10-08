@@ -1,12 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Files;
+using File = Domain.Files.File;
 
 namespace Application.Files
 {
     public class AttachmentService : IAttachmentService
     {
+        private readonly IFileCollection _fileCollection;
+
+        public AttachmentService(IFileCollection fileCollection)
+        {
+            _fileCollection = fileCollection;
+        }
         public async Task<FileResponse> UploadFile(FileRequest request, CancellationToken cancellationToken = default)
         {
             var response = new FileResponse();
@@ -37,14 +46,17 @@ namespace Application.Files
                     
                     //Add filePath to response
 
-                    response.FileUrls.Add($"{request.BaseUrl}/attachments/{fileName}");
-
-
+                   response.FileUrls.Add($"{request.BaseUrl}/attachments/{fileName}");
+               
                 }
+                await _fileCollection.CreateImage(new File
+                {
+                     
+                }
+                );
+                
             }
-            
             return response;
-            
         }
     }
 }
