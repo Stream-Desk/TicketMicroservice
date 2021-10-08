@@ -49,7 +49,7 @@ namespace API.Controllers
 
                 var fileModel = new AddFileModel
                 {
-                    CreatedOn = DateTime.Now.ToLocalTime(),
+                    CreatedOn = DateTime.Now,
                     FileType = file.ContentType,
                     Extension = extension,
                     Name = fileName,
