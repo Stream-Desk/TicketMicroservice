@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-            var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+            var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
             var filePath = Path.Combine(basePath, fileName);
             var extension = Path.GetExtension(file.FileName);
             if (!System.IO.File.Exists(filePath))
