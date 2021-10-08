@@ -27,7 +27,7 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem([FromForm] IFormFile file)
+        public async Task<IActionResult> UploadToFileSystem(IFormFile file)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
