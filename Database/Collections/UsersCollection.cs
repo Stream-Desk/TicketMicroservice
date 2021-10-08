@@ -57,5 +57,16 @@ namespace Database.Collections
 
             return user;
         }
+
+        public async Task<User> Authenticate(string UserName, string password, CancellationToken cancellationToken = default)
+        {
+            var cursor = await _userCollection
+                .FindAsync(x => x.UserName == UserName && x.Password == password);
+
+            var user = await cursor.FirstOrDefaultAsync(cancellationToken);
+
+            return user;
+
+        }
     }
 }
