@@ -2,23 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Files;
-using Application.Mail;
-using Application.Models;
 using Application.Models.Comments;
 using Application.Models.Files;
 using Application.Models.Tickets;
 using Application.Service;
-using Application.Settings;
 using Domain.Tickets;
 using Infrastracture;
-using MailKit.Net.Smtp;
-using MimeKit;
-using Application.Tickets;
 using Microsoft.Extensions.DependencyInjection;
-using FluentEmail.Core;
 using Application.Models.Mail;
-using Domain.Comments;
 using Domain.Files;
 
 namespace Application.Tickets
