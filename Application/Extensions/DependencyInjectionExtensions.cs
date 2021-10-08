@@ -17,6 +17,7 @@ namespace Application.Extensions
             services.AddScoped<IDraftService, DraftsService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
 
             return services;
