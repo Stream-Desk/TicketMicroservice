@@ -38,7 +38,7 @@ namespace Application.Files
                     // Write File to designated 
 
                     var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), @"wwwroot\attachments", fileName);
+                        Directory.GetCurrentDirectory(), @"wwwroot/attachments", fileName);
                     using var fileStream = new FileStream(filePath, FileMode.Create);
                     
                     // Writing memorystream to filestream
@@ -48,13 +48,11 @@ namespace Application.Files
 
                    response.FileUrls.Add($"{request.BaseUrl}/attachments/{fileName}");
                
+                    // await _fileCollection.CreateImage(new File
+                    // {
+                    //      FileUrl = $"{request.BaseUrl}/attachments/{fileName}"
+                    // });
                 }
-                await _fileCollection.CreateImage(new File
-                {
-                     
-                }
-                );
-                
             }
             return response;
         }

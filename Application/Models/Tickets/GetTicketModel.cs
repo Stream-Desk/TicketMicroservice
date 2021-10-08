@@ -33,6 +33,7 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
         public List<DownloadFileModel> Attachments { get; set; } = new List<DownloadFileModel>();
         public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
+        public string FileUrl { get; set; }
         
     }
 }

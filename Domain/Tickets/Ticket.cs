@@ -37,6 +37,7 @@ namespace Domain.Tickets
         public int ticketNumber { get; set; }
         public List<File> Attachments { get; set; } = new List<File>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
+        public string FileUrl { get; set; }
     }
 }
          

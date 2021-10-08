@@ -29,7 +29,7 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task <ActionResult<DownloadFileModel>> UploadToFileSystem(IFormFile file)
+        public async Task<IActionResult> UploadToFileSystem(IFormFile file)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
@@ -42,7 +42,7 @@ namespace API.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                
+
                 var fileModel = new AddFileModel
                 {
                     CreatedOn = DateTime.Now.ToLocalTime(),
@@ -51,9 +51,9 @@ namespace API.Controllers
                     Name = fileName,
                     FilePath = filePath,
                 };
-              
+
                 var search = await _fileService.UploadFile(fileModel);
-                
+
                 var result = new DownloadFileModel()
                 {
                     FileId = search.FileId,
@@ -61,6 +61,7 @@ namespace API.Controllers
                 };
                 return Ok(result);
             }
+        
             throw new Exception("Upload Failed");
         }
 
@@ -80,7 +81,7 @@ namespace API.Controllers
         }
 
         [HttpPost("UploadAttachment")]
-        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync([FromRoute] FileRequest request, List<IFormFile> files)
+        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync(List<IFormFile> files)
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 

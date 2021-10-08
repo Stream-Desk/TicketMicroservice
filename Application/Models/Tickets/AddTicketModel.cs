@@ -29,5 +29,6 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
        
         public DateTime ClosureDateTime { get; set; }
+        public string FileUrl { get; set; }
     }
 }
