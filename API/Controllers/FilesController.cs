@@ -27,7 +27,7 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task<ActionResult> UploadToFileSystem([FromForm] IFormFile file)
+        public async Task<IActionResult> UploadToFileSystem([FromForm] IFormFile file)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
@@ -63,11 +63,9 @@ namespace API.Controllers
                     FileId = search.FileId,
                     FileUrl = $"{baseUrl}/api/Files/{search.FileId}"
                 };
-                
                 return Ok(result);
             }
             throw new Exception("Upload Failed");
-        
         }
 
         // GET: api/Files/Download
