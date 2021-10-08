@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Application.Users
+﻿namespace Application.Users
 {
     public class UserModel
     {
