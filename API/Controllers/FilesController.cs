@@ -34,6 +34,12 @@ namespace API.Controllers
             var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
             var filePath = Path.Combine(basePath, fileName);
             var extension = Path.GetExtension(file.FileName);
+           
+            if (file == null)
+            {
+                 throw new Exception("Upload Failed");
+            }
+           
             if (!System.IO.File.Exists(filePath))
             {
                 await using (var stream = new FileStream(filePath, FileMode.Create))
@@ -59,8 +65,8 @@ namespace API.Controllers
                 };
                 return Ok(result);
             }
-        
             throw new Exception("Upload Failed");
+        
         }
 
         // GET: api/Files/Download
