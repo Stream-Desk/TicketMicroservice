@@ -28,12 +28,6 @@ namespace API.Controllers
             return Ok(response);
         }
         
-        [HttpGet("search")]
-        public async Task<ActionResult<List<GetTicketModel>>> SearchTickets(string searchTerm)
-        {
-            var response = _ticketService.SearchTickets(searchTerm);
-            return Ok(response);
-        }
             
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]

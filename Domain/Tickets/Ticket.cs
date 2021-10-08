@@ -8,6 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Tickets
 {
+    [BsonIgnoreExtraElements]
     public class Ticket
     {
         [BsonId]

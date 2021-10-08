@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Application.Models.Comments;
+using Application.Models.Files;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -25,10 +28,10 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
-        
         public DateTime ModifiedAt { get; set; }
-       
         public DateTime ClosureDateTime { get; set; }
         public string FileUrl { get; set; }
+        public List<DownloadFileModel> Attachments { get; set; } = new List<DownloadFileModel>();
+        public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
     }
 }

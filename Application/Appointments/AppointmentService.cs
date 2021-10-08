@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Mail;
+using Application.Service;
 using Application.Models;
 using Application.Models.Appointments;
 using Application.Models.Mail;

@@ -1,5 +1,6 @@
 ﻿using Application.Models.Users;
 using Domain.Users;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,11 +10,20 @@ namespace Application.Users
 {
     public class UserService : IUserService
     {
+        private readonly IConfiguration _configuration;
         private readonly IUserCollection _userCollection;
 
-        public UserService(IUserCollection userCollection)
+        public UserService(
+            IConfiguration configuration,
+            IUserCollection userCollection)
         {
+            _configuration = configuration;
             _userCollection = userCollection;
+        }
+
+        public Task Authenticate(string userName, string password)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<GetUserModel> CreateUser(
@@ -107,6 +117,34 @@ namespace Application.Users
                 response.Add(model);
             }
             return response;
+        }
+
+        public async Task SeedUsersAsync(CancellationToken cancellationToken = default)
+        {
+            var users = await GetUsers(cancellationToken);
+
+            if (users != null && users.Count > 0)
+            {
+                return;
+            }
+
+            var usersToSeed = _configuration.GetSection("Users").Get<UserModel[]>();
+
+            if (usersToSeed == null || usersToSeed.Length <= 0)
+            {
+                return;
+            }
+
+            foreach (var userToSeed in usersToSeed)
+            {
+                await CreateUser(new AddUserModel 
+                { 
+                    EmailAddress = userToSeed.EmailAddress,
+                    FirstName = string.Empty,
+                    UserName = userToSeed.UserName,
+                    Password = userToSeed.Password
+                }, cancellationToken);
+            }
         }
 
         public void UpdateUser(string userId, UpdateUserModel model)

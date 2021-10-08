@@ -2,11 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Files;
+using Application.Mail;
+using Application.Models;
+using Application.Models.Comments;
+using Application.Models.Files;
 using Application.Models.Tickets;
+using Application.Service;
+using Application.Settings;
 using Domain.Tickets;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using Infrastracture;
+using MailKit.Net.Smtp;
+using MimeKit;
+using Application.Tickets;
+using Microsoft.Extensions.DependencyInjection;
+using FluentEmail.Core;
+using Application.Models.Mail;
+using Domain.Comments;
+using Domain.Files;
 
 namespace Application.Tickets
 {
@@ -14,11 +27,27 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
 
-        public TicketsService(ITicketCollection ticketCollection)
+        private readonly IMailService _mailService;
+      
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly object SendEmail;
+
+        public TicketsService(
+            ITicketCollection ticketCollection,
+            IServiceScopeFactory scopeFactory,
+            IBackgroundTaskQueue backgroundTaskQueue,
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
+            _backgroundTaskQueue = backgroundTaskQueue;
+
+            _mailService = mailService;
+            _scopeFactory = scopeFactory;
         }
-        
+
+
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -113,6 +142,8 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
+               Attachments = new List<DownloadFileModel>(),
+               Comments = new List<GetCommentModel>()
            };
            return result;
         }
@@ -138,6 +169,7 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
+                Attachments = new List<File>(),
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -175,8 +207,26 @@ namespace Application.Tickets
                 SubmitDate = search.SubmitDate,
                 Status = Status.Open,
                 IsDeleted = search.IsDeleted,
-                IsModified = search.IsModified
+                IsModified = search.IsModified,
+                Attachments = new List<DownloadFileModel>(),
             };
+
+            await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
+            {
+                var scope = _scopeFactory.CreateScope();
+
+                var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
+
+                mailService.SendEmail(new MailData
+                {
+                    EmailBody = "Hello Catherine, your ticket has been received, you will receive feedback shortly",
+                    EmailSubject = "Ticket Received",
+                    EmailToId = "catherinececilia22@gmail.com",
+                    EmailToName = "cathy"
+                });
+
+            });
+            
 
             return result;
         }
@@ -202,8 +252,8 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
-            currentTicket.Summary = model.Summary;
             //currentTicket.TicketNumber = model.TicketNumber;
+            currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
@@ -212,7 +262,8 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            
+            currentTicket.Attachments = new List<File>();
+
             if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
@@ -249,38 +300,6 @@ namespace Application.Tickets
            softDeletedTicket.IsDeleted = true;
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
-        }
-
-        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
-        {
-            var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
-            if (searchResults == null || searchResults.Count < 1)
-            {
-                return new List<GetTicketModel>();
-            }
-
-            var result = new List<GetTicketModel>();
-
-            foreach (var searchResult in searchResults)
-            {
-                var model = new GetTicketModel
-                {
-                    Id = searchResult.Id,
-                    Description = searchResult.Description,
-                    TicketNumber = searchResult.TicketNumber,
-                    Summary = searchResult.Summary,
-                    Priority = searchResult.Priority,
-                    Status = searchResult.Status,
-                    Category = searchResult.Category,
-                    SubmitDate = searchResult.SubmitDate,
-                    IsDeleted = searchResult.IsDeleted,
-                    IsModified = searchResult.IsModified,
-                    Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime
-                };
-                result.Add(model);
-            }
-            return result;
         }
     }
 }

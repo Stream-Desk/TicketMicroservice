@@ -63,5 +63,18 @@ namespace API.Controllers
             _userService.DeleteUserById(new DeleteUserModel { Id = id });
             return NoContent();
         }
+
+
+        //[AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] UserModel model)
+        {
+            await _userService.Authenticate(model.UserName, model.Password);
+
+            if (User == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(User);
+        }
     }
 }
