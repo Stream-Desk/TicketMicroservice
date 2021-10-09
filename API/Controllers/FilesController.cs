@@ -107,5 +107,12 @@ namespace API.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("ListFiles")]
+        public async Task<ActionResult<List<DownloadFileModel>>> ListFilesAsync()
+        {
+            var response = await _fileService.ListImages();
+            return Ok(response);
+        }
     }
 }
