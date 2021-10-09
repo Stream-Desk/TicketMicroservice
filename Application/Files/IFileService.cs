@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
@@ -9,5 +10,6 @@ namespace Application.Files
         Task<DownloadFileModel> UploadFile(AddFileModel model, CancellationToken cancellationToken = default);
         Task<DownloadFileModel> DownloadImage(string imageId, CancellationToken cancellationToken = default);
         Task<DeleteFileModel> DeleteFile(DeleteFileModel model, CancellationToken cancellationToken = default);
+        Task<List<DownloadFileModel>> ListImages(CancellationToken cancellationToken = default);
     }
 }
