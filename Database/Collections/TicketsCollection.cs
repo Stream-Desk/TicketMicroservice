@@ -61,7 +61,7 @@ namespace Database.Collections
         public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
         {
             var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
-            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.TicketNumber);
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.SubmitDate);
             var result = _ticketCollection.Find(filter).ToList(cancellationToken);
 
             return result;
