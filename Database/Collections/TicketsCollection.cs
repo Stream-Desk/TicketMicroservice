@@ -63,7 +63,7 @@ namespace Database.Collections
 
             var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
             var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
-            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
+            var result = _ticketCollection.Find(filter).ToList();
 
           
             return result;
