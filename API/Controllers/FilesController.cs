@@ -7,6 +7,7 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace API.Controllers
 {
@@ -35,7 +36,7 @@ namespace API.Controllers
                 {
                     string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                     var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-                    var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+                    var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                     var filePath = Path.Combine(basePath, fileName);
                     var extension = Path.GetExtension(file.FileName);
                     
@@ -51,6 +52,7 @@ namespace API.Controllers
 
                     var fileModel = new AddFileModel
                     {
+                        FileId =  new Domain.Files.File().FileId,
                         CreatedOn = DateTime.Now,
                         FileType = file.ContentType,
                         Extension = extension,

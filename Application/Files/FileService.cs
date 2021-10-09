@@ -108,7 +108,6 @@ namespace Application.Files
                     CreatedOn  = searchResult.CreatedOn,
                     FilePath  = searchResult.FilePath,
                     FileUrl = searchResult.FileUrl
-                    
                 };
                 result.Add(model);
             }
