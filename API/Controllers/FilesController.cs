@@ -16,40 +16,48 @@ namespace API.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IAttachmentService _attachmentService;
 
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment)
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
+            _attachmentService = attachmentService;
         }
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task <ActionResult<DownloadFileModel>> UploadToFileSystem(IFormFile file)
+        public async Task<IActionResult> UploadToFileSystem(IFormFile file)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-            var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+            var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
             var filePath = Path.Combine(basePath, fileName);
             var extension = Path.GetExtension(file.FileName);
+           
+            if (file == null)
+            {
+                 throw new Exception("Upload Failed");
+            }
+           
             if (!System.IO.File.Exists(filePath))
             {
                 await using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                
+
                 var fileModel = new AddFileModel
                 {
-                    CreatedOn = DateTime.Now.ToLocalTime(),
+                    CreatedOn = DateTime.Now,
                     FileType = file.ContentType,
                     Extension = extension,
                     Name = fileName,
                     FilePath = filePath,
                 };
-              
+
                 var search = await _fileService.UploadFile(fileModel);
-                
+
                 var result = new DownloadFileModel()
                 {
                     FileId = search.FileId,
@@ -74,18 +82,21 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
-        
 
-        // // DELETE: api/Files/5
-        // [HttpDelete("{id=Length:24}")]
-        // public Task<IActionResult> DeleteFile(DeleteFileModel model)
-        // {
-        //     var file = _fileService.DeleteFile(model);
-        //     if (file == null) return null;
-        //     if (System.IO.File.Exists(file.FilePath))
-        //     {
-        //         System.IO.File.Delete(file.FilePath);
-        //     }
-        // }
+        [HttpPost("UploadAttachment")]
+        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync(List<IFormFile> files)
+        {
+            var baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+
+            var payload = new FileRequest()
+            {
+                BaseUrl = baseUrl,
+                Files = files
+            };
+
+            var response = await _attachmentService.UploadFile(payload);
+
+            return Ok(response);
+        }
     }
 }

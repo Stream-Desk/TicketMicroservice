@@ -13,7 +13,7 @@ namespace Application.Models.Tickets
         public int TicketNumber { get; set; }
         public string Description { get; set; }
         public string Summary { get; set; }
-        public string  Category { get; set; }
+        public Category  Category { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
@@ -33,6 +33,7 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
         public List<DownloadFileModel> Attachments { get; set; } = new List<DownloadFileModel>();
         public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
+        public string FileUrl { get; set; }
         
     }
 }

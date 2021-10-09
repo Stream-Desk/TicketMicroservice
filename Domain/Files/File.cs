@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -23,6 +21,8 @@ namespace Domain.Files
         public string FilePath { get; set; }
         [BsonElement("fileUrl")]
         public string FileUrl  { get; set; }
+
+        // public int Length { get; set; }
 
     }
 }
