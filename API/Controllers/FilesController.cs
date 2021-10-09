@@ -27,47 +27,44 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem(IFormFile file)
+        public async Task <IActionResult> UploadToFileSystem(List<IFormFile> files)
         {
-            string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-            var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-            var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
-            var filePath = Path.Combine(basePath, fileName);
-            var extension = Path.GetExtension(file.FileName);
-           
-            if (file == null)
+            foreach (var file in files)
             {
-                 throw new Exception("Upload Failed");
-            }
-           
-            if (!System.IO.File.Exists(filePath))
-            {
-                await using (var stream = new FileStream(filePath, FileMode.Create))
+                string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+                var filePath = Path.Combine(basePath, fileName);
+                var extension = Path.GetExtension(file.FileName);
+                if (!System.IO.File.Exists(filePath))
                 {
-                    await file.CopyToAsync(stream);
+                    await using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    
+                    var fileModel = new AddFileModel
+                    {
+                        CreatedOn = DateTime.Now,
+                        FileType = file.ContentType,
+                        Extension = extension,
+                        Name = fileName,
+                        FilePath = filePath,
+                    };
+                    
+                    var search = await _fileService.UploadFile(fileModel);
+                    
+                    var result = new DownloadFileModel()
+                    {
+                        FileId = search.FileId,
+                        FileUrl = $"{baseUrl}/api/Files/{search.FileId}"
+                    };
+                    return Ok(result);
                 }
-
-                var fileModel = new AddFileModel
-                {
-                    CreatedOn = DateTime.Now,
-                    FileType = file.ContentType,
-                    Extension = extension,
-                    Name = fileName,
-                    FilePath = filePath,
-                };
-
-                var search = await _fileService.UploadFile(fileModel);
-
-                var result = new DownloadFileModel()
-                {
-                    FileId = search.FileId,
-                    FileUrl = $"{baseUrl}/api/Files/{search.FileId}"
-                };
-                return Ok(result);
+                throw new Exception("Upload Failed");
             }
-            throw new Exception("Upload Failed");
+            return Ok();
         }
-
         // GET: api/Files/Download
         [HttpGet("{fileId:Length(24)}")]
         public async Task<IActionResult> DownloadFile(string fileId)
