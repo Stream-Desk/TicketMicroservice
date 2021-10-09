@@ -60,12 +60,12 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
         {
-            var keys = Builders<Ticket>.IndexKeys.Text(a => a.Category);
-             _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(sortTerm);
-            //var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
-            var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
 
+            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
+            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
+
+          
             return result;
         }
 
