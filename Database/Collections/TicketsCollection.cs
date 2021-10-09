@@ -61,7 +61,7 @@ namespace Database.Collections
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
             var filter = Builders<Ticket>.Filter.Text(searchTerm);
-            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.SubmitDate);
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.TicketNumber);
             var result =  _ticketCollection.Find(filter).Sort(sortDefinition).ToList(cancellationToken);
             return result;
         }
