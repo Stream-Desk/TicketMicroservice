@@ -21,7 +21,7 @@ namespace Application.Comments
             var comment = new Comment
             {
                 Text = model.Text,
-                TimeStamp = model.TimeStamp,
+                TimeStamp = DateTime.Now,
                 TicketId = model.TicketId,
                 UserId = model.UserId
             };
