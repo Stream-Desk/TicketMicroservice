@@ -24,7 +24,7 @@ namespace Application.Attachments
                 if (file.Length > 0)
                 {
                     // Save file to server
-                    var fileName = $"{ObjectId.GenerateNewId()}{Path.GetFileNameWithoutExtension(file.FileName)}";
+                    var fileName = $"{ObjectId.GenerateNewId()}{Path.GetExtension(file.FileName)}";
 
                     await using var memoryStream = new MemoryStream();
 
@@ -46,11 +46,11 @@ namespace Application.Attachments
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}");
 
-                    // await _fileCollection.CreateImage(
-                    //     new File
-                    //     {
-                    //        FileUrl = 
-                    //     });
+                    await _fileCollection.CreateImage(
+                        new File
+                        {
+                           FileUrl =  $"{request.BaseUrl}/Files/{fileName}"
+                        });
                 }
 
             }
