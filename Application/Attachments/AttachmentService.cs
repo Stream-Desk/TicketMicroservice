@@ -39,8 +39,8 @@ namespace Application.Attachments
 
                 }
 
-                return response;
             }
+            return response;
         }
     }
 }
