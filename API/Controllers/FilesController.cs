@@ -105,53 +105,53 @@ namespace API.Controllers
             return Ok(response);
         }
         
-        [HttpPost("upload"), DisableRequestSizeLimit]
-        public  IActionResult Upload (IFormFile file)
-        {
-            try
-            {
-                // var file = Request.Form.Files[0];
-                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-
-                if (file.Length > 0)
-                {
-                    string baseURL = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(filePath, file.FileName);
-                    var dbPath = baseURL + "/api/Files/" + fileName;
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-
-                    return Ok(new
-                    {
-                        dbPath
-                    });
-
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch(Exception e)
-            {
-                return StatusCode(500, $"Internal server error: {e}");
-            }
-        }
+        // [HttpPost("upload"), DisableRequestSizeLimit]
+        // public  IActionResult Upload (IFormFile file)
+        // {
+        //     try
+        //     {
+        //         // var file = Request.Form.Files[0];
+        //         var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
+        //
+        //         if (file.Length > 0)
+        //         {
+        //             string baseURL = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+        //             var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+        //             var fullPath = Path.Combine(filePath, file.FileName);
+        //             var dbPath = baseURL + "/api/Files/" + fileName;
+        //             using (var stream = new FileStream(fullPath, FileMode.Create))
+        //             {
+        //                 file.CopyTo(stream);
+        //             }
+        //
+        //             return Ok(new
+        //             {
+        //                 dbPath
+        //             });
+        //
+        //         }
+        //         else
+        //         {
+        //             return BadRequest();
+        //         }
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         return StatusCode(500, $"Internal server error: {e}");
+        //     }
+        // }
 
         [HttpPost("uploadattachments")]
-        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 
-            var request = new AttachmentRequest()
+            var payload = new AttachmentRequest()
             {
                 BaseUrl = baseUrl,
                 Files = files
             };
-            var response = await _attachmentService.UploadAttachmentAsync(request, cancellationToken);
+            var response = await _attachmentService.UploadAttachmentAsync(payload);
             
             return Ok(response);
         }

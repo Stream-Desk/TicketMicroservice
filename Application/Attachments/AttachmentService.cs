@@ -16,8 +16,8 @@ namespace Application.Attachments
                 {
                     // Save file to server
                     var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-                    
-                    using var memoryStream = new MemoryStream();
+
+                    await using var memoryStream = new MemoryStream();
 
                     // Write to Stream
                     await file.CopyToAsync(memoryStream);
