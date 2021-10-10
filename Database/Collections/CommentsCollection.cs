@@ -40,5 +40,16 @@ namespace Database.Collections
             var comment = await cursor.FirstOrDefaultAsync(cancellationToken);
             return comment;
         }
+
+        public void UpdateComments(string commentId, Comment comment)
+        {
+            _commentCollection.ReplaceOne(c => c.Id == commentId,comment);
+            
+        }
+
+        public void DeleteCommentById(string commentId)
+        {
+            _commentCollection.DeleteOne(c => c.Id == commentId);
+        }
     }
 }
