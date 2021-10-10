@@ -7,8 +7,8 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
-using MongoDB.Bson;
+using Microsoft.Net.Http.Headers;
+using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 
 namespace API.Controllers
 {
@@ -18,15 +18,11 @@ namespace API.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IAttachmentService _attachmentService;
-        private readonly HttpContextAccessor _httpContextAccessor;
-
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService, HttpContextAccessor httpContextAccessor)
+        
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
-            _attachmentService = attachmentService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         // POST: api/Files/Upload
@@ -55,7 +51,6 @@ namespace API.Controllers
 
                     var fileModel = new AddFileModel
                     {
-                        FileId =  new Domain.Files.File().FileId,
                         CreatedOn = DateTime.Now,
                         FileType = file.ContentType,
                         Extension = extension,
@@ -96,22 +91,7 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
-
-        [HttpPost("UploadAttachment")]
-        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync(List<IFormFile> files)
-        {
-            var baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
-
-            var payload = new FileRequest()
-            {
-                BaseUrl = baseUrl,
-                Files = files
-            };
-
-            var response = await _attachmentService.UploadFile(payload);
-
-            return Ok(response);
-        }
+        
 
         [HttpGet("ListFiles")]
         public async Task<ActionResult<List<DownloadFileModel>>> ListFilesAsync()
@@ -119,35 +99,40 @@ namespace API.Controllers
             var response = await _fileService.ListImages();
             return Ok(response);
         }
-
-        [Produces("application/json")]
-        [HttpPost("upload")]
+        
+        [HttpPost("upload"), DisableRequestSizeLimit]
         public  IActionResult Upload (IFormFile file)
         {
             try
             {
-                var path =  Path.Combine(_webHostEnvironment.WebRootPath, "uploads", file.FileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
+                // var file = Request.Form.Files[0];
+                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
 
-                if (_httpContextAccessor.HttpContext != null)
+                if (file.Length > 0)
                 {
-                    var baseUrl = _httpContextAccessor.HttpContext.Request.Scheme +
-                                  "://" + _httpContextAccessor.HttpContext.Request.Host +
-                                  _httpContextAccessor.HttpContext.Request.PathBase;
+                    string baseURL = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(filePath, file.FileName);
+                    var dbPath = baseURL + "/api/Files/" + fileName;
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
                     return Ok(new
                     {
-                        fileName = baseUrl + "/Files/" + file.FileName
+                        dbPath
                     });
-                }
 
-                throw new Exception("Upload Failed");
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch
+            catch(Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, $"Internal server error: {e}");
             }
         }
         
