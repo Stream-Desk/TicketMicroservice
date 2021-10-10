@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using MongoDB.Bson;
 using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 
 namespace API.Controllers
@@ -54,13 +55,17 @@ namespace API.Controllers
                         await file.CopyToAsync(stream);
                     }
 
+                    string fileId = ObjectId.GenerateNewId().ToString();
+                    
                     var fileModel = new AddFileModel
                     {
+                        FileId = fileId,
                         CreatedOn = DateTime.Now,
                         FileType = file.ContentType,
                         Extension = extension,
                         Name = fileName,
                         FilePath = filePath,
+                        FileUrl = $"{baseUrl}/api/Files/{fileId}"
                     };
 
                     var search = await _fileService.UploadFile(fileModel);
@@ -74,11 +79,11 @@ namespace API.Controllers
                     return Ok(result);
                 }
             }
-            
-            catch (Exception)
+            catch
             {
-                throw;
+                return BadRequest();
             }
+
             return Ok();
         }
         
@@ -105,41 +110,7 @@ namespace API.Controllers
             return Ok(response);
         }
         
-        // [HttpPost("upload"), DisableRequestSizeLimit]
-        // public  IActionResult Upload (IFormFile file)
-        // {
-        //     try
-        //     {
-        //         // var file = Request.Form.Files[0];
-        //         var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-        //
-        //         if (file.Length > 0)
-        //         {
-        //             string baseURL = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-        //             var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-        //             var fullPath = Path.Combine(filePath, file.FileName);
-        //             var dbPath = baseURL + "/api/Files/" + fileName;
-        //             using (var stream = new FileStream(fullPath, FileMode.Create))
-        //             {
-        //                 file.CopyTo(stream);
-        //             }
-        //
-        //             return Ok(new
-        //             {
-        //                 dbPath
-        //             });
-        //
-        //         }
-        //         else
-        //         {
-        //             return BadRequest();
-        //         }
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         return StatusCode(500, $"Internal server error: {e}");
-        //     }
-        // }
+       
 
         [HttpPost("uploadattachments")]
         public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)

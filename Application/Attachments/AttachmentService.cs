@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Files;
+using MongoDB.Bson;
 using File = Domain.Files.File;
 
 namespace Application.Attachments
@@ -23,7 +24,7 @@ namespace Application.Attachments
                 if (file.Length > 0)
                 {
                     // Save file to server
-                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+                    var fileName = $"{ObjectId.GenerateNewId()}{Path.GetFileNameWithoutExtension(file.FileName)}";
 
                     await using var memoryStream = new MemoryStream();
 
@@ -45,11 +46,11 @@ namespace Application.Attachments
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}");
 
-                    await _fileCollection.CreateImage(
-                        new File
-                        {
-                           FileUrl =  response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}").ToString()
-                        });
+                    // await _fileCollection.CreateImage(
+                    //     new File
+                    //     {
+                    //        FileUrl = 
+                    //     });
                 }
 
             }
