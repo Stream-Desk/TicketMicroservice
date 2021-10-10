@@ -151,7 +151,7 @@ namespace API.Controllers
                 BaseUrl = baseUrl,
                 Files = files
             };
-            var response = await _attachmentService.UploadAttachmentAsync(request);
+            var response = await _attachmentService.UploadAttachmentAsync(request, cancellationToken);
             
             return Ok(response);
         }
