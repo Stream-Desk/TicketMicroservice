@@ -7,6 +7,7 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MongoDB.Bson;
 
 namespace API.Controllers
@@ -18,12 +19,14 @@ namespace API.Controllers
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAttachmentService _attachmentService;
+        private readonly HttpContextAccessor _httpContextAccessor;
 
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService)
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService, HttpContextAccessor httpContextAccessor)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
             _attachmentService = attachmentService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // POST: api/Files/Upload
@@ -72,9 +75,9 @@ namespace API.Controllers
                 }
             }
             
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("Exception Caught",e);
+                throw;
             }
             return Ok();
         }
@@ -116,5 +119,37 @@ namespace API.Controllers
             var response = await _fileService.ListImages();
             return Ok(response);
         }
+
+        [Produces("application/json")]
+        [HttpPost("upload")]
+        public  IActionResult Upload (IFormFile file)
+        {
+            try
+            {
+                var path =  Path.Combine(_webHostEnvironment.WebRootPath, "uploads", file.FileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                if (_httpContextAccessor.HttpContext != null)
+                {
+                    var baseUrl = _httpContextAccessor.HttpContext.Request.Scheme +
+                                  "://" + _httpContextAccessor.HttpContext.Request.Host +
+                                  _httpContextAccessor.HttpContext.Request.PathBase;
+                    return Ok(new
+                    {
+                        fileName = baseUrl + "/Files/" + file.FileName
+                    });
+                }
+
+                throw new Exception("Upload Failed");
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        
     }
 }
