@@ -24,8 +24,9 @@ namespace Application.Attachments
                 if (file.Length > 0)
                 {
                     // Save file to server
-                    var fileName = $"{ObjectId.GenerateNewId()}{Path.GetExtension(file.FileName)}";
-
+                    var fileId = ObjectId.GenerateNewId().ToString();
+                    var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    var fileExtension = Path.GetExtension(file.FileName);
                     await using var memoryStream = new MemoryStream();
 
                     // Write to Stream
@@ -44,12 +45,16 @@ namespace Application.Attachments
                     await memoryStream.CopyToAsync(fileStream);
                     
                     // Add file Path to response
-                    response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}");
+                    response.FileUrls.Add($"{request.BaseUrl}/Files/{fileId}");
 
                     await _fileCollection.CreateImage(
                         new File
                         {
-                           FileUrl =  $"{request.BaseUrl}/Files/{fileName}"
+                            FileId = fileId,
+                            Name = fileName,
+                            Extension = fileExtension,
+                            CreatedOn = DateTime.Now,
+                            FileUrl =  $"{request.BaseUrl}/api/Files/{fileId}"
                         });
                 }
 
