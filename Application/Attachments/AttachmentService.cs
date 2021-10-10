@@ -36,7 +36,6 @@ namespace Application.Attachments
                     
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}");
-
                 }
 
             }

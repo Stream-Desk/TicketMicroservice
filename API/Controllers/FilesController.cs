@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using Application.Attachments;
 using Application.Files;
 using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
@@ -18,11 +20,14 @@ namespace API.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment)
+        private readonly IAttachmentService _attachmentService;
+
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment,
+            IAttachmentService attachmentService)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
+            _attachmentService = attachmentService;
         }
 
         // POST: api/Files/Upload
@@ -134,6 +139,21 @@ namespace API.Controllers
             {
                 return StatusCode(500, $"Internal server error: {e}");
             }
+        }
+
+        [HttpPost("uploadattachments")]
+        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files, CancellationToken cancellationToken = default)
+        {
+            string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+
+            var request = new AttachmentRequest()
+            {
+                BaseUrl = baseUrl,
+                Files = files
+            };
+            var response = await _attachmentService.UploadAttachmentAsync(request);
+            
+            return Ok(response);
         }
         
     }
