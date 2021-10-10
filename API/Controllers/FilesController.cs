@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using Application.Attachments;
 using Application.Files;
 using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+using MongoDB.Bson;
+using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 
 namespace API.Controllers
 {
@@ -18,7 +23,8 @@ namespace API.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAttachmentService _attachmentService;
 
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment, IAttachmentService attachmentService)
+        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment,
+            IAttachmentService attachmentService)
         {
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
@@ -35,7 +41,7 @@ namespace API.Controllers
                 {
                     string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                     var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-                    var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+                    var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                     var filePath = Path.Combine(basePath, fileName);
                     var extension = Path.GetExtension(file.FileName);
                     
@@ -49,13 +55,17 @@ namespace API.Controllers
                         await file.CopyToAsync(stream);
                     }
 
+                    string fileId = ObjectId.GenerateNewId().ToString();
+                    
                     var fileModel = new AddFileModel
                     {
+                        FileId = fileId,
                         CreatedOn = DateTime.Now,
                         FileType = file.ContentType,
                         Extension = extension,
                         Name = fileName,
                         FilePath = filePath,
+                        FileUrl = $"{baseUrl}/api/Files/{fileId}"
                     };
 
                     var search = await _fileService.UploadFile(fileModel);
@@ -69,11 +79,11 @@ namespace API.Controllers
                     return Ok(result);
                 }
             }
-            
-            catch (Exception e)
+            catch
             {
-                throw new Exception("Exception Caught",e);
+                return BadRequest();
             }
+
             return Ok();
         }
         
@@ -91,21 +101,31 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
+        
 
-        [HttpPost("UploadAttachment")]
-        public async Task<ActionResult<FileResponse>> UploadAttachmentAsync(List<IFormFile> files)
+        [HttpGet("ListFiles")]
+        public async Task<ActionResult<List<DownloadFileModel>>> ListFilesAsync()
         {
-            var baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+            var response = await _fileService.ListImages();
+            return Ok(response);
+        }
+        
+       
 
-            var payload = new FileRequest()
+        [HttpPost("uploadattachments")]
+        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
+        {
+            string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+
+            var payload = new AttachmentRequest()
             {
                 BaseUrl = baseUrl,
                 Files = files
             };
-
-            var response = await _attachmentService.UploadFile(payload);
-
+            var response = await _attachmentService.UploadAttachmentAsync(payload);
+            
             return Ok(response);
         }
+        
     }
 }
