@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Infrastracture;
+using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -29,6 +30,7 @@ namespace API
         {
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -57,10 +59,8 @@ namespace API
             });
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
-
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-
             services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
 
@@ -80,10 +80,7 @@ namespace API
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors(MyAllowSpecificOrigins);
-
-
             //DbSeeder.SeedDb(context,userManager);
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

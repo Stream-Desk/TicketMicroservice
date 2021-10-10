@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Database.Collections
@@ -11,7 +10,7 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        private object ticketNumber;
+        //private object ticketNumber;
 
         public TicketsCollection(IConfiguration configuration)
         {
@@ -24,12 +23,17 @@ namespace Database.Collections
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
+        
+
+        
+
 
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
             var ticket = await cursor.ToListAsync(cancellationToken);
+
             return ticket;
         }
 
@@ -54,12 +58,24 @@ namespace Database.Collections
             return ticket;
         }
 
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
+        {
+
+           
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
+            var filter = Builders<Ticket>.Filter.Text(sortTerm);
+            var result = _ticketCollection.Find(filter).ToList(cancellationToken);
+
+          
+            return result;
+        }
+
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
 
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(searchTerm);
+            var filter = Builders<Ticket>.Filter.Text(searchTerm);          
             var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
