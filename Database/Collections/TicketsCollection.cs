@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Database.Collections
@@ -21,7 +22,11 @@ namespace Database.Collections
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
-        
+
+            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
+            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
+           
         }
         
 
@@ -58,16 +63,8 @@ namespace Database.Collections
             return ticket;
         }
 
-        public async Task<List<Ticket>> Sort(string sortTerm, CancellationToken cancellationToken = default)
-        {
-
-            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
-            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
-            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
-
-
-            return result;
-        }
+       
+        
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
