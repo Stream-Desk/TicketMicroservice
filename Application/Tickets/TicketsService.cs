@@ -130,7 +130,7 @@ namespace Application.Tickets
                Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
-               Status = search.Status,
+               Status = Status.Pending,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
@@ -257,11 +257,11 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
-            currentTicket.Closed = false || true;
+            currentTicket.Closed = false;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Attachments = new List<File>();
 
-            if (model.Closed == true)
+            if (!model.Closed == false)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
@@ -269,9 +269,9 @@ namespace Application.Tickets
             
             else if (model.IsModified == true)
             {
-                currentTicket.Status = Status.Open;
+                currentTicket.Status = Status.Pending;
             }
-                
+           
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
