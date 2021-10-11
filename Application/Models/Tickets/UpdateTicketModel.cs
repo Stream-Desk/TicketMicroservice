@@ -8,6 +8,7 @@ namespace Application.Models.Tickets
     {
         public string Description { get; set; }
         //public int TicketNumber { get; set; }
+        public string Name { get; set; }
         public string Summary { get; set; }
         public Category Category { get; set; }
         public Priority Priority  { get; set; }
