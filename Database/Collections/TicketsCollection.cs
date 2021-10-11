@@ -23,10 +23,7 @@ namespace Database.Collections
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
 
-            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
-            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
-            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
-           
+            
         }
         
 
@@ -49,6 +46,15 @@ namespace Database.Collections
             var ticket = await cursor.ToListAsync();
             return ticket;
         }
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
+        {
+            var sort = Builders<Ticket>.Sort.Descending(u => u.TicketNumber);
+            var filter = Builders<Ticket>.Filter.Text(sortTerm);
+            var cursor = _ticketCollection.Find(filter).Sort(sort);
+            var ticket = await cursor.ToListAsync();
+            return ticket;
+        }
+
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
