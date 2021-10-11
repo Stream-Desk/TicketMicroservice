@@ -21,7 +21,7 @@ namespace Application.Comments
             var comment = new Comment
             {
                 Text = model.Text,
-                TimeStamp = model.TimeStamp,
+                TimeStamp = DateTime.Now,
                 TicketId = model.TicketId,
                 UserId = model.UserId
             };
@@ -83,6 +83,40 @@ namespace Application.Comments
                 response.Add(model);
             }
             return response;
+        }
+
+        public void UpdateComment(string commentId, UpdateCommentModel model)
+        {
+            if (string.IsNullOrWhiteSpace(commentId))
+            {
+                throw new Exception("Comment Id doesnt Exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to Find Comment");
+            }
+
+            var currentComment = _commentsCollection.GetCommentById(commentId).Result;
+
+            if (currentComment == null)
+            {
+                throw new Exception("Comment not found");
+            }
+
+            currentComment.Text = model.Text;
+            currentComment.TimeStamp = model.TimeStamp;
+            
+            _commentsCollection.UpdateComments(commentId,currentComment);
+        }
+
+        public void DeleteCommentById(DeleteCommentModel model)
+        {
+            if (model == null)
+            {
+                throw new Exception("Comment Not Found");
+            }
+            _commentsCollection.DeleteCommentById(model.Id);
         }
     }
 }

@@ -39,5 +39,20 @@ namespace API.Controllers
             var response = await _commentService.CreateComment(model);
             return Ok(response);
         }
+        
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Put([FromRoute] string id, [FromBody] UpdateCommentModel model)
+        {
+            _commentService.UpdateComment(id, model);
+            return NoContent();
+        }
+
+        // DELETE api/<TicketsController>/5
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete([FromRoute] string id)
+        {
+            _commentService.DeleteCommentById(new DeleteCommentModel() { Id = id });
+            return NoContent();
+        }
     }
 }
