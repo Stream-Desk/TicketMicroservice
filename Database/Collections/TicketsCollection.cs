@@ -92,10 +92,10 @@ namespace Database.Collections
         public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
         {
 
-            var sortDefinition = Builders<Ticket>.Sort.Ascending(u => u.TicketNumber); 
+            var sortDefinition = Builders<Ticket>.Sort.Descending(u => u.TicketNumber); 
             
             var filter = Builders<Ticket>.Filter.Text(sortTerm);
-            var result = _ticketCollection.Find(filter).Sort(sortTerm).ToList(cancellationToken);
+            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList(cancellationToken);
             return result;
         }
     }
