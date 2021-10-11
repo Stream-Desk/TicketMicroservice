@@ -19,7 +19,7 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
 
         private readonly IMailService _mailService;
-      
+        
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -190,8 +190,6 @@ namespace Application.Tickets
                     search.Priority = Priority.Low;
                     break;
             }
-            
-
 
             var result = new GetTicketModel
             {
@@ -208,7 +206,7 @@ namespace Application.Tickets
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
             };
-
+            
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
                 var scope = _scopeFactory.CreateScope();
