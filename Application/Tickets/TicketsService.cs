@@ -190,6 +190,8 @@ namespace Application.Tickets
                     search.Priority = Priority.Low;
                     break;
             }
+            
+
 
             var result = new GetTicketModel
             {
