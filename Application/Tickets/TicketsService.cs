@@ -257,19 +257,20 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
-            currentTicket.Closed = false;
+            currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Attachments = new List<File>();
 
-            if (!model.Closed == false)
+         
+            if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Pending;
+            }
+            
+            else if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
-            }
-            
-            else if (model.IsModified == true)
-            {
-                currentTicket.Status = Status.Pending;
             }
            
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
