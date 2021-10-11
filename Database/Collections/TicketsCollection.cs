@@ -89,5 +89,14 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
+        {
+
+            var sortDefinition = Builders<Ticket>.Sort.Ascending(u => u.TicketNumber); 
+            
+            var filter = Builders<Ticket>.Filter.Text(sortTerm);
+            var result = _ticketCollection.Find(filter).Sort(sortTerm).ToList(cancellationToken);
+            return result;
+        }
     }
 }
