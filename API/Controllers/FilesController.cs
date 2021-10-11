@@ -30,7 +30,7 @@ namespace API.Controllers
 
         // POST: api/Files/Upload
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files)
+        public async Task<ActionResult<DownloadFileModel>> UploadToFileSystem(List<IFormFile> files)
         {
             try
             {
@@ -38,13 +38,13 @@ namespace API.Controllers
                 {
                     string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
                     var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files");
-                    var fileName = Guid.NewGuid()+Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
+                    var fileName = Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                     var filePath = Path.Combine(basePath, fileName);
                     var extension = Path.GetExtension(file.FileName);
-                    
+
                     if (System.IO.File.Exists(filePath))
                     {
-                        throw new Exception("Upload Failed");
+                        throw new Exception("File Exists");
                     }
 
                     await using (var stream = new FileStream(filePath, FileMode.Create))
@@ -53,7 +53,7 @@ namespace API.Controllers
                     }
 
                     string fileId = ObjectId.GenerateNewId().ToString();
-                    
+
                     var fileModel = new AddFileModel
                     {
                         FileId = fileId,
@@ -72,13 +72,13 @@ namespace API.Controllers
                         FileId = search.FileId,
                         FileUrl = $"{baseUrl}/api/Files/{search.FileId}"
                     };
-                    
+
                     return Ok(result);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, $"Internal Server Error: {e}");
             }
 
             return Ok();
@@ -123,6 +123,5 @@ namespace API.Controllers
             
             return Ok(response);
         }
-        
     }
 }
