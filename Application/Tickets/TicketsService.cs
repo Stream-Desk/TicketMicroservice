@@ -56,6 +56,7 @@ namespace Application.Tickets
                 {
                     Id = search.Id,
                     Description = search.Description,
+                    Name = search.Name,
                     Summary = search.Summary,
                     Priority = search.Priority,
                     Status = search.Status,
@@ -88,6 +89,7 @@ namespace Application.Tickets
                 {
                     Id = searchResult.Id,
                     Description = searchResult.Description,
+                    Name = searchResult.Name,
                     TicketNumber = searchResult.TicketNumber,
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
@@ -123,6 +125,7 @@ namespace Application.Tickets
                Id = search.Id,
                Description = search.Description,
                TicketNumber = search.TicketNumber,
+               Name = search.Name,
                Summary = search.Summary,
                Category = search.Category,
                Priority = search.Priority,
@@ -153,6 +156,7 @@ namespace Application.Tickets
             {
                 Description = model.Description,
                 //TicketNumber = model.TicketNumber,
+                Name = model.Name,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -191,6 +195,7 @@ namespace Application.Tickets
             {
                 Id = search.Id,
                 TicketNumber = search.TicketNumber,
+                Name = search.Name,
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
@@ -245,6 +250,7 @@ namespace Application.Tickets
 
             //currentTicket.TicketNumber = model.TicketNumber;
             currentTicket.Summary = model.Summary;
+            currentTicket.Name = model.Name;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
