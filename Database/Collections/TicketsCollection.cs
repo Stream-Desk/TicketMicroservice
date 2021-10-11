@@ -89,10 +89,10 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
-        public async Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
         {
 
-            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
+            var filter = Builders<Ticket>.Filter.Text("sortTerm");
             var sortDefinition = Builders<Ticket>.Sort
                                         .Descending(a => a.Category);
                                         
