@@ -25,15 +25,16 @@ namespace Database.Collections
 
             
         }
-        
 
-        
+
+
 
 
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
+            var cursor = _ticketCollection.Find(t => t.IsDeleted == false)
+                .SortByDescending(t => t.Id);
             var ticket = await cursor.ToListAsync(cancellationToken);
 
             return ticket;
@@ -42,11 +43,14 @@ namespace Database.Collections
         // Laboremus Ticket List
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => true);
+            var cursor = _ticketCollection
+                .Find(t => true)
+                .SortByDescending(t => t.Id);
             var ticket = await cursor.ToListAsync();
             return ticket;
         }
-        
+
+
 
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
@@ -89,21 +93,6 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
-        public async Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
-        {
-
-            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
-            var sortDefinition = Builders<Ticket>.Sort
-                                        .Descending(a => a.Category);
-                                        
-            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
-
-            foreach (var ticket in result)
-            {
-               return result;
-            }
-
-            return result;
-        }
+       
     }
 }

@@ -36,8 +36,9 @@ namespace API
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   { builder.WithOrigins(
-                                      "https://streamdesk-webapp.herokuapp.com", 
-                                      "https://backoffice-interface.herokuapp.com", 
+                                      "https://streamdesk-webapp.herokuapp.com",
+                                      "https://backoffice-interface.herokuapp.com",
+                                      //"https://backoffice-interface.herokuapp.com", 
                                       "https://laboremus-supportservice.herokuapp.com", 
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 
