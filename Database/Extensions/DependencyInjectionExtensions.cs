@@ -4,7 +4,6 @@ using Domain.Files;
 using Domain.Tickets;
 using Domain.Drafts;
 using Domain.Users;
-using Domain.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Database.Extensions

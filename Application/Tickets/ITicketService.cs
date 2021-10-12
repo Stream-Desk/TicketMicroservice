@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Tickets;
-using Domain.Tickets;
-using MongoDB.Driver;
 
 namespace Application.Tickets
 {

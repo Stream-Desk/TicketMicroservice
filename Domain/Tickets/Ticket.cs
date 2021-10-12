@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Domain.Comments;
-using Domain.Files;
-using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

@@ -4,7 +4,6 @@ using Application.Files;
 using Application.Users;
 using Application.Tickets;
 using Application.Drafts;
-using Application.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions
