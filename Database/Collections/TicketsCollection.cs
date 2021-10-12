@@ -27,9 +27,11 @@ namespace Database.Collections
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
+
             var cursor = _ticketCollection.Find(t => t.IsDeleted == false)
                 .SortByDescending(t => t.Id);
             var ticket = await cursor.ToListAsync(cancellationToken);
+
             return ticket;
         }
 

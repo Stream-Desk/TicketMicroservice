@@ -8,6 +8,7 @@ using Application.Models.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace API.Controllers
 {
@@ -16,12 +17,15 @@ namespace API.Controllers
     public class FilesController : ControllerBase
     {
         private readonly IFileService _fileService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAttachmentService _attachmentService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public FilesController(IAttachmentService attachmentService, IWebHostEnvironment webHostEnvironment,IFileService fileService)
+
         {
             _fileService = fileService;
+            _webHostEnvironment = webHostEnvironment;
             _attachmentService = attachmentService;
             _webHostEnvironment = webHostEnvironment;
         }
