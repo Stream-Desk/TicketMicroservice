@@ -4,17 +4,38 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Users
 {
     public class UserService : IUserService
     {
+        private readonly IConfiguration _configuration;
         private readonly IUserCollection _userCollection;
 
-        public UserService(IUserCollection userCollection)
+        public UserService(
+            IConfiguration configuration,
+            IUserCollection userCollection)
         {
+            _configuration = configuration;
             _userCollection = userCollection;
         }
+
+        public async Task<UserModel> Authenticate(string userName, string password)
+        {
+            var response = await _userCollection.Authenticate(userName, password);
+
+            if (null == response)
+                return null;
+
+            return new UserModel
+            {
+                UserName = response.UserName,
+                EmailAddress = response.EmailAddress,
+                Password = response.Password
+            };
+        }
+
 
         public async Task<GetUserModel> CreateUser(
             AddUserModel model,
@@ -30,8 +51,9 @@ namespace Application.Users
             var user = new User
             {
                 FirstName = model.FirstName,
-                LastName = model.LastName,
-                EmailAddress = model.EmailAddress
+                UserName = model.UserName,
+                EmailAddress = model.EmailAddress,
+                Password = model.Password,
             };
 
             var result = await _userCollection.CreateUser(user, cancellationToken);
@@ -39,8 +61,9 @@ namespace Application.Users
             var response = new GetUserModel
             {
                 FirstName = result.FirstName,
-                LastName = result.LastName,
+                UserName = result.UserName,
                 EmailAddress = result.EmailAddress,
+                Password = result.Password,
             };
 
             return response;
@@ -72,8 +95,9 @@ namespace Application.Users
             var response = new GetUserModel
             {
                 FirstName = result.FirstName,
-                LastName = result.LastName,
+                UserName = result.UserName,
                 EmailAddress = result.EmailAddress,
+                Password = result.Password,
             };
 
             return response;
@@ -96,13 +120,42 @@ namespace Application.Users
                 var model = new GetUserModel
                 {
                     FirstName = result.FirstName,
-                    LastName = result.LastName,
+                    UserName = result.UserName,
                     EmailAddress = result.EmailAddress,
+                    Password = result.Password,
                 };
 
                 response.Add(model);
             }
             return response;
+        }
+
+        public async Task SeedUsersAsync(CancellationToken cancellationToken = default)
+        {
+            var users = await GetUsers(cancellationToken);
+
+            if (users != null && users.Count > 0)
+            {
+                return;
+            }
+
+            var usersToSeed = _configuration.GetSection("Users").Get<UserModel[]>();
+
+            if (usersToSeed == null || usersToSeed.Length <= 0)
+            {
+                return;
+            }
+
+            foreach (var userToSeed in usersToSeed)
+            {
+                await CreateUser(new AddUserModel 
+                { 
+                    EmailAddress = userToSeed.EmailAddress,
+                    FirstName = string.Empty,
+                    UserName = userToSeed.UserName,
+                    Password = userToSeed.Password
+                }, cancellationToken);
+            }
         }
 
         public void UpdateUser(string userId, UpdateUserModel model)
@@ -126,8 +179,9 @@ namespace Application.Users
             }
 
             currentUser.FirstName = model.FirstName;
-            currentUser.LastName = model.LastName;
+            currentUser.UserName = model.UserName;
             currentUser.EmailAddress = model.EmailAddress;
+            currentUser.Password = model.Password;
             _userCollection.UpdateUser(userId, currentUser);
         }
     }

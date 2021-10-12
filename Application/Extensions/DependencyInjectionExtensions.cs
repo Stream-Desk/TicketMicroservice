@@ -1,4 +1,5 @@
-﻿using Application.Comments;
+﻿using Application.Attachments;
+using Application.Comments;
 using Application.Files;
 using Application.Users;
 using Application.Tickets;
@@ -16,7 +17,7 @@ namespace Application.Extensions
             services.AddScoped<ITicketService, TicketsService>();
             services.AddScoped<IDraftService, DraftsService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
             services.AddScoped<IFileService, FileService>();
 
             return services;

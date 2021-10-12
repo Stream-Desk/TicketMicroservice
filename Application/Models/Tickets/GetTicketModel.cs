@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Application.Models.Comments;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -7,27 +9,26 @@ namespace Application.Models.Tickets
     public class GetTicketModel
     {
         public string Id { get; set; }
-        public string TicketNumber { get; set; }
+        public int TicketNumber { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public string Summary { get; set; }
-        public string  Category { get; set; }
+        public Category  Category { get; set; }
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
-        // public User User { get; set; }
-        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
-        public bool IsDeleted { get; set; } 
-        
+        public bool IsDeleted { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
-        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public DateTime ModifiedAt { get; set; }
+        public List<string> FileUrls { get; set; } = new List<string>();
+        public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
     }
 }

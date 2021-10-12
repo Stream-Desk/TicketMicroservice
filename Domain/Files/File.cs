@@ -25,6 +25,7 @@ namespace Domain.Files
         [BsonElement("FilePath")]
         public string FilePath { get; set; }
 
-        public string fileUrl  { get; set; }
+        [BsonElement("fileUrl")]
+        public string FileUrl  { get; set; }
     }
 }

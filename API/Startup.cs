@@ -67,8 +67,9 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseCors(MyAllowSpecificOrigins);
+            app.UseAuthorization();
+            //DbSeeder.SeedDb(context,userManager);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

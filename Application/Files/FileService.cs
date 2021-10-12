@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Files;
@@ -15,14 +16,13 @@ namespace Application.Files
         {
             _fileCollection = fileCollection;
         }
-        public async Task<DownloadFileModel> UploadFile(AddFileModel model, CancellationToken cancellationToken = default)
+       public async Task<DownloadFileModel> UploadFile(AddFileModel model, CancellationToken cancellationToken = default)
         {
             if (model == null)
             {
                 throw new Exception("Image details empty");
             }
-            
-            
+
             // Map model to domain Entity
             var file = new File()
             {
@@ -32,10 +32,10 @@ namespace Application.Files
                 Extension = model.Extension,
                 CreatedOn = model.CreatedOn,
                 FilePath = model.FilePath,
-                fileUrl = model.fileUrl
+                FileUrl = model.FileUrl
             };
 
-            var search = await _fileCollection.CreateImage(file, cancellationToken);
+            var search = await _fileCollection.UploadFile(file, cancellationToken);
             
             var result = new DownloadFileModel
             {
@@ -45,7 +45,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
-                fileUrl = search.fileUrl
+                FileUrl = search.FileUrl
             };
             return result;
         }
@@ -58,7 +58,7 @@ namespace Application.Files
                 throw new Exception("Ticket not Found");
             }
            
-            var search = await _fileCollection.DownloadImage(imageId, cancellationToken);
+            var search = await _fileCollection.DownloadFile(imageId, cancellationToken);
             if (search == null)
             {
                 return new DownloadFileModel();
@@ -71,6 +71,7 @@ namespace Application.Files
                 Extension  = search.Extension,
                 CreatedOn  = search.CreatedOn,
                 FilePath  = search.FilePath,
+                FileUrl  = search.FileUrl,
             };
             return result;
         }
@@ -82,9 +83,35 @@ namespace Application.Files
             {
                 throw new Exception("Ticket Id not found");
             }
-            _fileCollection.DeleteImageById(model.FileId);
+            _fileCollection.DeleteFileById(model.FileId);
              return null;
         }
-        
+
+        public async Task<List<DownloadFileModel>> ListImages(CancellationToken cancellationToken = default)
+        {
+            var searchResults = await _fileCollection.GetFiles(cancellationToken);
+            if (searchResults == null || searchResults.Count < 1)
+            {
+                return new List<DownloadFileModel>();
+            }
+
+            var result = new List<DownloadFileModel>();
+
+            foreach (var searchResult in searchResults)
+            {
+                var model = new DownloadFileModel
+                {
+                    FileId = searchResult.FileId,   
+                    Name = searchResult.Name,
+                    FileType = searchResult.FileType,
+                    Extension  = searchResult.Extension,
+                    CreatedOn  = searchResult.CreatedOn,
+                    FilePath  = searchResult.FilePath,
+                    FileUrl = searchResult.FileUrl
+                };
+                result.Add(model);
+            }
+            return result;
+        }
     }
 }

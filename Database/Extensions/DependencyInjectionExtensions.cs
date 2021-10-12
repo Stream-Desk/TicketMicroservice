@@ -17,7 +17,6 @@ namespace Database.Extensions
             services.AddScoped<ITicketCollection, TicketsCollection>();
             services.AddScoped<ICommentsCollection, CommentsCollection>();
             services.AddScoped<IDraftCollection, DraftsCollection>();
-            services.AddScoped<IRegistrationCollection, RegistrationsCollection>();
             services.AddScoped<IFileCollection, FileCollection>();
           
             return services;

@@ -110,8 +110,7 @@ namespace Application.Tickets
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
-               ClosureDateTime = search.ClosureDateTime, 
-               // User = search.User
+               ClosureDateTime = search.ClosureDateTime,
            };
            return result;
         }
@@ -133,7 +132,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now.ToLocalTime(),
+                SubmitDate = DateTime.Now,
                 Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
@@ -183,13 +182,13 @@ namespace Application.Tickets
             currentTicket.Category = model.Category;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
-            currentTicket.ModifiedAt = DateTime.Now.ToLocalTime();
+            currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
             {
-                currentTicket.ClosureDateTime = DateTime.Now.ToLocalTime();
+                currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
             }
             else if (model.IsModified == true)

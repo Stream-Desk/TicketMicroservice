@@ -16,6 +16,9 @@ namespace Application.Users
         void UpdateUser(string userId, UpdateUserModel model);
 
         void DeleteUserById(DeleteUserModel model);
+        Task<UserModel> Authenticate(string UserName, string password);
+
+        Task SeedUsersAsync(CancellationToken cancellationToken = default);
     }
 }
 

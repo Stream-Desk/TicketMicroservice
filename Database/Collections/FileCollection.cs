@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Files;
@@ -22,20 +23,27 @@ namespace Database.Collections
             _fileCollection = database.GetCollection<File>(fileCollectionName);
         }
 
-        public async Task<File> DownloadImage(string imageId, CancellationToken cancellationToken = default)
+        public async Task<File> DownloadFile(string imageId, CancellationToken cancellationToken = default)
         {
             var cursor = await _fileCollection.FindAsync(d => d.FileId == imageId);
             var image = await cursor.FirstOrDefaultAsync(cancellationToken);
             return image;
         }
 
-        public async Task<File> CreateImage(File file, CancellationToken cancellationToken = default)
+        public async Task<List<File>> GetFiles(CancellationToken cancellationToken = default)
+        {
+            var cursor = await _fileCollection.FindAsync(f => true);
+            var files = await cursor.ToListAsync(cancellationToken);
+            return files;
+        }
+
+        public async Task<File> UploadFile(File file, CancellationToken cancellationToken = default)
         {
             await _fileCollection.InsertOneAsync(file);
             return file;
         }
-
-        public void DeleteImageById(string imageId)
+        
+        public void DeleteFileById(string imageId)
         {
             _fileCollection.DeleteOne(d => d.FileId == imageId);
         }

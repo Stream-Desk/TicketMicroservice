@@ -10,8 +10,8 @@ namespace Domain.Users
         Task<User> GetUserById(string userId,CancellationToken cancellationToken = default);
         Task<User> CreateUser(User user,CancellationToken cancellationToken = default);
         void UpdateUser(string userId, User user);
-       
         void DeleteUserById(string userId);
-        
+        Task<User> Authenticate(string UserName, string password, CancellationToken cancellationToken = default);
+
     }
 }
