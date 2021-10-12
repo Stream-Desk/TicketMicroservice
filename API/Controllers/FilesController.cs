@@ -17,13 +17,11 @@ namespace API.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IAttachmentService _attachmentService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public FilesController(IAttachmentService attachmentService, IWebHostEnvironment webHostEnvironment,IFileService fileService)
+        public FilesController(IAttachmentService attachmentService,IFileService fileService)
         {
             _fileService = fileService;
             _attachmentService = attachmentService;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/Files/Download
