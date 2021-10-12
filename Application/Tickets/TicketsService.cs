@@ -132,7 +132,6 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               ClosureDateTime = search.ClosureDateTime,
                Comments = new List<GetCommentModel>()
            };
            return result;
@@ -155,7 +154,7 @@ namespace Application.Tickets
                 Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.Date,
-                Status = model.Status
+                Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
             };
