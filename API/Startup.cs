@@ -55,8 +55,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IMailService, MailService>();
+           
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             services.AddHostedService<QueuedHostedService>();
@@ -76,8 +75,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseCors(MyAllowSpecificOrigins);
+            app.UseAuthorization();
             //DbSeeder.SeedDb(context,userManager);
             app.UseEndpoints(endpoints =>
             {
