@@ -107,8 +107,6 @@ namespace API.Controllers
             return Ok(response);
         }
         
-       
-
         [HttpPost("uploadattachments")]
         public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
         {

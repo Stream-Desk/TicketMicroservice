@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Database.Collections
@@ -25,11 +24,6 @@ namespace Database.Collections
 
             
         }
-
-
-
-
-
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -50,9 +44,6 @@ namespace Database.Collections
             return ticket;
         }
 
-
-
-
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
             var cursor = await _ticketCollection.FindAsync(t => t.Id == ticketId);
@@ -65,10 +56,7 @@ namespace Database.Collections
             await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
-
-       
-        
-
+      
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
 

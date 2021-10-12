@@ -19,7 +19,7 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
 
         private readonly IMailService _mailService;
-      
+        
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -130,7 +130,7 @@ namespace Application.Tickets
                Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
-               Status = search.Status,
+               Status = Status.Pending,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
@@ -190,8 +190,6 @@ namespace Application.Tickets
                     search.Priority = Priority.Low;
                     break;
             }
-            
-
 
             var result = new GetTicketModel
             {
@@ -208,7 +206,7 @@ namespace Application.Tickets
                 IsModified = search.IsModified,
                 Attachments = new List<DownloadFileModel>(),
             };
-
+            
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
                 var scope = _scopeFactory.CreateScope();
@@ -263,17 +261,18 @@ namespace Application.Tickets
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Attachments = new List<File>();
 
-            if (model.Closed == true)
+         
+            if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Pending;
+            }
+            
+            else if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
             }
-            
-            else if (model.IsModified == true)
-            {
-                currentTicket.Status = Status.Open;
-            }
-                
+           
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
