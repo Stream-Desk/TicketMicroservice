@@ -7,6 +7,7 @@ namespace Application.Models.Tickets
     public class UpdateTicketModel
     {
         public string Description { get; set; }
+        public string Name { get; set; }
         public string Summary { get; set; }
         public Category Category { get; set; }
         public Priority Priority  { get; set; }

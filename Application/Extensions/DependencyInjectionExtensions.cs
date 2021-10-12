@@ -1,9 +1,9 @@
 using Application.Attachments;
 using Application.Comments;
-using Application.Files;
 using Application.Users;
 using Application.Tickets;
 using Application.Drafts;
+using Application.Files;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions
@@ -19,6 +19,7 @@ namespace Application.Extensions
             services.AddScoped<IAttachmentService, AttachmentService>();
             services.AddScoped<IFileService, FileService>();
 
+            
             return services;
         }
     }

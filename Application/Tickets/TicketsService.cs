@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Comments;
-using Application.Models.Files;
 using Application.Models.Tickets;
 using Application.Service;
 using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
-using Domain.Files;
 
 namespace Application.Tickets
 {
@@ -19,7 +17,7 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
 
         private readonly IMailService _mailService;
-      
+        
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -55,6 +53,7 @@ namespace Application.Tickets
                 {
                     Id = search.Id,
                     Description = search.Description,
+                    Name = search.Name,
                     Summary = search.Summary,
                     Priority = search.Priority,
                     Status = search.Status,
@@ -87,6 +86,7 @@ namespace Application.Tickets
                 {
                     Id = searchResult.Id,
                     Description = searchResult.Description,
+                    Name = searchResult.Name,
                     TicketNumber = searchResult.TicketNumber,
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
@@ -122,16 +122,18 @@ namespace Application.Tickets
                Id = search.Id,
                Description = search.Description,
                TicketNumber = search.TicketNumber,
+               Name = search.Name,
                Summary = search.Summary,
                Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
-               Status = search.Status,
+               Status = Status.Pending,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
+               FileUrls = search.FileUrls,
                Comments = new List<GetCommentModel>()
            };
            return result;
@@ -150,6 +152,7 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
+                Name = model.Name,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -157,6 +160,7 @@ namespace Application.Tickets
                 Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
+                FileUrls = model.FileUrls
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -187,6 +191,7 @@ namespace Application.Tickets
             {
                 Id = search.Id,
                 TicketNumber = search.TicketNumber,
+                Name = search.Name,
                 Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
@@ -194,9 +199,10 @@ namespace Application.Tickets
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
-                IsModified = search.IsModified
+                IsModified = search.IsModified,
+                FileUrls = search.FileUrls,
             };
-
+            
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
                 var scope = _scopeFactory.CreateScope();
@@ -212,7 +218,6 @@ namespace Application.Tickets
                 });
 
             });
-            
 
             return result;
         }
@@ -239,6 +244,7 @@ namespace Application.Tickets
             }
 
             currentTicket.Summary = model.Summary;
+            currentTicket.Name = model.Name;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
@@ -247,6 +253,7 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
+            currentTicket.FileUrls = new List<string>();
             
             if (model.Closed == true)
             {
