@@ -31,8 +31,7 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
-        public string FileUrl { get; set; }
-        public List<DownloadFileModel> Attachments { get; set; } = new List<DownloadFileModel>();
+        public List<string> FileUrls { get; set; } = new List<string>();
         public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
     }
 }

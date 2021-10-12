@@ -136,7 +136,7 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               Attachments = new List<DownloadFileModel>(),
+               FileUrls = search.FileUrls,
                Comments = new List<GetCommentModel>()
            };
            return result;
@@ -160,11 +160,11 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now.Date,
+                SubmitDate = DateTime.Now,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                Attachments = new List<File>(),
+                FileUrls = model.FileUrls
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -204,7 +204,7 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
-                Attachments = new List<DownloadFileModel>(),
+                FileUrls = search.FileUrls,
             };
             
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -222,7 +222,6 @@ namespace Application.Tickets
                 });
 
             });
-            
 
             return result;
         }
@@ -259,7 +258,7 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            currentTicket.Attachments = new List<File>();
+            currentTicket.FileUrls = new List<string>();
 
          
             if (model.IsModified == true)
