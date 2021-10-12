@@ -83,7 +83,7 @@ namespace API.Controllers
 
             return Ok();
         }
-        
+
         // GET: api/Files/Download
         [HttpGet("{fileId:Length(24)}")]
         public async Task<IActionResult> DownloadFile(string fileId)
@@ -98,7 +98,7 @@ namespace API.Controllers
             memory.Position = 0;
             return File(memory, file.FileType, file.Name + file.Extension);
         }
-        
+
 
         [HttpGet("ListFiles")]
         public async Task<ActionResult<List<DownloadFileModel>>> ListFilesAsync()
@@ -106,7 +106,7 @@ namespace API.Controllers
             var response = await _fileService.ListImages();
             return Ok(response);
         }
-        
+
         [HttpPost("uploadattachments")]
         public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
         {
@@ -118,7 +118,7 @@ namespace API.Controllers
                 Files = files
             };
             var response = await _attachmentService.UploadAttachmentAsync(payload);
-            
+
             return Ok(response);
         }
     }
