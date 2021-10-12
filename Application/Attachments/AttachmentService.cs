@@ -38,7 +38,7 @@ namespace Application.Attachments
 
                     // Write to Specific Location
                     var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), @"wwwroot/Files", fileName);
+                        Directory.GetCurrentDirectory(), "wwwroot", "Files", $"{fileName}{fileExtension}");
 
                     using var fileStream = new FileStream(filePath, FileMode.Create);
                     
@@ -55,6 +55,8 @@ namespace Application.Attachments
                             Extension = fileExtension,
                             CreatedOn = DateTime.Now,
                             FilePath = filePath,
+                            FileType = file.ContentType,
+                            Name = fileName,
                             FileUrl =  $"{request.BaseUrl}/api/Files/{fileId}"
                         });
                 }
