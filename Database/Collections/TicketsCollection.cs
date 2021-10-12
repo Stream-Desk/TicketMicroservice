@@ -28,10 +28,21 @@ namespace Database.Collections
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
-            var ticket = await cursor.ToListAsync(cancellationToken);
+            var sortedCursorByTicketNumber = _ticketCollection
+                .Find(t => t.IsDeleted == false)
+                .SortByDescending(x => x.ticketNumber);
 
-            return ticket;
+            var sortedCursorBySubmitDate = _ticketCollection
+                .Find(t => t.IsDeleted == false)
+                .SortByDescending(x => x.SubmitDate);
+
+            //var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
+            //var ticket = await cursor.ToListAsync(cancellationToken);
+
+            var ticketsSortedByTicketNumber = await sortedCursorByTicketNumber.ToListAsync();
+            //var ticketsSortedBySubmitDate = await sortedCursorBySubmitDate.ToListAsync();
+
+            return ticketsSortedByTicketNumber;
         }
 
         // Laboremus Ticket List
