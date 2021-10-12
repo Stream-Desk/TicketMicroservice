@@ -19,7 +19,7 @@ namespace Domain.Files
         public DateTime? CreatedOn { get; set; }
         [BsonElement("FilePath")]
         public string FilePath { get; set; }
-        [BsonElement("fileUrl")]
+        [BsonElement("FileUrl")]
         public string FileUrl  { get; set; }
 
     }

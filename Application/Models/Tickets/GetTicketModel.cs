@@ -17,15 +17,12 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
-        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
-        public bool IsDeleted { get; set; } 
-        
+        public bool IsDeleted { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
-        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
@@ -33,7 +30,5 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
         public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
-        public string FileUrl { get; set; }
-        
     }
 }

@@ -1,8 +1,9 @@
-﻿using Application.Attachments;
+using Application.Attachments;
 using Application.Comments;
 using Application.Users;
 using Application.Tickets;
 using Application.Drafts;
+using Application.Files;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions
@@ -16,6 +17,8 @@ namespace Application.Extensions
             services.AddScoped<IDraftService, DraftsService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
+            services.AddScoped<IFileService, FileService>();
+
             
             return services;
         }

@@ -10,7 +10,6 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        //private object ticketNumber;
 
         public TicketsCollection(IConfiguration configuration)
         {
@@ -21,14 +20,16 @@ namespace Database.Collections
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
-
-
+        
         }
+        
 
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
+
+            var cursor = _ticketCollection.Find(t => t.IsDeleted == false)
+                .SortByDescending(t => t.Id);
             var ticket = await cursor.ToListAsync(cancellationToken);
 
             return ticket;
@@ -37,8 +38,9 @@ namespace Database.Collections
         // Laboremus Ticket List
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => true);
-            var ticket = await cursor.ToListAsync();
+            var cursor =  _ticketCollection.Find(a => true)
+                .SortByDescending(t => t.Id);
+            var ticket = await cursor.ToListAsync(cancellationToken);
             return ticket;
         }
 
@@ -55,21 +57,37 @@ namespace Database.Collections
             return ticket;
         }
 
-        public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
         {
 
-            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
-            _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(searchTerm);
+           
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
+            var filter = Builders<Ticket>.Filter.Text(sortTerm);
             var result = _ticketCollection.Find(filter).ToList(cancellationToken);
+
+          
             return result;
+        }
+
+        public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
+        {
+            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
+             _ticketCollection.Indexes.CreateOne(keys);
+            var filter = Builders<Ticket>.Filter.Text(searchTerm);          
+            var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
+            return result;
+        }
+
+        public Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
-
+        
         public void DeleteTicketById(string ticketId)
         {
             _ticketCollection.DeleteOne(t => t.Id == ticketId);
@@ -77,23 +95,7 @@ namespace Database.Collections
 
         public void IsSoftDeleted(string ticketId, Ticket ticket)
         {
-            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
-        }
-        public async Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
-        {
-
-            var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
-            var sortDefinition = Builders<Ticket>.Sort
-                                        .Descending(a => a.Category);
-
-            var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
-
-            foreach (var ticket in result)
-            {
-                return result;
-            }
-
-            return result;
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
         }
     }
 }

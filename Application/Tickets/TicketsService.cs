@@ -15,11 +15,8 @@ namespace Application.Tickets
     public class TicketsService : ITicketService
     {
         private readonly ITicketCollection _ticketCollection;
-
         private readonly IMailService _mailService;
-        
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
-
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
 
@@ -31,12 +28,10 @@ namespace Application.Tickets
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
-
             _mailService = mailService;
             _scopeFactory = scopeFactory;
         }
-
-
+        
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -153,13 +148,12 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
-                //TicketNumber = model.TicketNumber,
                 Name = model.Name,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now,
-                Status = Status.Open,
+                SubmitDate = DateTime.Now.Date,
+                Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
                 FileUrls = model.FileUrls
@@ -199,7 +193,7 @@ namespace Application.Tickets
                 Summary = search.Summary,
                 Category = search.Category,
                 SubmitDate = search.SubmitDate,
-                Status = Status.Open,
+                Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 FileUrls = search.FileUrls,
@@ -245,7 +239,6 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
-            //currentTicket.TicketNumber = model.TicketNumber;
             currentTicket.Summary = model.Summary;
             currentTicket.Name = model.Name;
             currentTicket.Description = model.Description;
@@ -257,19 +250,17 @@ namespace Application.Tickets
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.FileUrls = new List<string>();
-
-         
-            if (model.IsModified == true)
-            {
-                currentTicket.Status = Status.Pending;
-            }
             
-            else if (model.Closed == true)
+            if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
             }
-           
+            else if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Open;
+            }
+                
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
@@ -282,7 +273,6 @@ namespace Application.Tickets
             _ticketCollection.DeleteTicketById(model.Id);
         }
         
-
         // BO Delete
         public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
@@ -296,5 +286,6 @@ namespace Application.Tickets
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
+        
     }
 }

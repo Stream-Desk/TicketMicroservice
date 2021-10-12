@@ -10,7 +10,7 @@ namespace Application.Attachments
 {
     public class AttachmentService : IAttachmentService
     {
-        private readonly IFileCollection _fileCollection;
+         private readonly IFileCollection _fileCollection;
 
         public AttachmentService(IFileCollection fileCollection)
         {

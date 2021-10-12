@@ -16,7 +16,7 @@ namespace Application.Files
         {
             _fileCollection = fileCollection;
         }
-        public async Task<DownloadFileModel> UploadFile(AddFileModel model, CancellationToken cancellationToken = default)
+       public async Task<DownloadFileModel> UploadFile(AddFileModel model, CancellationToken cancellationToken = default)
         {
             if (model == null)
             {

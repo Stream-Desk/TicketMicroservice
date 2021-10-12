@@ -34,8 +34,8 @@ namespace API
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   { builder.WithOrigins(
-                                      "https://streamdesk-webapp.herokuapp.com",
-                                      "https://backoffice-interface.herokuapp.com",
+                                      "https://streamdesk-webapp.herokuapp.com", 
+                                      "https://backoffice-interface.herokuapp.com", 
                                       "https://laboremus-supportservice.herokuapp.com", 
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 
@@ -55,7 +55,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-           
+
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             services.AddHostedService<QueuedHostedService>();
@@ -75,8 +75,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
             //DbSeeder.SeedDb(context,userManager);
             app.UseEndpoints(endpoints =>
             {
