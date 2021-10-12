@@ -10,9 +10,7 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        
 
-       
         public TicketsCollection(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
