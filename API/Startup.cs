@@ -33,7 +33,10 @@ namespace API
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
-                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com", "http://localhost:8082")
+                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com",
+                                                        "https://backoffice-interface.herokuapp.com",
+                                                        "http://laboremus-supportservice.herokuapp.com",
+                                                        "http://localhost:8082")
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod();
                                   });
