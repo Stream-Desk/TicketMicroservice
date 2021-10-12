@@ -10,23 +10,25 @@ namespace Application.Attachments
 {
     public class AttachmentService : IAttachmentService
     {
-        private readonly IFileCollection _fileCollection;
+         private readonly IFileCollection _fileCollection;
 
         public AttachmentService(IFileCollection fileCollection)
         {
             _fileCollection = fileCollection;
         }
-        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, CancellationToken cancellationToken = default)
+        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, 
+            CancellationToken cancellationToken = default)
         {
             var response = new AttachmentResponse();
             foreach (var file in request.Files)
             {
                 if (file.Length > 0)
                 {
-                    // Save file to server
+                    // Get File Details
                     var fileId = ObjectId.GenerateNewId().ToString();
-                    var fileName = $"{fileId}{Path.GetExtension(file.FileName)}";
+                    var fileName =  Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                     var fileExtension = Path.GetExtension(file.FileName);
+                    
                     await using var memoryStream = new MemoryStream();
 
                     // Write to Stream
@@ -37,7 +39,7 @@ namespace Application.Attachments
 
                     // Write to Specific Location
                     var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), @"wwwroot/Files", fileName);
+                        Directory.GetCurrentDirectory(), "wwwroot", "Files", $"{fileName}{fileExtension}");
 
                     using var fileStream = new FileStream(filePath, FileMode.Create);
                     
@@ -45,15 +47,18 @@ namespace Application.Attachments
                     await memoryStream.CopyToAsync(fileStream);
                     
                     // Add file Path to response
-                    response.FileUrls.Add($"{request.BaseUrl}/Files/{fileName}");
+                    response.FileUrls.Add($"{request.BaseUrl}/api/Files/{fileId}");
 
-                    await _fileCollection.CreateImage(
+                    await _fileCollection.UploadFile(
                         new File
                         {
                             FileId = fileId,
                             Extension = fileExtension,
                             CreatedOn = DateTime.Now,
-                            FileUrl =  $"{request.BaseUrl}/Files/{fileName}"
+                            FilePath = filePath,
+                            FileType = file.ContentType,
+                            Name = fileName,
+                            FileUrl =  $"{request.BaseUrl}/api/Files/{fileId}"
                         });
                 }
 

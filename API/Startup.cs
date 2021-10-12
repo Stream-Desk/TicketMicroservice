@@ -30,7 +30,6 @@ namespace API
         {
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -57,8 +56,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IMailService, MailService>();
+
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
             services.AddHostedService<QueuedHostedService>();

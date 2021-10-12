@@ -37,8 +37,7 @@ namespace Application.Tickets
             _mailService = mailService;
             _scopeFactory = scopeFactory;
         }
-
-
+        
         // Banks BO Ticket List
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
@@ -133,7 +132,6 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               Attachments = new List<DownloadFileModel>(),
                Comments = new List<GetCommentModel>()
            };
            return result;
@@ -152,15 +150,13 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
-                //TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.Date,
-                Status = Status.Open,
+                Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                Attachments = new List<File>(),
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -196,10 +192,9 @@ namespace Application.Tickets
                 Summary = search.Summary,
                 Category = search.Category,
                 SubmitDate = search.SubmitDate,
-                Status = Status.Open,
+                Status = search.Status,
                 IsDeleted = search.IsDeleted,
-                IsModified = search.IsModified,
-                Attachments = new List<DownloadFileModel>(),
+                IsModified = search.IsModified
             };
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -243,7 +238,6 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
-            //currentTicket.TicketNumber = model.TicketNumber;
             currentTicket.Summary = model.Summary;
             currentTicket.Description = model.Description;
             currentTicket.Priority = model.Priority;
@@ -253,14 +247,12 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            currentTicket.Attachments = new List<File>();
-
+            
             if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
             }
-            
             else if (model.IsModified == true)
             {
                 currentTicket.Status = Status.Open;
@@ -278,7 +270,6 @@ namespace Application.Tickets
             _ticketCollection.DeleteTicketById(model.Id);
         }
         
-
         // BO Delete
         public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
@@ -292,5 +283,6 @@ namespace Application.Tickets
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
+        
     }
 }

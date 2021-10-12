@@ -1,4 +1,3 @@
-﻿using Application.Appointments;
 using Application.Attachments;
 using Application.Comments;
 using Application.Files;
@@ -17,9 +16,8 @@ namespace Application.Extensions
             services.AddScoped<ITicketService, TicketsService>();
             services.AddScoped<IDraftService, DraftsService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }

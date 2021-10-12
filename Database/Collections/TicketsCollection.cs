@@ -10,7 +10,6 @@ namespace Database.Collections
     public class TicketsCollection : ITicketCollection
     {
         private IMongoCollection<Ticket> _ticketCollection;
-        //private object ticketNumber;
 
         public TicketsCollection(IConfiguration configuration)
         {
@@ -25,23 +24,21 @@ namespace Database.Collections
         }
         
 
-        
-
-
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
+            var cursor = _ticketCollection.Find(t => t.IsDeleted == false)
+                .SortByDescending(t => t.Id);
             var ticket = await cursor.ToListAsync(cancellationToken);
-
             return ticket;
         }
 
         // Laboremus Ticket List
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(t => true);
-            var ticket = await cursor.ToListAsync();
+            var cursor =  _ticketCollection.Find(a => true)
+                .SortByDescending(t => t.Id);
+            var ticket = await cursor.ToListAsync(cancellationToken);
             return ticket;
         }
 
@@ -72,7 +69,6 @@ namespace Database.Collections
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
-
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
             var filter = Builders<Ticket>.Filter.Text(searchTerm);          

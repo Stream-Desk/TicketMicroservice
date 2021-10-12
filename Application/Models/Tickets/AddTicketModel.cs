@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Application.Models.Comments;
-using Application.Models.Files;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -10,6 +9,7 @@ namespace Application.Models.Tickets
     public class AddTicketModel
     {
         public string Summary { get; set; }
+        public string Name { get; set; }
         public int TicketNumber { get; set; }
         public string Description { get; set; }
         public Category Category { get; set; }
@@ -17,11 +17,9 @@ namespace Application.Models.Tickets
         
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
-        
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
-        public bool IsDeleted { get; set; } 
-        
+        public bool IsDeleted { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool IsModified { get; set; }
@@ -30,8 +28,7 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
-        public string FileUrl { get; set; }
-        public List<DownloadFileModel> Attachments { get; set; } = new List<DownloadFileModel>();
+        public List<string> FileUrls { get; set; } = new List<string>();
         public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
     }
 }
