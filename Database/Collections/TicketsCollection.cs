@@ -22,13 +22,13 @@ namespace Database.Collections
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
 
-            
+
         }
+
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
-            var cursor = _ticketCollection.Find(t => t.IsDeleted == false)
-                .SortByDescending(t => t.Id);
+            var cursor = await _ticketCollection.FindAsync(t => t.IsDeleted == false);
             var ticket = await cursor.ToListAsync(cancellationToken);
 
             return ticket;
@@ -37,9 +37,7 @@ namespace Database.Collections
         // Laboremus Ticket List
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
-            var cursor = _ticketCollection
-                .Find(t => true)
-                .SortByDescending(t => t.Id);
+            var cursor = await _ticketCollection.FindAsync(t => true);
             var ticket = await cursor.ToListAsync();
             return ticket;
         }
@@ -56,14 +54,14 @@ namespace Database.Collections
             await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
-      
+
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
 
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
-             _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(searchTerm);          
-            var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
+            _ticketCollection.Indexes.CreateOne(keys);
+            var filter = Builders<Ticket>.Filter.Text(searchTerm);
+            var result = _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
 
@@ -71,7 +69,7 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
-        
+
         public void DeleteTicketById(string ticketId)
         {
             _ticketCollection.DeleteOne(t => t.Id == ticketId);
@@ -79,8 +77,23 @@ namespace Database.Collections
 
         public void IsSoftDeleted(string ticketId, Ticket ticket)
         {
-            _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
-       
+       // public async Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
+        //{
+
+          //  var filter = Builders<Ticket>.Filter.Eq("type", "Ticket");
+          //  var sortDefinition = Builders<Ticket>.Sort
+          //                              .Descending(a => a.Category);
+
+           // var result = _ticketCollection.Find(filter).Sort(sortDefinition).ToList();
+
+          //  foreach (var ticket in result)
+          //  {
+           //     return result;
+           // }
+
+           // return result;
+        }
     }
-}
+
