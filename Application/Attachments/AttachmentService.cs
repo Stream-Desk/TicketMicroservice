@@ -16,18 +16,19 @@ namespace Application.Attachments
         {
             _fileCollection = fileCollection;
         }
-        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, CancellationToken cancellationToken = default)
+        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, 
+            CancellationToken cancellationToken = default)
         {
             var response = new AttachmentResponse();
             foreach (var file in request.Files)
             {
                 if (file.Length > 0)
                 {
-                    // Save file to server
+                    // Get File Details
                     var fileId = ObjectId.GenerateNewId().ToString();
-                    // var fileName = $"{ObjectId.GenerateNewId()}{Path.GetExtension(file.FileName)}";
                     var fileName =  Path.GetFileNameWithoutExtension(file.FileName.Replace(" ", "_"));
                     var fileExtension = Path.GetExtension(file.FileName);
+                    
                     await using var memoryStream = new MemoryStream();
 
                     // Write to Stream
