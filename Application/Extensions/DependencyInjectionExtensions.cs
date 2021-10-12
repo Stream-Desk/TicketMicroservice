@@ -1,4 +1,4 @@
-﻿using Application.Attachments;
+using Application.Attachments;
 using Application.Comments;
 using Application.Files;
 using Application.Users;

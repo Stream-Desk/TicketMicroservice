@@ -19,7 +19,6 @@ namespace Database.Collections
             var dbName = configuration.GetValue<string>("MongoDb:Database");
             var database = client.GetDatabase(dbName);
             var ticketsCollectionName = configuration.GetValue<string>("MongoDb:TicketCollection");
-
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
@@ -35,7 +34,6 @@ namespace Database.Collections
         }
 
         // Laboremus Ticket List
-        
         public async Task<List<Ticket>> GetTickets(CancellationToken cancellationToken = default)
         {
             var cursor =  _ticketCollection.Find(a => true)
@@ -46,7 +44,7 @@ namespace Database.Collections
 
         public async Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default)
         {
-            var cursor = await _ticketCollection.FindAsync(a => a.Id == ticketId);
+            var cursor = await _ticketCollection.FindAsync(t => t.Id == ticketId);
             var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
             return ticket;
         }
@@ -57,23 +55,35 @@ namespace Database.Collections
             return ticket;
         }
 
+        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
+        {
+
+           
+            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
+            var filter = Builders<Ticket>.Filter.Text(sortTerm);
+            var result = _ticketCollection.Find(filter).ToList(cancellationToken);
+
+          
+            return result;
+        }
+
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
             var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
              _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(searchTerm);
+            var filter = Builders<Ticket>.Filter.Text(searchTerm);          
             var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
             return result;
         }
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
-            _ticketCollection.ReplaceOne(a => a.Id == ticketId, ticket);
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
         
         public void DeleteTicketById(string ticketId)
         {
-            _ticketCollection.DeleteOne(a => a.Id == ticketId);
+            _ticketCollection.DeleteOne(t => t.Id == ticketId);
         }
 
         public void IsSoftDeleted(string ticketId, Ticket ticket)

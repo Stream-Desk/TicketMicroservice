@@ -1,5 +1,5 @@
-﻿using Application.Models;
-using Application.Services;
+﻿using Application.Service;
+using Application.Models.Mail;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

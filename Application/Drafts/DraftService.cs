@@ -66,7 +66,6 @@ namespace Application.Drafts
                 Priority = search.Priority,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
-                Attachment = search.Attachment,
                 User = search.User
             };
             return result;
@@ -90,7 +89,6 @@ namespace Application.Drafts
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now,
                 Status = model.Status,
-                Attachment = model.Attachment,
             };
 
             var search = await _draftCollection.CreateDraft(draft, cancellationToken);
@@ -102,7 +100,6 @@ namespace Application.Drafts
                 Category = search.Category,
                 SubmitDate = DateTime.Now,
                 Status = search.Status,
-                Attachment = search.Attachment
             };
             return result;
         }

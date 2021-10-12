@@ -28,12 +28,6 @@ namespace API.Controllers
             return Ok(response);
         }
         
-        [HttpGet("search")]
-        public async Task<ActionResult<List<GetTicketModel>>> SearchTickets(string searchTerm)
-        {
-            var response = _ticketService.SearchTickets(searchTerm);
-            return Ok(response);
-        }
             
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
@@ -45,12 +39,12 @@ namespace API.Controllers
         
         // POST api/<TicketsController>
         [HttpPost]
-        public async Task<ActionResult<GetTicketModel>> PostAsync(
-            [FromBody] AddTicketModel model)
+        public async Task<ActionResult<GetTicketModel>> PostAsync([FromBody] AddTicketModel model)
         {
             var response = await _ticketService.CreateTicket(model);
             return Ok(response);
         }
+        
         // PUT api/<TicketsController>/5
         [HttpPut("{id:length(24)}")]
         public IActionResult Put([FromRoute] string id, [FromBody] UpdateTicketModel model)

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Application.Settings;
 using Application.Extensions;
+using Application.Service;
 using Database.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Application.Services;
-
+using Infrastracture;
+using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -33,14 +34,15 @@ namespace API
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
-                                  { builder.WithOrigins("https://streamdesk-webapp.herokuapp.com",
-                                      "https://backoffice-interface.herokuapp.com",
+                                  { builder.WithOrigins(
+                                      "https://streamdesk-webapp.herokuapp.com", 
+                                      "https://backoffice-interface.herokuapp.com", 
                                       "https://laboremus-supportservice.herokuapp.com", 
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 
                                       "https://8082-scarlet-blackbird-ylncjra7.ws-eu15.gitpod.io/")
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod();
+                                       .AllowAnyHeader()
+                                       .AllowAnyMethod();
                                   });
             });
 
@@ -57,11 +59,13 @@ namespace API
 
             services.AddDataBaseLayer();
             services.AddApplicationLayer();
-         
+            services.AddHostedService<QueuedHostedService>();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)//, ApplicationDBContext context, UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -72,8 +76,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
             //DbSeeder.SeedDb(context,userManager);
             app.UseEndpoints(endpoints =>
             {

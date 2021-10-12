@@ -1,15 +1,17 @@
-﻿using MailKit.Net.Smtp;
+﻿using System;
+using System.Threading.Tasks;
+using Application.Models.Mail;
 using Application.Settings;
-using Application.Models;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System;
 
-namespace Application.Services
+namespace Application.Service
 {
     public class MailService : IMailService
     {
         MailSettings _mailSettings = null;
+
         public MailService(IOptions<MailSettings> options)
         {
             _mailSettings = options.Value;
@@ -49,9 +51,9 @@ namespace Application.Services
             }
         }
 
-        public bool SendMail(MailData mailData)
+        public Task AppointmentMail(MailData mailData)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

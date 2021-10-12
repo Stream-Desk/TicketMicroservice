@@ -2,8 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Models.Comments;
+using Application.Models.Files;
 using Application.Models.Tickets;
+using Application.Service;
 using Domain.Tickets;
+using Infrastracture;
+using Microsoft.Extensions.DependencyInjection;
+using Application.Models.Mail;
+using Domain.Files;
 
 namespace Application.Tickets
 {
@@ -11,9 +18,24 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
 
-        public TicketsService(ITicketCollection ticketCollection)
+        private readonly IMailService _mailService;
+      
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly object SendEmail;
+
+        public TicketsService(
+            ITicketCollection ticketCollection,
+            IServiceScopeFactory scopeFactory,
+            IBackgroundTaskQueue backgroundTaskQueue,
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
+            _backgroundTaskQueue = backgroundTaskQueue;
+
+            _mailService = mailService;
+            _scopeFactory = scopeFactory;
         }
         
         // Banks BO Ticket List
@@ -41,6 +63,7 @@ namespace Application.Tickets
                     IsModified = search.IsModified,
                     Closed = search.Closed,
                     ClosureDateTime = search.ClosureDateTime,
+                    TicketNumber = search.TicketNumber
                 };
                 result.Add(model);
             }
@@ -73,7 +96,7 @@ namespace Application.Tickets
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
                     Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime,
+                    ClosureDateTime = searchResult.ClosureDateTime
                 };
                 result.Add(model);
             }
@@ -109,6 +132,8 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
+               ClosureDateTime = search.ClosureDateTime,
+               Comments = new List<GetCommentModel>()
            };
            return result;
         }
@@ -126,22 +151,44 @@ namespace Application.Tickets
             var ticket = new Ticket
             {
                 Description = model.Description,
-                TicketNumber = model.TicketNumber,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now,
-                Status = model.Status,
+                SubmitDate = DateTime.Now.Date,
+                Status = model.Status
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
+            
+            switch (search.Category)
+            {
+                case Category.Bug:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    search.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    search.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    search.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    search.Priority = Priority.High;
+                    break;  
+                default:
+                    search.Priority = Priority.Low;
+                    break;
+            }
+
             var result = new GetTicketModel
             {
                 Id = search.Id,
-                Description = search.Description,
                 TicketNumber = search.TicketNumber,
+                Description = search.Description,
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
@@ -150,6 +197,24 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified
             };
+
+            await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
+            {
+                var scope = _scopeFactory.CreateScope();
+
+                var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
+
+                mailService.SendEmail(new MailData
+                {
+                    EmailBody = "Hello Catherine, your ticket has been received, you will receive feedback shortly",
+                    EmailSubject = "Ticket Received",
+                    EmailToId = "catherinececilia22@gmail.com",
+                    EmailToName = "cathy"
+                });
+
+            });
+            
+
             return result;
         }
 
@@ -181,7 +246,7 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
-            currentTicket.Closed = false;
+            currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
             if (model.Closed == true)
@@ -219,37 +284,6 @@ namespace Application.Tickets
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
-
-        public async Task<List<GetTicketModel>> SearchTickets(string searchTerm, CancellationToken cancellationToken = default)
-        {
-            var searchResults = await _ticketCollection.SearchTicket(searchTerm, cancellationToken);
-            if (searchResults == null || searchResults.Count < 1)
-            {
-                return new List<GetTicketModel>();
-            }
-
-            var result = new List<GetTicketModel>();
-
-            foreach (var searchResult in searchResults)
-            {
-                var model = new GetTicketModel
-                {
-                    Id = searchResult.Id,
-                    Description = searchResult.Description,
-                    TicketNumber = searchResult.TicketNumber,
-                    Summary = searchResult.Summary,
-                    Priority = searchResult.Priority,
-                    Status = searchResult.Status,
-                    Category = searchResult.Category,
-                    SubmitDate = searchResult.SubmitDate,
-                    IsDeleted = searchResult.IsDeleted,
-                    IsModified = searchResult.IsModified,
-                    Closed = searchResult.Closed,
-                    ClosureDateTime = searchResult.ClosureDateTime
-                };
-                result.Add(model);
-            }
-            return result;
-        }
+        
     }
 }

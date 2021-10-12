@@ -19,6 +19,7 @@ namespace Application.Users
         Task<UserModel> Authenticate(string UserName, string password);
 
         Task SeedUsersAsync(CancellationToken cancellationToken = default);
+       
     }
 }
 

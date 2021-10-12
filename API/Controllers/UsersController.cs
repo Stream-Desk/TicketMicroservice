@@ -3,6 +3,9 @@ using Application.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Net;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -62,6 +65,19 @@ namespace API.Controllers
         {
             _userService.DeleteUserById(new DeleteUserModel { Id = id });
             return NoContent();
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            var user = await _userService.Authenticate(model.UserName, model.Password);
+
+            if (user == null)
+                return StatusCode((int)HttpStatusCode.Unauthorized, new { message = "Username or password is incorrect" });
+
+            return Ok(user);
         }
     }
 }

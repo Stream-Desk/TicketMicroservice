@@ -1,5 +1,6 @@
 ﻿using Application.Models.Users;
 using Domain.Users;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading;
