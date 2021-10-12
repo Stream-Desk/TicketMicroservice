@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Application.Attachments;
 using Application.Files;
 using Application.Models.Files;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace API.Controllers
 {
@@ -17,14 +14,11 @@ namespace API.Controllers
     public class FilesController : ControllerBase
     {
         private readonly IFileService _fileService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAttachmentService _attachmentService;
 
-        public FilesController(IFileService fileService, IWebHostEnvironment webHostEnvironment,
-            IAttachmentService attachmentService)
+        public FilesController(IFileService fileService, IAttachmentService attachmentService)
         {
             _fileService = fileService;
-            _webHostEnvironment = webHostEnvironment;
             _attachmentService = attachmentService;
         }
         

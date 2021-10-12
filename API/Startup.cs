@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Infrastracture;
-using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -30,7 +29,6 @@ namespace API
         {
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -38,7 +36,6 @@ namespace API
                                   { builder.WithOrigins(
                                       "https://streamdesk-webapp.herokuapp.com",
                                       "https://backoffice-interface.herokuapp.com",
-                                      //"https://backoffice-interface.herokuapp.com", 
                                       "https://laboremus-supportservice.herokuapp.com", 
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 

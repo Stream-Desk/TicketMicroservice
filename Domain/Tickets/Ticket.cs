@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Domain.Comments;
-using Domain.Files;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

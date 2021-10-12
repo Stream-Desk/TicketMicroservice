@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Application.Models.Comments;
-using Application.Models.Files;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
