@@ -15,11 +15,8 @@ namespace Application.Tickets
     public class TicketsService : ITicketService
     {
         private readonly ITicketCollection _ticketCollection;
-
         private readonly IMailService _mailService;
-        
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
-
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
 
@@ -31,7 +28,6 @@ namespace Application.Tickets
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
-
             _mailService = mailService;
             _scopeFactory = scopeFactory;
         }

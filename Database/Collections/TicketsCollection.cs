@@ -76,6 +76,11 @@ namespace Database.Collections
             return result;
         }
 
+        public Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
