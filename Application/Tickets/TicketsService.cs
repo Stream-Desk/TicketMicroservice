@@ -211,7 +211,7 @@ namespace Application.Tickets
                 {
                     EmailBody = "Hello Catherine, your ticket has been received, you will receive feedback shortly",
                     EmailSubject = "Ticket Received",
-                    EmailToId = "catherinececilia22@gmail.com",
+                    EmailToId = "handsdani@gmail.com",
                     EmailToName = "cathy"
                 });
 
