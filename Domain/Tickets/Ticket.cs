@@ -18,8 +18,8 @@ namespace Domain.Tickets
         public string Id { get; set; }
         public string Summary { get; set; }
         public int TicketNumber { get; set; }
-        public Category Category { get; set; }
         public string Description { get; set; }
+        public Category Category { get; set; }
         public Priority Priority { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
@@ -33,7 +33,6 @@ namespace Domain.Tickets
         public int ticketNumber { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
-        public string FileUrl { get; set; }
     }
 }
          
