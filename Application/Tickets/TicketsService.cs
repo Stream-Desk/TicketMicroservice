@@ -174,7 +174,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Description = model.Description,
                 Category = model.Category,
-                Priority = model.Priority,
+                Priority = model.Priority, 
                 SubmitDate = DateTime.Now,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
