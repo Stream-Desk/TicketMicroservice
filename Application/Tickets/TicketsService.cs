@@ -152,7 +152,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now.Date,
+                SubmitDate = DateTime.Now,
                 Status = model.Status,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
@@ -193,7 +193,7 @@ namespace Application.Tickets
                 Summary = search.Summary,
                 Category = search.Category,
                 SubmitDate = search.SubmitDate,
-                Status = search.Status,
+                Status = Status.Open,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 FileUrls = search.FileUrls,
@@ -251,14 +251,14 @@ namespace Application.Tickets
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.FileUrls = new List<string>();
             
-            if (model.Closed == true)
+            if (model.IsModified == true)
+            {
+                currentTicket.Status = Status.Pending;
+            }
+            else if (model.Closed == true)
             {
                 currentTicket.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
-            }
-            else if (model.IsModified == true)
-            {
-                currentTicket.Status = Status.Open;
             }
                 
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
