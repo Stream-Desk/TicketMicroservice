@@ -37,6 +37,7 @@ namespace API
                                       "https://streamdesk-webapp.herokuapp.com", 
                                       "https://backoffice-interface.herokuapp.com", 
                                       "https://laboremus-supportservice.herokuapp.com", 
+                                      // "https://laboremus-supportservice.herokuapp.com", 
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 
                                       "https://8082-scarlet-blackbird-ylncjra7.ws-eu15.gitpod.io/")

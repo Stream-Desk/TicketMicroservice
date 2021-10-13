@@ -174,7 +174,7 @@ namespace Application.Tickets
                 Summary = model.Summary,
                 Description = model.Description,
                 Category = model.Category,
-                Priority = model.Priority,
+                Priority = model.Priority, 
                 SubmitDate = DateTime.Now,
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
@@ -211,7 +211,7 @@ namespace Application.Tickets
                 {
                     EmailBody = "Hello Catherine, your ticket has been received, you will receive feedback shortly",
                     EmailSubject = "Ticket Received",
-                    EmailToId = "catherinececilia22@gmail.com",
+                    EmailToId = "handsdani@gmail.com",
                     EmailToName = "cathy"
                 });
 
