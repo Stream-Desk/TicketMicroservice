@@ -108,6 +108,7 @@ namespace Application.Tickets
            }
            
            var search = await _ticketCollection.GetTicketById(ticketId, cancellationToken);
+           
            if (search == null)
            {
                return new GetTicketModel();
@@ -116,14 +117,14 @@ namespace Application.Tickets
            var result = new GetTicketModel
            {
                Id = search.Id,
+               Name = search.Name,
                Description = search.Description,
                TicketNumber = search.TicketNumber,
-               Name = search.Name,
                Summary = search.Summary,
                Category = search.Category,
                Priority = search.Priority,
                SubmitDate = search.SubmitDate,
-               Status = Status.Pending,
+               Status = search.Status,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
                ModifiedAt = search.ModifiedAt,
@@ -145,11 +146,33 @@ namespace Application.Tickets
             }
             
             // Map model to domain Entity
+            switch (model.Category)
+            {
+                case Category.Bug:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    model.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    model.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    model.Priority = Priority.High;
+                    break;  
+                default:
+                    model.Priority = Priority.Low;
+                    break;
+            }
+            
             var ticket = new Ticket
             {
-                Description = model.Description,
                 Name = model.Name,
                 Summary = model.Summary,
+                Description = model.Description,
                 Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now,
@@ -161,27 +184,6 @@ namespace Application.Tickets
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             
-            switch (search.Category)
-            {
-                case Category.Bug:
-                    search.Priority = Priority.High;
-                    break;
-                case Category.Login:
-                    search.Priority = Priority.High;
-                    break;
-                case Category.Uploads:
-                    search.Priority = Priority.Medium;
-                    break;
-                case Category.Other:
-                    search.Priority = Priority.Low;
-                    break;
-                case Category.FreezingScreen:
-                    search.Priority = Priority.High;
-                    break;  
-                default:
-                    search.Priority = Priority.Low;
-                    break;
-            }
 
             var result = new GetTicketModel
             {
@@ -189,9 +191,9 @@ namespace Application.Tickets
                 TicketNumber = search.TicketNumber,
                 Name = search.Name,
                 Description = search.Description,
+                Category = search.Category,
                 Priority = search.Priority,
                 Summary = search.Summary,
-                Category = search.Category,
                 SubmitDate = search.SubmitDate,
                 Status = Status.Open,
                 IsDeleted = search.IsDeleted,
