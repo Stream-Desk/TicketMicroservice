@@ -176,7 +176,7 @@ namespace Application.Tickets
                 Category = model.Category,
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now,
-                Status = model.Status,
+                Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
                 FileUrls = model.FileUrls
@@ -195,7 +195,7 @@ namespace Application.Tickets
                 Priority = search.Priority,
                 Summary = search.Summary,
                 SubmitDate = search.SubmitDate,
-                Status = Status.Open,
+                Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 FileUrls = search.FileUrls,
