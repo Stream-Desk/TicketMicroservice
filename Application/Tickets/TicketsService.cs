@@ -241,11 +241,47 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
+            if (model.IsModified == true)
+            {
+                model.Status = Status.Pending;
+            }
+            else if (model.Closed == true)
+            {
+                model.ClosureDateTime = DateTime.Now;
+                model.Status = Status.Resolved;
+            }
+            else
+            {
+                model.Status = Status.Open;
+            }
+           
+            switch (currentTicket.Category)
+            {
+                case Category.Bug:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    model.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    model.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    model.Priority = Priority.High;
+                    break;  
+                default:
+                    model.Priority = Priority.Low;
+                    break;
+            }
+
             currentTicket.Summary = model.Summary;
             currentTicket.Name = model.Name;
             currentTicket.Description = model.Description;
-            currentTicket.Priority = model.Priority;
             currentTicket.Category = model.Category;
+            currentTicket.Priority = model.Priority;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
@@ -253,17 +289,7 @@ namespace Application.Tickets
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.FileUrls = new List<string>();
             
-            if (model.IsModified == true)
-            {
-                currentTicket.Status = Status.Pending;
-            }
-            else if (model.Closed == true)
-            {
-                currentTicket.ClosureDateTime = DateTime.Now;
-                currentTicket.Status = Status.Resolved;
-            }
-                
-            _ticketCollection.UpdateTicket(ticketId, currentTicket);
+           _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         public void DeleteTicketById(DeleteTicketModel model)
         {
