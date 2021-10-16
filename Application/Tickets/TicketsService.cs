@@ -241,20 +241,25 @@ namespace Application.Tickets
                 throw new Exception("Ticket not found");
             }
 
+            // Change Status to Modified when Edited
             if (model.IsModified == true)
             {
                 model.Status = Status.Pending;
             }
+            
             else if (model.Closed == true)
             {
                 model.ClosureDateTime = DateTime.Now;
                 model.Status = Status.Resolved;
             }
+            
             else
             {
                 model.Status = Status.Open;
             }
            
+            // Category to March Priority
+            
             switch (currentTicket.Category)
             {
                 case Category.Bug:
@@ -291,6 +296,7 @@ namespace Application.Tickets
             
            _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
+        
         public void DeleteTicketById(DeleteTicketModel model)
         {
             // validation

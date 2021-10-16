@@ -29,6 +29,5 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
-        public List<GetCommentModel> Comments { get; set; } = new List<GetCommentModel>();
     }
 }
