@@ -36,6 +36,7 @@ namespace Application.Tickets
         public async Task<List<GetTicketModel>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {
             var searches = await _ticketCollection.GetTicketsWithSoftDeleteFalse(cancellationToken);
+            
             if (searches == null || searches.Count < 1)
             {
                 return new List<GetTicketModel>();
@@ -69,6 +70,7 @@ namespace Application.Tickets
         public async Task<List<GetTicketModel>> GetTickets(CancellationToken cancellationToken = default)
         {
             var searchResults = await _ticketCollection.GetTickets(cancellationToken);
+            
             if (searchResults == null || searchResults.Count < 1)
             {
                 return new List<GetTicketModel>();
