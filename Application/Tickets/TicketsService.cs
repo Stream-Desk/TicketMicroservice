@@ -141,6 +141,7 @@ namespace Application.Tickets
                Comments = new List<GetCommentModel>()
            };
 
+           // Creating a new Comment
            await _commentsCollection.CreateComment(new Comment()
            {
                 TicketId = search.Id,
@@ -148,6 +149,17 @@ namespace Application.Tickets
                 Text = new Comment().Text,
                 TimeStamp = DateTime.Now
            });
+           
+           // Update Status of the Ticket for each new Comment
+           
+           foreach(var comment in result.Comments)
+           {
+               _ticketCollection.UpdateTicket(search.Id, new Ticket
+               {
+                   Status = Status.Pending
+               });
+           }
+           
            
            return result;
         }
