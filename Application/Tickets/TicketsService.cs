@@ -19,7 +19,7 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
         private readonly IMailService _mailService;
-        private readonly CommentsCollection _commentsCollection;
+        private readonly ICommentsCollection _commentsCollection;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
@@ -28,7 +28,7 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService, CommentsCollection commentsCollection)
+            IMailService mailService, ICommentsCollection commentsCollection)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
@@ -145,7 +145,7 @@ namespace Application.Tickets
            {
                 TicketId = search.Id,
                 Id = ObjectId.GenerateNewId().ToString(),
-                Text = "",
+                Text = new Comment().Text,
                 TimeStamp = DateTime.Now
            });
            
