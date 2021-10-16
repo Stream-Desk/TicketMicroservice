@@ -9,6 +9,9 @@ using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
+using Database.Collections;
+using Domain.Comments;
+using MongoDB.Bson;
 
 namespace Application.Tickets
 {
@@ -16,6 +19,7 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
         private readonly IMailService _mailService;
+        private readonly CommentsCollection _commentsCollection;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
@@ -24,11 +28,12 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService)
+            IMailService mailService, CommentsCollection commentsCollection)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
             _mailService = mailService;
+            _commentsCollection = commentsCollection;
             _scopeFactory = scopeFactory;
         }
         
@@ -135,6 +140,15 @@ namespace Application.Tickets
                FileUrls = search.FileUrls,
                Comments = new List<GetCommentModel>()
            };
+
+           await _commentsCollection.CreateComment(new Comment()
+           {
+                TicketId = search.Id,
+                Id = ObjectId.GenerateNewId().ToString(),
+                Text = "",
+                TimeStamp = DateTime.Now
+           });
+           
            return result;
         }
 
