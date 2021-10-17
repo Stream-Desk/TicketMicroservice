@@ -141,16 +141,26 @@ namespace Application.Tickets
                Comments = new List<GetCommentModel>()
            };
 
-           // Creating a new Comment
-           await _commentsCollection.CreateComment(new Comment()
+           // Add comment to Comments
+           result.Comments.Add(new GetCommentModel()
            {
-                TicketId = search.Id,
-                Id = ObjectId.GenerateNewId().ToString(),
-                Text = new Comment().Text,
-                TimeStamp = DateTime.Now
+               TicketId = search.Id,
+               Id = ObjectId.GenerateNewId().ToString(),
+               Text = new Comment().Text,
+               TimeStamp = DateTime.Now
            });
            
-           // Update Status of the Ticket for each new Comment
+          //  // Creating a new Comment
+          // await _commentsCollection.CreateComment(new Comment()
+          //  {
+          //       TicketId = search.Id,
+          //       Id = ObjectId.GenerateNewId().ToString(),
+          //       Text = new Comment().Text,
+          //       TimeStamp = DateTime.Now
+          //  });
+
+
+          // Update Status of the Ticket for each new Comment
            
            foreach(var comment in result.Comments)
            {
@@ -159,8 +169,7 @@ namespace Application.Tickets
                    Status = Status.Pending
                });
            }
-           
-           
+
            return result;
         }
 

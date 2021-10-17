@@ -4,19 +4,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Comments;
 using Domain.Comments;
+using Domain.Tickets;
 
 namespace Application.Comments
 {
     public class CommentService : ICommentService
     {
         private readonly ICommentsCollection _commentsCollection;
+        private readonly ITicketCollection _ticketCollection;
 
-        public CommentService(ICommentsCollection commentsCollection)
+        public CommentService(ICommentsCollection commentsCollection, ITicketCollection ticketCollection)
         {
             _commentsCollection = commentsCollection;
+            _ticketCollection = ticketCollection;
         }
         public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, CancellationToken cancellationToken = default)
         {
+            // var ticket = _ticketCollection.GetTicketById(ticketId);
+            //
+            // if(ticket == null ) 
+            //     throw new Exception("Ticket not Found");
+            
+            // Validate model
+            if (model == null)
+            {
+                throw new Exception("Comment not Found");
+            }
 
             var comment = new Comment
             {
@@ -25,7 +38,8 @@ namespace Application.Comments
                 TicketId = model.TicketId,
             };
 
-            var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
+            var newComment = await _commentsCollection.CreateComment(comment, cancellationToken );
+            
             var response = new GetCommentModel
             {
                 Text = newComment.Text,
@@ -37,6 +51,8 @@ namespace Application.Comments
 
         public async Task<GetCommentModel> GetCommentById(string commentId, CancellationToken cancellationToken = default)
         {
+            
+            
             if (String.IsNullOrWhiteSpace(commentId))
             {
                 throw new Exception("Comment empty");
