@@ -12,6 +12,7 @@ using Application.Models.Mail;
 using Database.Collections;
 using Domain.Comments;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Application.Tickets
 {
@@ -141,6 +142,8 @@ namespace Application.Tickets
                Comments = new List<GetCommentModel>()
            };
 
+           // _ticketCollection.UpdateTicket(ticketId, Builders<Ticket>.Update.Push(x => x.Comments, Comment));
+           
            // Add comment to Comments
            result.Comments.Add(new GetCommentModel()
            {

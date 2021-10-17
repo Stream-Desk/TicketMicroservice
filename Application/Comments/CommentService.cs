@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Models.Comments;
 using Domain.Comments;
 using Domain.Tickets;
+using MongoDB.Driver;
 
 namespace Application.Comments
 {
@@ -46,7 +47,7 @@ namespace Application.Comments
                 TimeStamp = newComment.TimeStamp,
                 TicketId = newComment.TicketId,
             };
-                return response;
+            return response;
         }
 
         public async Task<GetCommentModel> GetCommentById(string commentId, CancellationToken cancellationToken = default)
