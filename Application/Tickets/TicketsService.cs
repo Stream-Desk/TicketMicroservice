@@ -142,7 +142,7 @@ namespace Application.Tickets
                Comments = search.Comments
            };
 
-           // _ticketCollection.UpdateTicket(ticketId, Builders<Ticket>.Update.Push(x => x.Comments, Comment));
+           // _ticketCollection.UpdateTicket(ticketId, Builders<Ticket>.Update.Push(x => x.Comments, request));
            
            // // Add comment to Comments
            // result.Comments.Add(new GetCommentModel()
@@ -161,18 +161,7 @@ namespace Application.Tickets
           //       Text = new Comment().Text,
           //       TimeStamp = DateTime.Now
           //  });
-
-
-          // Update Status of the Ticket for each new Comment
-           
-           // foreach(var comment in result.Comments)
-           // {
-           //     _ticketCollection.UpdateTicket(search.Id, new Ticket
-           //     {
-           //         Status = Status.Pending
-           //     });
-           // }
-
+          
            return result;
         }
 
