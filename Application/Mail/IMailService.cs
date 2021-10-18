@@ -6,6 +6,6 @@ namespace Application.Service
     public interface IMailService
     {
         public bool SendEmail(MailData mailData);
-        public Task AppointmentMail(MailData mailData);
+       
     }
 }

@@ -51,10 +51,7 @@ namespace Application.Service
             }
         }
 
-        public Task AppointmentMail(MailData mailData)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
 
