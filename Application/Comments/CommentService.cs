@@ -4,37 +4,47 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Comments;
 using Domain.Comments;
+using Domain.Tickets;
 
 namespace Application.Comments
 {
     public class CommentService : ICommentService
     {
         private readonly ICommentsCollection _commentsCollection;
+        private readonly ITicketCollection _ticketCollection;
 
-        public CommentService(ICommentsCollection commentsCollection)
+        public CommentService(ICommentsCollection commentsCollection, ITicketCollection ticketCollection)
         {
             _commentsCollection = commentsCollection;
+            _ticketCollection = ticketCollection;
         }
         public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, CancellationToken cancellationToken = default)
         {
-
+            // Validate model
+            if (model == null)
+            {
+                throw new Exception("Comment not Found");
+            }
+            // Map Comment
             var comment = new Comment
             {
                 Text = model.Text,
                 TimeStamp = DateTime.Now,
                 TicketId = model.TicketId,
-                UserId = model.UserId
             };
 
             var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
+            
             var response = new GetCommentModel
             {
                 Text = newComment.Text,
                 TimeStamp = newComment.TimeStamp,
                 TicketId = newComment.TicketId,
-                UserId = newComment.UserId
             };
-                return response;
+            
+            // _ticketCollection.UpdateTicket(ticketId,Builders<Ticket>.Update.Push(x => x.Comments , response));
+            
+            return response;
         }
 
         public async Task<GetCommentModel> GetCommentById(string commentId, CancellationToken cancellationToken = default)
@@ -55,7 +65,6 @@ namespace Application.Comments
                 Id = result.Id,
                 Text = result.Text,
                 TimeStamp = result.TimeStamp,
-                UserId = result.UserId,
                 TicketId = result.TicketId
             };
             return response;
@@ -77,7 +86,6 @@ namespace Application.Comments
                     Id = result.Id,
                     Text = result.Text,
                     TimeStamp = result.TimeStamp,
-                    UserId = result.UserId,
                     TicketId = result.TicketId
                 };
                 response.Add(model);
