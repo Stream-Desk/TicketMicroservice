@@ -317,9 +317,8 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            currentTicket.Comments = model.Comments;
-            
-           _ticketCollection.UpdateTicket(ticketId, currentTicket);
+
+            _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         
         public void DeleteTicketById(DeleteTicketModel model)
