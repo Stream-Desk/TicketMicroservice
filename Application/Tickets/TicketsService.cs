@@ -271,13 +271,6 @@ namespace Application.Tickets
             {
                 model.Status = Status.Pending;
             }
-            
-            else if (model.Closed == true)
-            {
-                model.ClosureDateTime = DateTime.Now;
-                model.Status = Status.Resolved;
-            }
-            
             else
             {
                 model.Status = Status.Open;
@@ -318,6 +311,12 @@ namespace Application.Tickets
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
 
+            if (currentTicket.Closed == true)
+            {
+                model.ClosureDateTime = DateTime.Now;
+                currentTicket.Status = Status.Resolved;
+            }
+            
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
         
