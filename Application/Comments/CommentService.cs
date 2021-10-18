@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http.ModelBinding;
 using Application.Models.Comments;
 using Domain.Comments;
 using Domain.Tickets;
@@ -21,17 +22,12 @@ namespace Application.Comments
         }
         public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, CancellationToken cancellationToken = default)
         {
-            // var ticket = _ticketCollection.GetTicketById(ticketId);
-            //
-            // if(ticket == null ) 
-            //     throw new Exception("Ticket not Found");
-            
             // Validate model
             if (model == null)
             {
                 throw new Exception("Comment not Found");
             }
-
+            // Map Comment
             var comment = new Comment
             {
                 Text = model.Text,
@@ -39,7 +35,7 @@ namespace Application.Comments
                 TicketId = model.TicketId,
             };
 
-            var newComment = await _commentsCollection.CreateComment(comment, cancellationToken );
+            var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
             
             var response = new GetCommentModel
             {
@@ -47,13 +43,14 @@ namespace Application.Comments
                 TimeStamp = newComment.TimeStamp,
                 TicketId = newComment.TicketId,
             };
+            
+            // _ticketCollection.UpdateTicket(ticketId,Builders<Ticket>.Update.Push(x => x.Comments , response));
+            
             return response;
         }
 
         public async Task<GetCommentModel> GetCommentById(string commentId, CancellationToken cancellationToken = default)
         {
-            
-            
             if (String.IsNullOrWhiteSpace(commentId))
             {
                 throw new Exception("Comment empty");

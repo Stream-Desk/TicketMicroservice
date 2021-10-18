@@ -28,6 +28,6 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
-        public List<string> FileUrls { get; set; } = new List<string>();
+        public string FileUrl { get; set; } 
     }
 }

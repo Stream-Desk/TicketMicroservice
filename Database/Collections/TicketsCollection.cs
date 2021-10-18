@@ -88,10 +88,10 @@ namespace Database.Collections
         {
             _ticketCollection.DeleteOne(t => t.Id == ticketId);
         }
-
+        
         public void IsSoftDeleted(string ticketId, Ticket ticket)
         {
-            _ticketCollection.ReplaceOne(t => t.Id == ticketId,ticket);
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
     }
 }

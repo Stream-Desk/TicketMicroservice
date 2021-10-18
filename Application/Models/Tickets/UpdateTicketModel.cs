@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Domain.Comments;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -21,6 +23,7 @@ namespace Application.Models.Tickets
         [DefaultValue(false)]
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
+        public List<Comment> Comments { get; set; }
        
     }
 }

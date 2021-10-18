@@ -138,20 +138,20 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               FileUrls = search.FileUrls,
-               Comments = new List<GetCommentModel>()
+               FileUrl = search.FileUrl,
+               Comments = search.Comments
            };
 
            // _ticketCollection.UpdateTicket(ticketId, Builders<Ticket>.Update.Push(x => x.Comments, Comment));
            
-           // Add comment to Comments
-           result.Comments.Add(new GetCommentModel()
-           {
-               TicketId = search.Id,
-               Id = ObjectId.GenerateNewId().ToString(),
-               Text = new Comment().Text,
-               TimeStamp = DateTime.Now
-           });
+           // // Add comment to Comments
+           // result.Comments.Add(new GetCommentModel()
+           // {
+           //     TicketId = search.Id,
+           //     Id = ObjectId.GenerateNewId().ToString(),
+           //     Text = new Comment().Text,
+           //     TimeStamp = DateTime.Now
+           // });
            
           //  // Creating a new Comment
           // await _commentsCollection.CreateComment(new Comment()
@@ -165,13 +165,13 @@ namespace Application.Tickets
 
           // Update Status of the Ticket for each new Comment
            
-           foreach(var comment in result.Comments)
-           {
-               _ticketCollection.UpdateTicket(search.Id, new Ticket
-               {
-                   Status = Status.Pending
-               });
-           }
+           // foreach(var comment in result.Comments)
+           // {
+           //     _ticketCollection.UpdateTicket(search.Id, new Ticket
+           //     {
+           //         Status = Status.Pending
+           //     });
+           // }
 
            return result;
         }
@@ -219,7 +219,7 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                FileUrls = model.FileUrls
+                FileUrl = model.FileUrl
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -238,7 +238,7 @@ namespace Application.Tickets
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
-                FileUrls = search.FileUrls,
+                FileUrl = search.FileUrl,
             };
             
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -332,7 +332,7 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
-            currentTicket.FileUrls = new List<string>();
+            currentTicket.Comments = model.Comments;
             
            _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
@@ -347,6 +347,7 @@ namespace Application.Tickets
             _ticketCollection.DeleteTicketById(model.Id);
         }
         
+
         // BO Delete
         public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
@@ -355,11 +356,11 @@ namespace Application.Tickets
            {
                throw new Exception("Ticket not found");
            }
+           
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
            softDeletedTicket.IsDeleted = true;
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
-        
     }
 }
