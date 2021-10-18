@@ -57,17 +57,7 @@ namespace Database.Collections
             return ticket;
         }
 
-        public async Task<List<Ticket>> SortTicket(string sortTerm, CancellationToken cancellationToken = default)
-        {
-
-           
-            var sortDefinition = Builders<Ticket>.Sort.Descending(a => a.Category);
-            var filter = Builders<Ticket>.Filter.Text(sortTerm);
-            var result = _ticketCollection.Find(filter).ToList(cancellationToken);
-
-          
-            return result;
-        }
+        
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
@@ -78,10 +68,7 @@ namespace Database.Collections
             return result;
         }
 
-        public Task<List<Ticket>> SortTicket(CancellationToken cancellationToken = default)
-        {
-            throw new System.NotImplementedException();
-        }
+        
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
