@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http.ModelBinding;
 using Application.Models.Comments;
 using Domain.Comments;
 using Domain.Tickets;
-using MongoDB.Driver;
 
 namespace Application.Comments
 {

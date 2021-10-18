@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Models.Comments;
 using Application.Models.Tickets;
 using Application.Service;
 using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
-using Database.Collections;
 using Domain.Comments;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Application.Tickets
 {
