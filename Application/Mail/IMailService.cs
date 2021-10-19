@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿
 using Application.Models.Mail;
 
 namespace Application.Service

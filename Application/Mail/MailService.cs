@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Application.Models.Mail;
 using Application.Settings;
 using MailKit.Net.Smtp;
