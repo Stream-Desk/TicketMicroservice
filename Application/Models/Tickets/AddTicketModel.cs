@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -26,6 +29,6 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
-        public string FileUrl { get; set; } 
+        public List<string> FileUrls { get; set; }
     }
 }
