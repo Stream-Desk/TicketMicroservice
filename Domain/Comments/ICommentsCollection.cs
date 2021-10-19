@@ -9,6 +9,7 @@ namespace Domain.Comments
         Task<Comment> CreateComment(Comment comment, CancellationToken cancellationToken = default);
         Task<List<Comment>> GetComments(CancellationToken cancellationToken = default);
         Task<Comment> GetCommentById(string commentId, CancellationToken cancellationToken = default);
+        Task<List<Comment>> GetCommentByTicketIdAsync(string ticketId, CancellationToken cancellationToken = default);
         void UpdateComments(string commentId, Comment comment);
         void DeleteCommentById(string commentId);
     }

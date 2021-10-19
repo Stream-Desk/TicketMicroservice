@@ -61,7 +61,7 @@ namespace Application.Tickets
                     IsModified = search.IsModified,
                     Closed = search.Closed,
                     ClosureDateTime = search.ClosureDateTime,
-                    TicketNumber = search.TicketNumber
+                    TicketNumber = search.TicketNumber,
                 };
                 result.Add(model);
             }

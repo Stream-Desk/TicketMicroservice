@@ -54,5 +54,13 @@ namespace Database.Collections
         {
             _commentCollection.DeleteOne(c => c.Id == commentId);
         }
+
+        public async Task<List<Comment>> GetCommentByTicketIdAsync(string ticketId, CancellationToken cancellationToken = default)
+        {
+            // order the comments by TimeStamp desc
+            var cursor = await _commentCollection.FindAsync(c => c.TicketId == ticketId);
+            var comments = await cursor.ToListAsync(cancellationToken);
+            return comments;
+        }
     }
 }
