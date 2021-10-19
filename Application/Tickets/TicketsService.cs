@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Attachments;
 using Application.Models.Tickets;
 using Application.Service;
 using Domain.Tickets;
@@ -9,6 +10,7 @@ using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
 using Domain.Comments;
+using Domain.Files;
 
 namespace Application.Tickets
 {
@@ -17,6 +19,7 @@ namespace Application.Tickets
         private readonly ITicketCollection _ticketCollection;
         private readonly IMailService _mailService;
         private readonly ICommentsCollection _commentsCollection;
+        private readonly IAttachmentService _attachmentService;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
@@ -25,12 +28,13 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService, ICommentsCollection commentsCollection)
+            IMailService mailService, ICommentsCollection commentsCollection, IAttachmentService attachmentService)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
             _mailService = mailService;
             _commentsCollection = commentsCollection;
+            _attachmentService = attachmentService;
             _scopeFactory = scopeFactory;
         }
         
@@ -134,7 +138,7 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               FileUrl = search.FileUrl,
+               FileUrls = search.FileUrls,
                Comments = search.Comments
            };
 
@@ -204,12 +208,11 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                FileUrl = model.FileUrl
+                FileUrls = model.FileUrls
             };
-
+            
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
             
-
             var result = new GetTicketModel
             {
                 Id = search.Id,
@@ -223,9 +226,9 @@ namespace Application.Tickets
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
-                FileUrl = search.FileUrl,
+                FileUrls = model.FileUrls
             };
-            
+
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
                 var scope = _scopeFactory.CreateScope();
@@ -265,16 +268,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket not found");
             }
-
-            // Change Status to Modified when Edited
-            if (model.IsModified == true)
-            {
-                model.Status = Status.Pending;
-            }
-            else
-            {
-                model.Status = Status.Open;
-            }
+            
            
             // Category to March Priority
             
@@ -308,13 +302,25 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
-            currentTicket.Closed = false || true;
+            currentTicket.Closed = model.Closed;
+            currentTicket.FileUrls = model.FileUrls;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
 
+            // Change Status to Modified when Edited
+            if (currentTicket.IsModified == true)
+            {
+                currentTicket.Status = Status.Pending;
+            }
+            
             if (currentTicket.Closed == true)
             {
-                model.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
+                model.ClosureDateTime = DateTime.Now;
+            }
+            
+            else
+            {
+                model.Status = Status.Open;
             }
             
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
