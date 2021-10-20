@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Models.Comments;
 using Application.Models.Tickets;
 using Application.Service;
 using Domain.Tickets;
@@ -137,27 +138,7 @@ namespace Application.Tickets
                FileUrl = search.FileUrl,
                Comments = search.Comments
            };
-
-           // _ticketCollection.UpdateTicket(ticketId, Builders<Ticket>.Update.Push(x => x.Comments, request));
            
-           // // Add comment to Comments
-           // result.Comments.Add(new GetCommentModel()
-           // {
-           //     TicketId = search.Id,
-           //     Id = ObjectId.GenerateNewId().ToString(),
-           //     Text = new Comment().Text,
-           //     TimeStamp = DateTime.Now
-           // });
-           
-          //  // Creating a new Comment
-          // await _commentsCollection.CreateComment(new Comment()
-          //  {
-          //       TicketId = search.Id,
-          //       Id = ObjectId.GenerateNewId().ToString(),
-          //       Text = new Comment().Text,
-          //       TimeStamp = DateTime.Now
-          //  });
-          
            return result;
         }
 

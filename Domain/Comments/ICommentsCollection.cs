@@ -6,7 +6,7 @@ namespace Domain.Comments
 {
     public interface ICommentsCollection
     {
-        Task<Comment> CreateComment(Comment comment, CancellationToken cancellationToken = default);
+        Task<Comment> CreateComment(Comment comment, string ticketId);
         Task<List<Comment>> GetComments(CancellationToken cancellationToken = default);
         Task<Comment> GetCommentById(string commentId, CancellationToken cancellationToken = default);
         Task<List<Comment>> GetCommentByTicketIdAsync(string ticketId, CancellationToken cancellationToken = default);

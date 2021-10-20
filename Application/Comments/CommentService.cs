@@ -18,7 +18,7 @@ namespace Application.Comments
             _commentsCollection = commentsCollection;
             _ticketCollection = ticketCollection;
         }
-        public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, CancellationToken cancellationToken = default)
+        public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, string ticketId)
         {
             // Validate model
             if (model == null)
@@ -33,7 +33,9 @@ namespace Application.Comments
                 TicketId = model.TicketId,
             };
 
-            var newComment = await _commentsCollection.CreateComment(comment, cancellationToken);
+            var ticket = await _ticketCollection.GetTicketById(ticketId);
+            
+            var newComment = await _commentsCollection.CreateComment(comment, ticketId);
             
             var response = new GetCommentModel
             {
@@ -42,7 +44,15 @@ namespace Application.Comments
                 TicketId = newComment.TicketId,
             };
             
-            // _ticketCollection.UpdateTicket(ticketId,Builders<Ticket>.Update.Push(x => x.Comments , response));
+            ticket.Comments.Add(new Comment()
+            {
+                Id = response.Id,
+                Text = response.Text,
+                TicketId = response.TicketId,
+                TimeStamp = response.TimeStamp
+            });
+            
+            _ticketCollection.UpdateTicket(ticketId,ticket);
             
             return response;
         }
