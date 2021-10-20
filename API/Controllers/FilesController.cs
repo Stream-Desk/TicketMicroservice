@@ -37,7 +37,6 @@ namespace API.Controllers
             return File(memory, file.FileType, file.Name + file.Extension);
         }
 
-
         [HttpGet("ListFiles")]
         public async Task<ActionResult<List<DownloadFileModel>>> ListFilesAsync()
         {
@@ -45,8 +44,8 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("uploadattachments")]
-        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
+        [HttpPost("uploadattachments/{id:length(24)}")]
+        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files,[FromRoute] string id)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 
@@ -55,7 +54,7 @@ namespace API.Controllers
                 BaseUrl = baseUrl,
                 Files = files
             };
-            var response = await _attachmentService.UploadAttachmentAsync(payload);
+            var response = await _attachmentService.UploadAttachmentAsync(payload, id);
 
             return Ok(response);
         }

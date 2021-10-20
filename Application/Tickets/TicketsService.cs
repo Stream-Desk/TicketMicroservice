@@ -135,7 +135,7 @@ namespace Application.Tickets
                ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
-               FileUrl = search.FileUrl,
+               FileUrls = search.FileUrls,
                Comments = search.Comments
            };
            
@@ -185,7 +185,7 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                FileUrl = model.FileUrl
+                FileUrls = model.FileUrls
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -203,7 +203,7 @@ namespace Application.Tickets
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
-                FileUrl = search.FileUrl,
+                FileUrls = search.FileUrls,
             };
             
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -291,6 +291,7 @@ namespace Application.Tickets
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;
+            currentTicket.FileUrls = model.FileUrls;
 
             if (currentTicket.Closed == true)
             {

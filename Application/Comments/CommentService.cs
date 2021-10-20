@@ -54,8 +54,7 @@ namespace Application.Comments
                 TicketId = response.TicketId,
                 TimeStamp = response.TimeStamp
             };
-
-            var x = 1;
+            
             // Adding the comment to the List of Comments
             ticket.Comments.Add(commentT);
             

@@ -24,7 +24,7 @@
       <ProjectReference Include="..\Database\Database.csproj" />
       <ProjectReference Include="..\Infrastracture\Infrastracture.csproj" />
     </ItemGroup>
-   
+
     <ItemGroup>
       <Folder Include="wwwroot\Files" />
     </ItemGroup>
