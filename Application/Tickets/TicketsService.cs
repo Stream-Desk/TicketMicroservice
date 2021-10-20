@@ -187,9 +187,10 @@ namespace Application.Tickets
                 IsModified = model.IsModified,
                 FileUrls = model.FileUrls
             };
-
+            
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
 
+            
             var result = new GetTicketModel
             {
                 Id = search.Id,
@@ -205,7 +206,7 @@ namespace Application.Tickets
                 IsModified = search.IsModified,
                 FileUrls = search.FileUrls,
             };
-            
+
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
             {
                 var scope = _scopeFactory.CreateScope();
@@ -245,16 +246,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket not found");
             }
-
-            // Change Status to Modified when Edited
-            if (model.IsModified == true)
-            {
-                model.Status = Status.Pending;
-            }
-            else
-            {
-                model.Status = Status.Open;
-            }
+            
            
             // Category to March Priority
             
@@ -288,15 +280,26 @@ namespace Application.Tickets
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
             currentTicket.ModifiedAt = DateTime.Now;
-            currentTicket.Closed = false || true;
+            currentTicket.Closed = model.Closed;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;
             currentTicket.FileUrls = model.FileUrls;
 
+            // Change Status to Modified when Edited
+            if (currentTicket.IsModified == true)
+            {
+                currentTicket.Status = Status.Pending;
+            }
+            
             if (currentTicket.Closed == true)
             {
-                model.ClosureDateTime = DateTime.Now;
                 currentTicket.Status = Status.Resolved;
+                model.ClosureDateTime = DateTime.Now;
+            }
+            
+            else
+            {
+                model.Status = Status.Open;
             }
             
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
