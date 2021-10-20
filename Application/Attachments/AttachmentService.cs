@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Tickets;
 using Domain.Files;
+using Domain.Tickets;
 using MongoDB.Bson;
 using File = Domain.Files.File;
 
@@ -11,11 +13,13 @@ namespace Application.Attachments
     public class AttachmentService : IAttachmentService
     {
          private readonly IFileCollection _fileCollection;
+         private readonly ITicketCollection _ticketCollection;
 
-        public AttachmentService(IFileCollection fileCollection)
-        {
-            _fileCollection = fileCollection;
-        }
+         public AttachmentService(IFileCollection fileCollection, ITicketCollection ticketCollection)
+         {
+             _fileCollection = fileCollection;
+             _ticketCollection = ticketCollection;
+         }
         public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, 
             CancellationToken cancellationToken = default)
         {

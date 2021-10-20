@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Domain.Comments;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace Application.Models.Tickets
 {
@@ -22,6 +24,7 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
+        public List<string> FileUrls { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public List<Comment> Comments { get; set; }
        

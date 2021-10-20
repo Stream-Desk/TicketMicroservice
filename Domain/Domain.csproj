@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="1.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
       <PackageReference Include="mongocsharpdriver" Version="2.13.1" />
       <PackageReference Include="MongoDB.Bson" Version="2.13.1" />

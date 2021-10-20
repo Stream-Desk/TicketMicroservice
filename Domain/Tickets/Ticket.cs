@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Domain.Comments;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -29,7 +30,7 @@ namespace Domain.Tickets
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
-        public string FileUrl { get; set; } 
+        public List<string> FileUrls { get; set; }
         public List<Comment> Comments { get; set; } 
     }
 }

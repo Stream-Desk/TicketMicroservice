@@ -55,8 +55,7 @@ namespace Database.Collections
             await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
-
-        
+       
 
         public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
         {
