@@ -24,6 +24,6 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public List<Comment> Comments { get; set; }
-       
+
     }
 }

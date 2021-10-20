@@ -189,7 +189,6 @@ namespace Application.Tickets
             };
 
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
-            
 
             var result = new GetTicketModel
             {
@@ -291,6 +290,7 @@ namespace Application.Tickets
             currentTicket.ModifiedAt = DateTime.Now;
             currentTicket.Closed = false || true;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
+            currentTicket.Comments = model.Comments;
 
             if (currentTicket.Closed == true)
             {

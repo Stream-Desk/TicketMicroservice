@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Domain.Comments;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Tickets
@@ -27,5 +29,6 @@ namespace Application.Models.Tickets
         public DateTime ModifiedAt { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public string FileUrl { get; set; } 
+        public List<Comment> Comments { get; set; } 
     }
 }
