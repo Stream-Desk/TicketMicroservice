@@ -49,7 +49,7 @@ namespace API.Controllers
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 
-            var payload = new AttachmentRequest()
+            var payload = new AttachmentRequest
             {
                 BaseUrl = baseUrl,
                 Files = files

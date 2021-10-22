@@ -11,13 +11,10 @@ namespace Application.Attachments
     public class AttachmentService : IAttachmentService
     {
          private readonly IFileCollection _fileCollection;
-         private readonly ITicketCollection _ticketCollection;
-
-
-         public AttachmentService(IFileCollection fileCollection, ITicketCollection ticketCollection)
+         
+         public AttachmentService(IFileCollection fileCollection)
          {
              _fileCollection = fileCollection;
-             _ticketCollection = ticketCollection;
          }
         public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request)
         {
@@ -51,16 +48,6 @@ namespace Application.Attachments
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/api/Files/{fileId}");
                     
-                    // Call Ticket By Id
-
-                    // var ticket = await _ticketCollection.GetTicketById(ticketId);
-                    
-                    // Add response URL to the Ticket
-                    
-                    // ticket.FileUrls = response.FileUrls;
-                    
-                    // _ticketCollection.UpdateTicket(ticketId, ticket);
-                    
                     await _fileCollection.UploadFile(
                         new File
                         {
@@ -73,7 +60,6 @@ namespace Application.Attachments
                             FileUrl =  $"{request.BaseUrl}/api/Files/{fileId}"
                         });
                 }
-
             }
             return response;
         }
