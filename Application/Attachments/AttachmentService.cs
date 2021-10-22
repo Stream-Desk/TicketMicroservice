@@ -19,7 +19,7 @@ namespace Application.Attachments
              _fileCollection = fileCollection;
              _ticketCollection = ticketCollection;
          }
-        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, string ticketId)
+        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request)
         {
             var response = new AttachmentResponse();
             foreach (var file in request.Files)
@@ -53,13 +53,13 @@ namespace Application.Attachments
                     
                     // Call Ticket By Id
 
-                    var ticket = await _ticketCollection.GetTicketById(ticketId);
+                    // var ticket = await _ticketCollection.GetTicketById(ticketId);
                     
                     // Add response URL to the Ticket
                     
-                    ticket.FileUrls = response.FileUrls;
+                    // ticket.FileUrls = response.FileUrls;
                     
-                    _ticketCollection.UpdateTicket(ticketId, ticket);
+                    // _ticketCollection.UpdateTicket(ticketId, ticket);
                     
                     await _fileCollection.UploadFile(
                         new File

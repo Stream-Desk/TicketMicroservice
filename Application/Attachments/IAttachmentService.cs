@@ -4,6 +4,6 @@ namespace Application.Attachments
 {
     public interface IAttachmentService
     {
-        Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, string ticketId);
+        Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request);
     }
 }

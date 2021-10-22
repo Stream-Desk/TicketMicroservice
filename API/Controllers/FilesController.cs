@@ -44,8 +44,8 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("uploadattachments/{id:length(24)}")]
-        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files,[FromRoute] string id)
+        [HttpPost("uploadattachments")]
+        public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
         {
             string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 
@@ -54,7 +54,7 @@ namespace API.Controllers
                 BaseUrl = baseUrl,
                 Files = files
             };
-            var response = await _attachmentService.UploadAttachmentAsync(payload, id);
+            var response = await _attachmentService.UploadAttachmentAsync(payload);
 
             return Ok(response);
         }
