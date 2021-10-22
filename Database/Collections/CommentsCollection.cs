@@ -24,7 +24,7 @@ namespace Database.Collections
             var commentCollectionName = configuration.GetValue<string>("MongoDb:CommentCollection");
             _commentCollection = database.GetCollection<Comment>(commentCollectionName);
         }
-        public async Task<Comment> CreateComment(Comment comment, string ticketId)
+        public async Task<Comment> CreateComment(Comment comment)
         {
             await _commentCollection.InsertOneAsync(comment);
             return comment;

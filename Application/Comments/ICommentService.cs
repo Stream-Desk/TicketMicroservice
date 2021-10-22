@@ -7,7 +7,7 @@ namespace Application.Comments
 {
     public interface ICommentService
     {
-        Task<GetCommentModel> CreateComment(LeaveCommentModel model, string ticketId);
+        Task<GetCommentModel> CreateComment(LeaveCommentModel model);
         Task<GetCommentModel> GetCommentById(string commentId, CancellationToken cancellationToken = default);
         Task<List<GetCommentModel>> GetComments(CancellationToken cancellationToken = default);
         void UpdateComment(string commentId, UpdateCommentModel model);

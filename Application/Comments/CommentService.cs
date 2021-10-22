@@ -11,14 +11,12 @@ namespace Application.Comments
     public class CommentService : ICommentService
     {
         private readonly ICommentsCollection _commentsCollection;
-        private readonly ITicketCollection _ticketCollection;
 
-        public CommentService(ICommentsCollection commentsCollection, ITicketCollection ticketCollection)
+        public CommentService(ICommentsCollection commentsCollection)
         {
             _commentsCollection = commentsCollection;
-            _ticketCollection = ticketCollection;
         }
-        public async Task<GetCommentModel> CreateComment(LeaveCommentModel model, string ticketId)
+        public async Task<GetCommentModel> CreateComment(LeaveCommentModel model)
         {
             // Validate model
             if (model == null)
@@ -33,10 +31,10 @@ namespace Application.Comments
                 TicketId = model.TicketId,
             };
 
-            // Get the Ticket by Id
-            var ticket = await _ticketCollection.GetTicketById(ticketId);
-            
-            var newComment = await _commentsCollection.CreateComment(comment, ticketId);
+            // // Get the Ticket by Id
+            // var ticket = await _ticketCollection.GetTicketById(ticketId);
+            //
+            var newComment = await _commentsCollection.CreateComment(comment);
             
             var response = new GetCommentModel
             {
@@ -45,21 +43,21 @@ namespace Application.Comments
                 TimeStamp = newComment.TimeStamp,
                 TicketId = newComment.TicketId,
             };
-
-            // Creating a comment
-            var commentT = new Comment
-            {
-                Id = response.Id,
-                Text = response.Text,
-                TicketId = response.TicketId,
-                TimeStamp = response.TimeStamp
-            };
             
-            // Adding the comment to the List of Comments
-            ticket.Comments.Add(commentT);
-            
-            // Calling the Update Method
-            _ticketCollection.UpdateTicket(ticketId,ticket);
+            // // Creating a comment
+            // var commentT = new Comment
+            // {
+            //     Id = response.Id,
+            //     Text = response.Text,
+            //     TicketId = response.TicketId,
+            //     TimeStamp = response.TimeStamp
+            // };
+            //
+            // // Adding the comment to the List of Comments
+            // ticket.Comments.Add(commentT);
+            //
+            // // Calling the Update Method
+            // _ticketCollection.UpdateTicket(ticketId,ticket);
             
             return response;
         }

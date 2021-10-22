@@ -34,9 +34,9 @@ namespace API.Controllers
 
         // POST: api/Comments
         [HttpPost("{id:length(24)}")]
-        public async Task<ActionResult<GetCommentModel>> PostAsync([FromRoute] string id, [FromBody] LeaveCommentModel model)
+        public async Task<ActionResult<GetCommentModel>> PostAsync( [FromBody] LeaveCommentModel model)
         {
-            var response = await _commentService.CreateComment(model, id);
+            var response = await _commentService.CreateComment(model);
             return Ok(response);
         }
         
