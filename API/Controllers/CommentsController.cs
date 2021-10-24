@@ -54,5 +54,13 @@ namespace API.Controllers
             _commentService.DeleteCommentById(new DeleteCommentModel() { Id = id });
             return NoContent();
         }
+        
+        // GET: api/commentsByTicketId
+        [HttpGet("commentsByTicketId")]
+        public async Task<ActionResult<List<GetCommentModel>>> GetCommentsByTicketId(string id)
+        {
+            var response = await _commentService.GetCommentsByTicketIdAsync(id);
+            return Ok(response);
+        }
     }
 }
