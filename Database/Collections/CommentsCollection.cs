@@ -58,7 +58,9 @@ namespace Database.Collections
         public async Task<List<Comment>> GetCommentByTicketIdAsync(string ticketId, CancellationToken cancellationToken = default)
         {
             // order the comments by TimeStamp desc
-            var cursor = await _commentCollection.FindAsync(c => c.TicketId == ticketId);
+            var cursor = _commentCollection
+                .Find(c => c.TicketId == ticketId)
+                .SortByDescending(x => x.Id);
             var comments = await cursor.ToListAsync(cancellationToken);
             return comments;
         }
