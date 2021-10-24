@@ -108,6 +108,31 @@ namespace Application.Comments
             return response;
         }
 
+        public async Task<List<GetCommentModel>> GetCommentsByTicketIdAsync(string ticketId, CancellationToken cancellationToken = default)
+        {
+            var results = await _commentsCollection.GetCommentByTicketIdAsync(ticketId, cancellationToken);
+
+            if (results == null || results.Count < 1)
+            {
+                return new List<GetCommentModel>();
+            }
+
+            var response = new List<GetCommentModel>();
+            
+            foreach (var result in results)
+            {
+                var model = new GetCommentModel
+                {
+                    Id = result.Id,
+                    Text = result.Text,
+                    TimeStamp = result.TimeStamp,
+                    TicketId = result.TicketId
+                };
+                response.Add(model);
+            }
+            return response;
+        }
+
         public void UpdateComment(string commentId, UpdateCommentModel model)
         {
             if (string.IsNullOrWhiteSpace(commentId))
