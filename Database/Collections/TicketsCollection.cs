@@ -55,16 +55,6 @@ namespace Database.Collections
             await _ticketCollection.InsertOneAsync(ticket);
             return ticket;
         }
-       
-
-        public async Task<List<Ticket>> SearchTicket(string searchTerm, CancellationToken cancellationToken = default)
-        {
-            var keys = Builders<Ticket>.IndexKeys.Text(t => t.Summary);
-             _ticketCollection.Indexes.CreateOne(keys);
-            var filter = Builders<Ticket>.Filter.Text(searchTerm);          
-            var result =  _ticketCollection.Find(filter).ToList(cancellationToken);
-            return result;
-        }
 
         public void UpdateTicket(string ticketId, Ticket ticket)
         {
