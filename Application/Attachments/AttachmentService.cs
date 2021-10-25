@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Domain.Files;
-using Domain.Tickets;
 using MongoDB.Bson;
 using File = Domain.Files.File;
 
