@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         // POST: api/Comments
-        [HttpPost("{id:length(24)}")]
+        [HttpPost]
         public async Task<ActionResult<GetCommentModel>> PostAsync( [FromBody] LeaveCommentModel model)
         {
             var response = await _commentService.CreateComment(model);
