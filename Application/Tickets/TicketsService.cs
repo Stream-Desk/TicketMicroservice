@@ -303,7 +303,29 @@ namespace Application.Tickets
             
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
+
+        public void CloseTicket(string ticketId, UpdateTicketModel model)
+        {
+            // Validation
+            if (string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("Ticket Id does not exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to find ticket");
+            }
         
+            // get ticket by Id
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
+
+            currentTicket.Closed = true;
+            currentTicket.Status = Status.Resolved;
+            
+            _ticketCollection.UpdateTicket(ticketId,currentTicket);
+        }
+
         public void DeleteTicketById(DeleteTicketModel model)
         {
             // validation
