@@ -13,6 +13,7 @@ namespace Domain.Tickets
         Task<Ticket> GetTicketById(string ticketId, CancellationToken cancellationToken = default);
         Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default);
         void UpdateTicket(string ticketId, Ticket ticket);
+        void CloseTicket(string ticketId, Ticket ticket);
         void DeleteTicketById(string ticketId);
         void IsSoftDeleted(string ticketId, Ticket ticket);
     }

@@ -60,7 +60,12 @@ namespace Database.Collections
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
-        
+
+        public void CloseTicket(string ticketId, Ticket ticket)
+        {
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
+        }
+
         public void DeleteTicketById(string ticketId)
         {
             _ticketCollection.DeleteOne(t => t.Id == ticketId);
