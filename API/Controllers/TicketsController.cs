@@ -52,6 +52,14 @@ namespace API.Controllers
             _ticketService.UpdateTicket(id, model);
             return NoContent();
         }
+        
+        // PUT api/<TicketsController>/5
+        [HttpPut("{id:Length(24)}")]
+        public IActionResult CloseTicket([FromRoute] string id, [FromBody] UpdateTicketModel model)
+        {
+            _ticketService.UpdateTicket(id,model);
+            return NoContent();
+        }
 
         // DELETE api/<TicketsController>/5
         [HttpDelete("Labo/{id:length(24)}")]
