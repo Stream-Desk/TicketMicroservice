@@ -42,7 +42,7 @@ namespace Application.Attachments
                     var filePath = Path.Combine(
                         Directory.GetCurrentDirectory(), "wwwroot", "Files", $"{fileName}{fileExtension}");
 
-                    using var fileStream = new FileStream(filePath, FileMode.Create);
+                    await using var fileStream = new FileStream(filePath, FileMode.Create);
                     
                     //Write  memoryStream to fileStream
                     await memoryStream.CopyToAsync(fileStream);

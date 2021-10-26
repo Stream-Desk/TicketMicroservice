@@ -76,17 +76,6 @@ namespace Application.Files
             return result;
         }
 
-        public  Task<DeleteFileModel> DeleteFile(DeleteFileModel model, CancellationToken cancellationToken = default)
-        {
-            // validation
-            if (model == null)
-            {
-                throw new Exception("Ticket Id not found");
-            }
-            _fileCollection.DeleteFileById(model.FileId);
-             return null;
-        }
-
         public async Task<List<DownloadFileModel>> ListImages(CancellationToken cancellationToken = default)
         {
             var searchResults = await _fileCollection.GetFiles(cancellationToken);

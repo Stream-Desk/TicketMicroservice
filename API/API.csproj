@@ -26,11 +26,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\Files" />
+      <_ContentIncludedByDefault Remove="wwwroot\Templates\appointmentTemplate.html" />
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\Templates\appointmentTemplate.html" />
+      <Folder Include="wwwroot\Files" />
     </ItemGroup>
    
 </Project>
