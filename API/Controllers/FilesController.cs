@@ -47,7 +47,7 @@ namespace API.Controllers
         [HttpPost("uploadattachments")]
         public async Task<ActionResult<AttachmentResponse>> UploadAttachmentsAsync(List<IFormFile> files)
         {
-            string baseUrl = $"https://{Request.Host.Value}{Request.PathBase.Value}";
+            string baseUrl = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 
             var payload = new AttachmentRequest
             {
