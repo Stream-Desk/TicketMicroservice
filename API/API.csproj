@@ -28,5 +28,9 @@
     <ItemGroup>
       <Folder Include="wwwroot\Files" />
     </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\Templates\appointmentTemplate.html" />
+    </ItemGroup>
    
 </Project>
