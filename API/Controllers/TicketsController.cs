@@ -54,7 +54,7 @@ namespace API.Controllers
         }
         
         // PUT api/<TicketsController>/5
-        [HttpPut("{id:Length(24)}")]
+        [HttpPut("Close/{id:Length(24)}")]
         public IActionResult CloseTicket([FromRoute] string id, [FromBody] UpdateTicketModel model)
         {
             _ticketService.UpdateTicket(id,model);
