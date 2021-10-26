@@ -322,8 +322,9 @@ namespace Application.Tickets
 
             currentTicket.Closed = true;
             currentTicket.Status = Status.Resolved;
+            currentTicket.ClosureDateTime = model.ClosureDateTime;
             
-            _ticketCollection.UpdateTicket(ticketId,currentTicket);
+            _ticketCollection.CloseTicket(ticketId,currentTicket);
         }
 
         public void DeleteTicketById(DeleteTicketModel model)
