@@ -54,6 +54,7 @@ namespace API.Controllers
                 BaseUrl = baseUrl,
                 Files = files
             };
+            
             var response = await _attachmentService.UploadAttachmentAsync(payload);
 
             return Ok(response);

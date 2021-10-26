@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Domain.Files;
 using MongoDB.Bson;
@@ -15,9 +16,11 @@ namespace Application.Attachments
          {
              _fileCollection = fileCollection;
          }
-        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request)
+        public async Task<AttachmentResponse> UploadAttachmentAsync(AttachmentRequest request, 
+            CancellationToken cancellationToken = default)
         {
             var response = new AttachmentResponse();
+            
             foreach (var file in request.Files)
             {
                 if (file.Length > 0)
