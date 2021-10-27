@@ -39,8 +39,7 @@ namespace Application.Attachments
                     memoryStream.Position = 0;
 
                     // Write to Specific Location
-                    var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(),"wwwroot","Files", $"{fileName}{fileExtension}");
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","Files", $"{fileName}{fileExtension}");
 
                     await using var fileStream = new FileStream(filePath, FileMode.Create);
                     
