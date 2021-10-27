@@ -36,8 +36,7 @@ namespace API
                                   { builder.WithOrigins(
                                       "https://streamdesk-webapp.herokuapp.com", 
                                       "https://backoffice-interface.herokuapp.com", 
-                                      "https://laboremus-supportservice.herokuapp.com", 
-                                      // "https://laboremus-supportservice.herokuapp.com", 
+                                      "https://laboremus-supportservice.herokuapp.com",
                                       "http://localhost:8080", 
                                       "http://localhost:8082", 
                                       "https://8082-scarlet-blackbird-ylncjra7.ws-eu15.gitpod.io/")
@@ -61,7 +60,6 @@ namespace API
             services.AddApplicationLayer();
             services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,8 +74,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseCors(MyAllowSpecificOrigins);
+            app.UseAuthorization();
             //DbSeeder.SeedDb(context,userManager);
             app.UseEndpoints(endpoints =>
             {

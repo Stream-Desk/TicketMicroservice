@@ -189,7 +189,6 @@ namespace Application.Tickets
             
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
 
-            
             var result = new GetTicketModel
             {
                 Id = search.Id,
