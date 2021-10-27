@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Files;
+using Domain.Tickets;
 using Domain.Users;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

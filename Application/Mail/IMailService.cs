@@ -1,7 +1,7 @@
 ﻿
 using Application.Models.Mail;
 
-namespace Application.Service
+namespace Application.Mail
 {
     public interface IMailService
     {
