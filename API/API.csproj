@@ -21,14 +21,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
-      <ProjectReference Include="..\Database\Database.csproj" />
       <ProjectReference Include="..\Infrastracture\Infrastracture.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\Templates\appointmentTemplate.html" />
-    </ItemGroup>
-
+    
     <ItemGroup>
       <Folder Include="wwwroot\Files" />
     </ItemGroup>

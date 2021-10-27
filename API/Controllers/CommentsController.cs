@@ -56,7 +56,7 @@ namespace API.Controllers
         }
         
         // GET: api/commentsByTicketId
-        [HttpGet("commentsByTicketId")]
+        [HttpGet("commentsByTicketId/{id:length(24)}")]
         public async Task<ActionResult<List<GetCommentModel>>> GetCommentsByTicketId(string id)
         {
             var response = await _commentService.GetCommentsByTicketIdAsync(id);

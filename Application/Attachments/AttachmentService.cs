@@ -6,6 +6,7 @@ using Domain.Files;
 using MongoDB.Bson;
 using File = Domain.Files.File;
 
+
 namespace Application.Attachments
 {
     public class AttachmentService : IAttachmentService
@@ -33,19 +34,18 @@ namespace Application.Attachments
                     await using var memoryStream = new MemoryStream();
 
                     // Write to Stream
-                    await file.CopyToAsync(memoryStream);
+                    await file.CopyToAsync(memoryStream, cancellationToken);
 
                     // Read from the Start of the Stream
                     memoryStream.Position = 0;
 
                     // Write to Specific Location
-                    var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot", "Files", $"{fileName}{fileExtension}");
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","Files", $"{fileName}{fileExtension}");
 
                     await using var fileStream = new FileStream(filePath, FileMode.Create);
                     
                     //Write  memoryStream to fileStream
-                    await memoryStream.CopyToAsync(fileStream);
+                    await memoryStream.CopyToAsync(fileStream, cancellationToken);
                     
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/api/Files/{fileId}");
@@ -60,7 +60,7 @@ namespace Application.Attachments
                             FileType = file.ContentType,
                             Name = fileName,
                             FileUrl =  $"{request.BaseUrl}/api/Files/{fileId}"
-                        });
+                        }, cancellationToken);
                 }
             }
             return response;
