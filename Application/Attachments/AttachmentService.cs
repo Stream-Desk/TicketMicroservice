@@ -40,7 +40,7 @@ namespace Application.Attachments
 
                     // Write to Specific Location
                     var filePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot", "Files", $"{fileName}{fileExtension}");
+                        Directory.GetCurrentDirectory(),"wwwroot","Files", $"{fileName}{fileExtension}");
 
                     await using var fileStream = new FileStream(filePath, FileMode.Create);
                     
