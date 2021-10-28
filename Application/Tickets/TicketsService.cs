@@ -8,7 +8,6 @@ using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
-using Domain.Comments;
 
 namespace Application.Tickets
 {
@@ -16,7 +15,6 @@ namespace Application.Tickets
     {
         private readonly ITicketCollection _ticketCollection;
         private readonly IMailService _mailService;
-        private readonly ICommentsCollection _commentsCollection;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly object SendEmail;
@@ -25,12 +23,11 @@ namespace Application.Tickets
             ITicketCollection ticketCollection,
             IServiceScopeFactory scopeFactory,
             IBackgroundTaskQueue backgroundTaskQueue,
-            IMailService mailService, ICommentsCollection commentsCollection)
+            IMailService mailService)
         {
             _ticketCollection = ticketCollection;
             _backgroundTaskQueue = backgroundTaskQueue;
             _mailService = mailService;
-            _commentsCollection = commentsCollection;
             _scopeFactory = scopeFactory;
         }
         
@@ -335,7 +332,6 @@ namespace Application.Tickets
             }
             _ticketCollection.DeleteTicketById(model.Id);
         }
-        
 
         // BO Delete
         public void IsSoftDeleted(DeleteTicketModel model)
