@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Domain.Comments;
 using Domain.Tickets;
 using MongoDB.Bson.Serialization.Attributes;
 
