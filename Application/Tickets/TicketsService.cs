@@ -338,7 +338,7 @@ namespace Application.Tickets
         
 
         // BO Delete
-        public void IsSoftDeleted(string ticketId, UpdateTicketModel model)
+        public void IsSoftDeleted(string ticketId, DeleteTicketModel model)
         {
            // Validation of Deleted Entity
            if (model == null)
@@ -351,7 +351,7 @@ namespace Application.Tickets
                throw new Exception("Error!, Ticket Not Found");
            }
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
-           softDeletedTicket.IsDeleted = true;
+           softDeletedTicket.IsDeleted = model.IsDeleted;
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }

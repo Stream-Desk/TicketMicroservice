@@ -72,7 +72,7 @@ namespace API.Controllers
         // Soft Delete a Ticket
         // DELETE api/<TicketsController>/5
         [HttpPut("BO/Delete/{id:length(24)}")]
-        public IActionResult SoftDelete([FromRoute] string id, [FromBody] UpdateTicketModel model)
+        public IActionResult SoftDelete([FromRoute] string id, [FromBody] DeleteTicketModel model)
         {
             _ticketService.IsSoftDeleted(id, model);
             return NoContent();
