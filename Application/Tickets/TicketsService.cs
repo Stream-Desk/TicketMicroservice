@@ -351,7 +351,7 @@ namespace Application.Tickets
                throw new Exception("Error!, Ticket Not Found");
            }
            var softDeletedTicket = _ticketCollection.GetTicketById(ticketId).Result;
-           softDeletedTicket.IsDeleted = model.IsDeleted.Equals(true);
+           softDeletedTicket.IsDeleted = true;
           
            _ticketCollection.IsSoftDeleted(ticketId,softDeletedTicket);
         }
