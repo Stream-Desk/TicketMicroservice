@@ -16,6 +16,6 @@ namespace Application.Tickets
         void UpdateTicket(string ticketId, UpdateTicketModel model);
         void CloseTicket(string ticketId, UpdateTicketModel model);
         void DeleteTicketById(DeleteTicketModel model);
-        void IsSoftDeleted(string ticketId, DeleteTicketModel model);
+        void IsSoftDeleted(string ticketId, UpdateTicketModel model);
     }
 }
