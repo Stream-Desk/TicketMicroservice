@@ -14,17 +14,22 @@ namespace Domain.Drafts
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Summary { get; set; }
+        public int TicketNumber { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public Priority Priority { get; set; }
         public DateTime SubmitDate { get; set; }
         public Status Status { get; set; }
-        public User User { get; set; }
-        public List<File> Attachments { get; set; } = new List<File>();
-
-
+        public string Name { get; set; }
+        public object Value { get; private set; }
+        public bool IsDeleted { get; set; }
+        public bool IsModified { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public bool Closed { get; set; }
+        public DateTime ClosureDateTime { get; set; }
+        public int ticketNumber { get; set; }
+        public List<string> FileUrls { get; set; } = new List<string>();
     }
-
 }
 
 

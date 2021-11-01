@@ -36,7 +36,7 @@ namespace Application.Drafts
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
-                    User = searchResult.User,
+                   f
                 };
                 result.Add(model);
             }
