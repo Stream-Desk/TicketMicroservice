@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Domain.Tickets;
 using MongoDB.Bson.Serialization.Attributes;
@@ -26,7 +25,7 @@ namespace Application.Models.Drafts
         [DefaultValue(false)]
         public bool Closed { get; set; }
         public string ModifiedAt { get; set; }
-        public DateTime ClosureDateTime { get; set; }
+        public string ClosureDateTime { get; set; }
         public List<string> FileUrls { get; set; }
     }
 }

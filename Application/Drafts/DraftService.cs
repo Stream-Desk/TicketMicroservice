@@ -127,6 +127,30 @@ namespace Application.Drafts
                 throw new Exception("Draft not found");
             }
 
+            // Category to March Priority
+                
+            switch (draft.Category)
+            {
+                case Category.Bug:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    model.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    model.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    model.Priority = Priority.High;
+                    break;  
+                default:
+                    model.Priority = Priority.Low;
+                    break;
+            }
+            
             draft.Summary = model.Summary;
             draft.Description = model.Description;
             draft.Category = model.Category;
@@ -135,6 +159,22 @@ namespace Application.Drafts
             draft.Status = model.Status;
             draft.FileUrls = model.FileUrls;
 
+            if (draft.IsModified == true)
+            {
+                draft.Status = Status.Pending;
+            }
+            
+            if (draft.Closed == true)
+            {
+                draft.Status = Status.Resolved;
+                model.ClosureDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
+            }
+            
+            else
+            {
+                model.Status = Status.Open;
+            }
+            
             _draftCollection.UpdateDraft(draftId, draft);
         }
         public void DeleteDraftById(DeleteDraftModel model)
