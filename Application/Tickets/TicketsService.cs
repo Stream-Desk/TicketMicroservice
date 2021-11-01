@@ -177,7 +177,7 @@ namespace Application.Tickets
                 Description = model.Description,
                 Category = model.Category,
                 Priority = model.Priority, 
-                SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
+                SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
