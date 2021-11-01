@@ -26,7 +26,8 @@ namespace Database.Collections
 
         public async Task<List<Draft>> GetDrafts(CancellationToken cancellationToken = default)
         {
-            var cursor = await _draftCollection.FindAsync(a => true);
+            var cursor = _draftCollection.Find(a => true)
+                .SortByDescending(x=> x.Id);
             var draft = await cursor.ToListAsync(cancellationToken);
             return draft;
         }
