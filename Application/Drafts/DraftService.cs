@@ -87,7 +87,7 @@ namespace Application.Drafts
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
+                SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
                 Status = Status.Open,
                 FileUrls = model.FileUrls
             };
