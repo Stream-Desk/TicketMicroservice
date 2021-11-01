@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Drafts;
 using Domain.Drafts;
+using Domain.Tickets;
 
 namespace Application.Drafts
 {
@@ -86,8 +87,8 @@ namespace Application.Drafts
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now,
-                Status = model.Status,
+                SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
+                Status = Status.Open,
                 FileUrls = model.FileUrls
             };
 
@@ -98,7 +99,7 @@ namespace Application.Drafts
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = DateTime.Now,
+                SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 FileUrls = search.FileUrls
             };
@@ -126,14 +127,54 @@ namespace Application.Drafts
                 throw new Exception("Draft not found");
             }
 
+            // Category to March Priority
+                
+            switch (draft.Category)
+            {
+                case Category.Bug:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Login:
+                    model.Priority = Priority.High;
+                    break;
+                case Category.Uploads:
+                    model.Priority = Priority.Medium;
+                    break;
+                case Category.Other:
+                    model.Priority = Priority.Low;
+                    break;
+                case Category.FreezingScreen:
+                    model.Priority = Priority.High;
+                    break;  
+                default:
+                    model.Priority = Priority.Low;
+                    break;
+            }
+            
             draft.Summary = model.Summary;
             draft.Description = model.Description;
             draft.Category = model.Category;
             draft.Priority = model.Priority;
-            draft.SubmitDate = DateTime.Now;
+            draft.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             draft.Status = model.Status;
             draft.FileUrls = model.FileUrls;
 
+            if (draft.IsModified == true)
+            {
+                draft.Status = Status.Pending;
+            }
+            
+            if (draft.Closed == true)
+            {
+                draft.Status = Status.Resolved;
+                model.ClosureDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
+            }
+            
+            else
+            {
+                model.Status = Status.Open;
+            }
+            
             _draftCollection.UpdateDraft(draftId, draft);
         }
         public void DeleteDraftById(DeleteDraftModel model)

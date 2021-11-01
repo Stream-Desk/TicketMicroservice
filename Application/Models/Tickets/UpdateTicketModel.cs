@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Domain.Comments;
@@ -16,11 +15,11 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         public Status Status { get; set; }
         public bool IsModified { get; set; }
-        public DateTime? ModifiedAt { get; set; }
+        public string ModifiedAt { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
-        public DateTime ClosureDateTime { get; set; }
+        public string ClosureDateTime { get; set; }
         public List<string> FileUrls { get; set; } 
         public List<Comment> Comments { get; set; }
         [DefaultValue(false)]

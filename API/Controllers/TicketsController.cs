@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -27,8 +26,7 @@ namespace API.Controllers
             var response = await _ticketService.GetTickets();
             return Ok(response);
         }
-        
-            
+
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdAsync([FromRoute] string id)

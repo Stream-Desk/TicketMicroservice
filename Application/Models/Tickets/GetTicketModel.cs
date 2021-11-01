@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Domain.Comments;
@@ -16,7 +15,7 @@ namespace Application.Models.Tickets
         public string Summary { get; set; }
         public Category  Category { get; set; }
         public Priority Priority  { get; set; }
-        public DateTime SubmitDate { get; set; }
+        public string SubmitDate { get; set; } 
         public Status Status { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
@@ -27,8 +26,8 @@ namespace Application.Models.Tickets
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
-        public DateTime ClosureDateTime { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public string ClosureDateTime { get; set; }
+        public string ModifiedAt { get; set; }
         public List<string> FileUrls { get; set; } 
         public List<Comment> Comments { get; set; } 
     }
