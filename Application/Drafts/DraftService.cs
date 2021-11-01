@@ -86,7 +86,7 @@ namespace Application.Drafts
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
-                SubmitDate = DateTime.Now,
+                ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
                 Status = model.Status,
                 FileUrls = model.FileUrls
             };
@@ -98,7 +98,7 @@ namespace Application.Drafts
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
-                SubmitDate = DateTime.Now,
+                SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 FileUrls = search.FileUrls
             };
@@ -130,7 +130,7 @@ namespace Application.Drafts
             draft.Description = model.Description;
             draft.Category = model.Category;
             draft.Priority = model.Priority;
-            draft.SubmitDate = DateTime.Now;
+            draft.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             draft.Status = model.Status;
             draft.FileUrls = model.FileUrls;
 

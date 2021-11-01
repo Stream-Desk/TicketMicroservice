@@ -16,13 +16,13 @@ namespace Domain.Drafts
         public string Description { get; set; }
         public Category Category { get; set; }
         public Priority Priority { get; set; }
-        public DateTime SubmitDate { get; set; }
+        public string SubmitDate { get; set; }
         public Status Status { get; set; }
         public string Name { get; set; }
         public object Value { get; private set; }
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public string ModifiedAt { get; set; }
         public bool Closed { get; set; }
         public DateTime ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
