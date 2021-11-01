@@ -54,9 +54,6 @@ namespace Database.Collections
             _draftCollection.DeleteOne(a => a.Id == draftId);
         }
     }
-
-    public interface IDraftsCollection
-    {
-    }
+    
 }
    
