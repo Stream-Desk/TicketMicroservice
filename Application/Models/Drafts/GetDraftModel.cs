@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Domain.Tickets;
-using Domain.Users;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Models.Drafts
