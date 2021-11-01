@@ -24,9 +24,9 @@ namespace Domain.Tickets
         public object Value { get; private set; }
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; }
-        public DateTime ModifiedAt { get; set; } 
+        public string ModifiedAt { get; set; } 
         public bool Closed { get; set; }
-        public DateTime ClosureDateTime { get; set; }
+        public string ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
         public List<Comment> Comments { get; set; } = new List<Comment>();

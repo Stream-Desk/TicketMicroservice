@@ -24,7 +24,7 @@ namespace Domain.Drafts
         public bool IsModified { get; set; }
         public string ModifiedAt { get; set; }
         public bool Closed { get; set; }
-        public DateTime ClosureDateTime { get; set; }
+        public string ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
     }

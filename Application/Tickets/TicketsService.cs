@@ -274,7 +274,7 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
-            currentTicket.ModifiedAt = DateTime.Now;
+            currentTicket.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             currentTicket.Closed = model.Closed;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;
@@ -289,7 +289,7 @@ namespace Application.Tickets
             if (currentTicket.Closed == true)
             {
                 currentTicket.Status = Status.Resolved;
-                model.ClosureDateTime = DateTime.Now;
+                model.ClosureDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             }
             
             else
