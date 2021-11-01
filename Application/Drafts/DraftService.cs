@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Models.Drafts;
 using Domain.Drafts;
+using Domain.Tickets;
 
 namespace Application.Drafts
 {
@@ -87,7 +88,7 @@ namespace Application.Drafts
                 Category = model.Category,
                 Priority = model.Priority,
                 ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
-                Status = model.Status,
+                Status = Status.Open,
                 FileUrls = model.FileUrls
             };
 
