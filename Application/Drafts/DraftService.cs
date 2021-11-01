@@ -36,7 +36,6 @@ namespace Application.Drafts
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
                     SubmitDate = searchResult.SubmitDate,
-                   f
                 };
                 result.Add(model);
             }
@@ -66,7 +65,7 @@ namespace Application.Drafts
                 Priority = search.Priority,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
-                User = search.User
+                FileUrls = search.FileUrls
             };
             return result;
         }
@@ -89,6 +88,7 @@ namespace Application.Drafts
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now,
                 Status = model.Status,
+                FileUrls = model.FileUrls
             };
 
             var search = await _draftCollection.CreateDraft(draft, cancellationToken);
@@ -100,6 +100,7 @@ namespace Application.Drafts
                 Category = search.Category,
                 SubmitDate = DateTime.Now,
                 Status = search.Status,
+                FileUrls = search.FileUrls
             };
             return result;
         }
@@ -131,6 +132,7 @@ namespace Application.Drafts
             draft.Priority = model.Priority;
             draft.SubmitDate = DateTime.Now;
             draft.Status = model.Status;
+            draft.FileUrls = model.FileUrls;
 
             _draftCollection.UpdateDraft(draftId, draft);
         }
@@ -143,7 +145,5 @@ namespace Application.Drafts
             }
             _draftCollection.DeleteDraftById(model.Id);
         }
-
-        
     }
 }
