@@ -8,6 +8,7 @@ using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace Application.Tickets
 {
@@ -138,9 +139,47 @@ namespace Application.Tickets
            return result;
         }
 
-        public Task<GetTicketModel> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default)
+        public async Task<GetTicketModel> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("Ticket not Found");
+            }
+
+            var search = await _ticketCollection.GetTicketByIdLaboremus(ticketId, cancellationToken);
+            
+            if (search == null)
+            {
+                return new GetTicketModel();
+            }
+
+            var result = new GetTicketModel()
+            {
+                Id = search.Id,
+                Name = search.Name,
+                Description = search.Description,
+                TicketNumber = search.TicketNumber,
+                Summary = search.Summary,
+                Category = search.Category,
+                Priority = search.Priority,
+                SubmitDate = search.SubmitDate,
+                Status = search.Status,
+                IsDeleted = search.IsDeleted,
+                IsModified = search.IsModified,
+                ModifiedAt = search.ModifiedAt,
+                Closed = search.Closed,
+                ClosureDateTime = search.ClosureDateTime,
+                FileUrls = search.FileUrls,
+                Comments = search.Comments
+            };
+            
+             _ticketCollection.UpdateTicket(search.Id, new Ticket()
+            {
+                Status = Status.Pending,
+                IsModified = true
+            });
+
+            return result;
         }
 
         public async Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default)
