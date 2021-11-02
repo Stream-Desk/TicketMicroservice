@@ -138,6 +138,11 @@ namespace Application.Tickets
            return result;
         }
 
+        public Task<GetTicketModel> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default)
         {
             // validate model
