@@ -34,7 +34,14 @@ namespace API.Controllers
             var response = await _ticketService.GetTicketById(id);
             return Ok(response);
         }
-        
+
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<GetTicketModel>> GetTicketByIdLaboremus([FromRoute] string id)
+        {
+            var response = await _ticketService.GetTicketByIdLaboremus(id);
+            return Ok(response);
+        }
+
         // POST api/<TicketsController>
         [HttpPost]
         public async Task<ActionResult<GetTicketModel>> PostAsync([FromBody] AddTicketModel model)
