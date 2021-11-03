@@ -89,7 +89,27 @@ namespace Application.Drafts
             {
                 throw new Exception("Draft details empty");
             }
-
+            switch (model.Category)
+            {
+                case (Domain.Tickets.Category)Category.Bug:
+                    model.Priority = Priority.High;
+                    break;
+                case (Domain.Tickets.Category)Category.Login:
+                    model.Priority = Priority.High;
+                    break;
+                case (Domain.Tickets.Category)Category.Uploads:
+                    model.Priority = Priority.Medium;
+                    break;
+                case (Domain.Tickets.Category)Category.Other:
+                    model.Priority = Priority.Low;
+                    break;
+                case (Domain.Tickets.Category)Category.FreezingScreen:
+                    model.Priority = Priority.High;
+                    break;
+                default:
+                    model.Priority = Priority.Low;
+                    break;
+            }
             // Map model to domain Entity
             var draft = new Draft
             {
