@@ -25,6 +25,29 @@ namespace Domain.Drafts
         
         public List<string> FileUrls { get; set; } = new List<string>();
     }
+
+    public enum Priority
+    {
+        Low = 1,
+        Medium = 2,
+        High = 3
+    }
+
+    public enum Status
+    {
+        Open = 1,
+        Pending = 2,
+        Resolved = 3
+    }
+
+    public enum Category
+    {
+        Bug = 1,
+        FreezingScreen = 2,
+        Uploads = 3,
+        Login = 4,
+        Other = 5
+    }
 }
 
 
