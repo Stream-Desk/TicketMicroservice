@@ -6,6 +6,7 @@ using Application.Models.Drafts;
 using Domain.Drafts;
 using Domain.Tickets;
 using Microsoft.Extensions.DependencyInjection;
+using Category = Domain.Drafts.Category;
 
 namespace Application.Drafts
 {
@@ -41,7 +42,7 @@ namespace Application.Drafts
                     Summary = searchResult.Summary,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
-                    Category = searchResult.Category,
+                    Category = (Domain.Tickets.Category)searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
                     IsModified = searchResult.IsModified, 
                     
@@ -71,7 +72,7 @@ namespace Application.Drafts
                 Description = search.Description,
                 Name =search.Name,
                 Summary = search.Summary,
-                Category = search.Category,
+                Category = (Domain.Tickets.Category)search.Category,
                 Priority = search.Priority,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
@@ -95,7 +96,7 @@ namespace Application.Drafts
                 Description = model.Description,
                 Name = model.Name,
                 Summary = model.Summary,
-                Category = model.Category,
+                Category = (Domain.Drafts.Category)model.Category,
                 Priority = model.Priority,
                 SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
                 Status = Status.Open,
@@ -111,7 +112,7 @@ namespace Application.Drafts
                 Name = search.Name,
                 Priority = search.Priority,
                 Summary = search.Summary,
-                Category = search.Category,
+                Category = (Domain.Tickets.Category)search.Category,
                 SubmitDate = search.SubmitDate,
                 Status = search.Status,
                 FileUrls = search.FileUrls
@@ -167,7 +168,7 @@ namespace Application.Drafts
             draft.Summary = model.Summary;
             draft.Name = model.Name;
             draft.Description = model.Description;
-            draft.Category = model.Category;
+            draft.Category = (Category)model.Category;
             draft.Priority = model.Priority;
             draft.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             draft.Status = model.Status;

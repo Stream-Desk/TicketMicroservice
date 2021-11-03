@@ -26,7 +26,14 @@ namespace Domain.Drafts
         public List<string> FileUrls { get; set; } = new List<string>();
     }
 
-    
+    public enum Category
+    {
+        Bug = 1,
+        FreezingScreen = 2,
+        Uploads = 3,
+        Login = 4,
+        Other = 5
+    }
 }
 
 
