@@ -11,7 +11,7 @@ namespace Domain.Drafts
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Summary { get; set; }
-        public int TicketNumber { get; set; }
+        
         public string Description { get; set; }
         public Category Category { get; set; }
         public Priority Priority { get; set; }
@@ -22,9 +22,7 @@ namespace Domain.Drafts
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; }
         public string ModifiedAt { get; set; }
-        public bool Closed { get; set; }
-        public string ClosureDateTime { get; set; }
-        public int ticketNumber { get; set; }
+        
         public List<string> FileUrls { get; set; } = new List<string>();
     }
 }
