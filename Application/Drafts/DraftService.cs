@@ -5,16 +5,21 @@ using System.Threading.Tasks;
 using Application.Models.Drafts;
 using Domain.Drafts;
 using Domain.Tickets;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Drafts
 {
     public class DraftsService : IDraftService
     {
         private readonly IDraftCollection _draftCollection;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public DraftsService(IDraftCollection draftCollection)
+        public DraftsService(
+            IDraftCollection draftCollection,
+            IServiceScopeFactory scopeFactory)
         {
             _draftCollection = draftCollection;
+            _scopeFactory = scopeFactory;
         }
         public async Task<List<GetDraftModel>> GetDrafts(CancellationToken cancellationToken = default)
         {
@@ -32,11 +37,14 @@ namespace Application.Drafts
                 {
                     Id = searchResult.Id,
                     Description = searchResult.Description,
+                    Name = searchResult.Name,
                     Summary = searchResult.Summary,
-                    Category = searchResult.Category,
                     Priority = searchResult.Priority,
                     Status = searchResult.Status,
+                    Category = searchResult.Category,
                     SubmitDate = searchResult.SubmitDate,
+                    IsModified = searchResult.IsModified, 
+                    
                 };
                 result.Add(model);
             }
@@ -61,6 +69,7 @@ namespace Application.Drafts
             {
                 Id = search.Id,
                 Description = search.Description,
+                Name =search.Name,
                 Summary = search.Summary,
                 Category = search.Category,
                 Priority = search.Priority,
@@ -84,6 +93,7 @@ namespace Application.Drafts
             var draft = new Draft
             {
                 Description = model.Description,
+                Name = model.Name,
                 Summary = model.Summary,
                 Category = model.Category,
                 Priority = model.Priority,
@@ -95,7 +105,10 @@ namespace Application.Drafts
             var search = await _draftCollection.CreateDraft(draft, cancellationToken);
             var result = new GetDraftModel
             {
+
+                Id = search.Id,
                 Description = search.Description,
+                Name = search.Name,
                 Priority = search.Priority,
                 Summary = search.Summary,
                 Category = search.Category,
@@ -152,6 +165,7 @@ namespace Application.Drafts
             }
             
             draft.Summary = model.Summary;
+            draft.Name = model.Name;
             draft.Description = model.Description;
             draft.Category = model.Category;
             draft.Priority = model.Priority;
@@ -159,21 +173,6 @@ namespace Application.Drafts
             draft.Status = model.Status;
             draft.FileUrls = model.FileUrls;
 
-            if (draft.IsModified == true)
-            {
-                draft.Status = Status.Pending;
-            }
-            
-            if (draft.Closed == true)
-            {
-                draft.Status = Status.Resolved;
-                model.ClosureDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
-            }
-            
-            else
-            {
-                model.Status = Status.Open;
-            }
             
             _draftCollection.UpdateDraft(draftId, draft);
         }
