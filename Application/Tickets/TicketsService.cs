@@ -171,8 +171,9 @@ namespace Application.Tickets
                 Comments = search.Comments
             };
             
-             _ticketCollection.UpdateTicket(ticketId, new Ticket()
+             _ticketCollection.UpdateTicket(result.Id, new Ticket()
             {
+                Id = result.Id,
                 Name = result.Name,
                 Description = result.Description,
                 TicketNumber = result.TicketNumber,
