@@ -35,7 +35,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id:length(24)}")]
+        [HttpGet("editlabo/{id:length(24)}")]
         public async Task<ActionResult<GetTicketModel>> GetTicketByIdLaboremus([FromRoute] string id)
         {
             var response = await _ticketService.GetTicketByIdLaboremus(id);

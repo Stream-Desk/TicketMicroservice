@@ -129,7 +129,6 @@ namespace Application.Tickets
                Status = search.Status,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
-               ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
                FileUrls = search.FileUrls,
@@ -166,15 +165,25 @@ namespace Application.Tickets
                 Status = search.Status,
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
-                ModifiedAt = search.ModifiedAt,
                 Closed = search.Closed,
                 ClosureDateTime = search.ClosureDateTime,
                 FileUrls = search.FileUrls,
                 Comments = search.Comments
             };
             
-             _ticketCollection.UpdateTicket(search.Id, new Ticket()
+             _ticketCollection.UpdateTicket(ticketId, new Ticket()
             {
+                Name = result.Name,
+                Description = result.Description,
+                TicketNumber = result.TicketNumber,
+                Summary = result.Summary,
+                Category = result.Category,
+                Priority = result.Priority,
+                SubmitDate = result.SubmitDate,
+                IsDeleted = result.IsDeleted,
+                Closed = result.Closed,
+                FileUrls = result.FileUrls,
+                Comments = result.Comments,
                 Status = Status.Pending,
                 IsModified = true
             });
@@ -318,7 +327,6 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
-            currentTicket.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             currentTicket.Closed = model.Closed;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;

@@ -15,7 +15,6 @@ namespace Application.Models.Tickets
         public Priority Priority  { get; set; }
         public Status Status { get; set; }
         public bool IsModified { get; set; }
-        public string ModifiedAt { get; set; }
         [BsonDefaultValue(false)]
         [DefaultValue(false)]
         public bool Closed { get; set; }
