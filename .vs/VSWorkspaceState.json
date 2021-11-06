@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\API",
-    "\\Database",
-    "\\Domain"
+    ""
   ],
-  "SelectedNode": "\\API\\API.csproj",
+  "SelectedNode": "\\TickettingMicroservice.sln",
   "PreviewInSolutionExplorer": false
 }
