@@ -1,5 +1,3 @@
-using System;
-
 namespace Application.Models.Comments
 {
     public class GetCommentModel

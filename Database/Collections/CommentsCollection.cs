@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Comments;
-using Domain.Tickets;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 

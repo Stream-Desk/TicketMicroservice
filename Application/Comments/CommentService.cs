@@ -18,7 +18,7 @@ namespace Application.Comments
             _commentsCollection = commentsCollection;
             _ticketCollection = ticketCollection;
         }
-        public async Task<GetCommentModel> CreateComment(LeaveCommentModel model)
+        public async Task<GetCommentModel> CreateComment(AddCommentModel model)
         {
             // Validate model
             if (model == null)
@@ -29,7 +29,7 @@ namespace Application.Comments
             var comment = new Comment
             {
                 Text = model.Text,
-                TimeStamp = DateTime.Now,
+                TimeStamp = model.TimeStamp,
                 TicketId = model.TicketId,
             };
 
@@ -155,7 +155,7 @@ namespace Application.Comments
             }
 
             currentComment.Text = model.Text;
-            currentComment.TimeStamp = model.TimeStamp;
+            currentComment.TimeStamp = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             
             _commentsCollection.UpdateComments(commentId,currentComment);
         }
