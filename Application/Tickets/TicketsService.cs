@@ -8,7 +8,6 @@ using Domain.Tickets;
 using Infrastracture;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Models.Mail;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace Application.Tickets
 {
