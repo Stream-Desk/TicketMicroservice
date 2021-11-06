@@ -1,8 +1,9 @@
 using System;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Application.Models.Comments
 {
-    public class UpdateCommentModel
+    public class AddCommentModel
     {
         public string Text { get; set; }
         public string TimeStamp { get; set; } = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
