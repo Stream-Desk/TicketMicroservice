@@ -9,10 +9,8 @@ namespace Domain.Comments
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonElement("Text")]
         public string Text { get; set; }
-        [BsonElement("TimeStamp")]
-        public DateTime TimeStamp { get; set; }
+        public string TimeStamp { get; set; }
         public string TicketId { get; set; }
     }
 }
