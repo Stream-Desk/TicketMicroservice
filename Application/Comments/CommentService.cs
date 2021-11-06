@@ -29,7 +29,7 @@ namespace Application.Comments
             var comment = new Comment
             {
                 Text = model.Text,
-                TimeStamp = model.TimeStamp,
+                TimeStamp = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
                 TicketId = model.TicketId,
             };
 
