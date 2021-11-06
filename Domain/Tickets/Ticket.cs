@@ -8,7 +8,6 @@ namespace Domain.Tickets
     [BsonIgnoreExtraElements]
     public class Ticket
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }

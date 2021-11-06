@@ -26,6 +26,14 @@ namespace API.Controllers
             var response = await _ticketService.GetTickets();
             return Ok(response);
         }
+        
+        // GET: api/<TicketsController>
+        [HttpGet("BO/All")]
+        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
+        {
+            var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
+            return Ok(response);
+        }
 
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
@@ -87,12 +95,6 @@ namespace API.Controllers
             return NoContent();
         }
         
-        // GET: api/<TicketsController>
-        [HttpGet("BO/All")]
-        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
-        {
-            var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
-            return Ok(response);
-        }
+       
     }
 }
