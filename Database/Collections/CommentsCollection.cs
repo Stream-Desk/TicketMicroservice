@@ -10,12 +10,10 @@ namespace Database.Collections
 {
     public class CommentsCollection : ICommentsCollection
     {
-        private readonly ITicketCollection _ticketCollection;
         private IMongoCollection<Comment> _commentCollection;
 
-        public CommentsCollection(IConfiguration configuration, ITicketCollection ticketCollection)
+        public CommentsCollection(IConfiguration configuration)
         {
-            _ticketCollection = ticketCollection;
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");
             var settings = MongoClientSettings.FromConnectionString(connectionString);
             var client = new MongoClient(settings);
