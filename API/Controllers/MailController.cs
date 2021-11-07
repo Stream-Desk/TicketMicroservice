@@ -19,7 +19,6 @@ namespace API.Controllers
         {
             return _mailService.SendEmail(mailData);
         }
-
     }
 }
 
