@@ -11,7 +11,6 @@ namespace Database.Collections
     {
         private IMongoCollection<Draft> _draftCollection;
         
-
         public DraftsCollection(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("MongoDb:ConnectionString");

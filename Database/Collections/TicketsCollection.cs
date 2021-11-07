@@ -22,8 +22,6 @@ namespace Database.Collections
             _ticketCollection = database.GetCollection<Ticket>(ticketsCollectionName);
         
         }
-        
-
         // Banks BO List
         public async Task<List<Ticket>> GetTicketsWithSoftDeleteFalse(CancellationToken cancellationToken = default)
         {

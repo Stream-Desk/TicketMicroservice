@@ -29,7 +29,9 @@ namespace Database.Collections
         
         public async Task<List<Comment>> GetComments(CancellationToken cancellationToken = default)
         {
-            var cursor = await _commentCollection.FindAsync(c => true);
+            var cursor = _commentCollection
+                .Find(c => true)
+                .SortByDescending(c => c.Id);
             var comments = await cursor.ToListAsync(cancellationToken);
             return comments;
         }

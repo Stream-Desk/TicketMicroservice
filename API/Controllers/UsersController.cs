@@ -67,7 +67,6 @@ namespace API.Controllers
             return NoContent();
         }
 
-
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
