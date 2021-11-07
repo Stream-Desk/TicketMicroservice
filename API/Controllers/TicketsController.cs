@@ -26,6 +26,14 @@ namespace API.Controllers
             var response = await _ticketService.GetTickets();
             return Ok(response);
         }
+        
+        // GET: api/<TicketsController>
+        [HttpGet("BO/All")]
+        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
+        {
+            var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
+            return Ok(response);
+        }
 
         // GET api/<TicketsController>/5
         [HttpGet("{id:length(24)}")]
@@ -34,7 +42,14 @@ namespace API.Controllers
             var response = await _ticketService.GetTicketById(id);
             return Ok(response);
         }
-        
+
+        [HttpGet("editlabo/{id:length(24)}")]
+        public async Task<ActionResult<GetTicketModel>> GetTicketByIdLaboremus([FromRoute] string id)
+        {
+            var response = await _ticketService.GetTicketByIdLaboremus(id);
+            return Ok(response);
+        }
+
         // POST api/<TicketsController>
         [HttpPost]
         public async Task<ActionResult<GetTicketModel>> PostAsync([FromBody] AddTicketModel model)
@@ -78,14 +93,6 @@ namespace API.Controllers
                 IsDeleted = true
             });
             return NoContent();
-        }
-        
-        // GET: api/<TicketsController>
-        [HttpGet("BO/All")]
-        public async Task<ActionResult<List<GetTicketModel>>> GetAsync()
-        {
-            var response = await _ticketService.GetTicketsWithSoftDeleteFalse();
-            return Ok(response);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Domain.Tickets
     [BsonIgnoreExtraElements]
     public class Ticket
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
@@ -23,7 +22,6 @@ namespace Domain.Tickets
         public object Value { get; private set; }
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; }
-        public string ModifiedAt { get; set; } 
         public bool Closed { get; set; }
         public string ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }

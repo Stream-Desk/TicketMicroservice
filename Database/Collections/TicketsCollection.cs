@@ -50,6 +50,13 @@ namespace Database.Collections
             return ticket;
         }
 
+        public async Task<Ticket> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default)
+        {
+            var cursor = await _ticketCollection.FindAsync(x => x.Id == ticketId);
+            var ticket = await cursor.FirstOrDefaultAsync(cancellationToken);
+            return ticket;
+        }
+
         public async Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default)
         {
             await _ticketCollection.InsertOneAsync(ticket);

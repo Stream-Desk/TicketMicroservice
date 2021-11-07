@@ -128,7 +128,6 @@ namespace Application.Tickets
                Status = search.Status,
                IsDeleted = search.IsDeleted,
                IsModified = search.IsModified,
-               ModifiedAt = search.ModifiedAt,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
                FileUrls = search.FileUrls,
@@ -136,6 +135,60 @@ namespace Application.Tickets
            };
            
            return result;
+        }
+
+        public async Task<GetTicketModel> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("Ticket not Found");
+            }
+
+            var search = await _ticketCollection.GetTicketByIdLaboremus(ticketId, cancellationToken);
+            
+            if (search == null)
+            {
+                return new GetTicketModel();
+            }
+
+            var result = new GetTicketModel()
+            {
+                Id = search.Id,
+                Name = search.Name,
+                Description = search.Description,
+                TicketNumber = search.TicketNumber,
+                Summary = search.Summary,
+                Category = search.Category,
+                Priority = search.Priority,
+                SubmitDate = search.SubmitDate,
+                Status = search.Status,
+                IsDeleted = search.IsDeleted,
+                IsModified = search.IsModified,
+                Closed = search.Closed,
+                ClosureDateTime = search.ClosureDateTime,
+                FileUrls = search.FileUrls,
+                Comments = search.Comments
+            };
+            
+             _ticketCollection.UpdateTicket(result.Id, new Ticket()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Description = result.Description,
+                TicketNumber = result.TicketNumber,
+                Summary = result.Summary,
+                Category = result.Category,
+                Priority = result.Priority,
+                SubmitDate = result.SubmitDate,
+                IsDeleted = result.IsDeleted,
+                Closed = result.Closed,
+                FileUrls = result.FileUrls,
+                Comments = result.Comments,
+                Status = Status.Pending,
+                IsModified = true
+            });
+
+            return result;
         }
 
         public async Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default)
@@ -274,7 +327,6 @@ namespace Application.Tickets
             currentTicket.Priority = model.Priority;
             currentTicket.Status = model.Status;
             currentTicket.IsModified = true;
-            currentTicket.ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             currentTicket.Closed = model.Closed;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;
