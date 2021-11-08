@@ -6,8 +6,6 @@ using Application.Models.Mail;
 using Application.Models.Statuses;
 using Domain.Statuses;
 using Domain.Tickets;
-using Domain.Users;
-using MailKit;
 using IMailService = Application.Mail.IMailService;
 using Status = Domain.Statuses.Status;
 
