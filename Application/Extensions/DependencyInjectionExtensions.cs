@@ -4,8 +4,8 @@ using Application.Users;
 using Application.Tickets;
 using Application.Drafts;
 using Application.Files;
+using Application.Mail;
 using Application.Statuses;
-using Domain.Statuses;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions
@@ -20,7 +20,8 @@ namespace Application.Extensions
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
             services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IStatusService,StatusService>();
+            services.AddScoped<IMailService,MailService>();
             
             return services;
         }

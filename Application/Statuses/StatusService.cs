@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Models.Mail;
 using Application.Models.Statuses;
 using Domain.Statuses;
 using Domain.Tickets;
+using Domain.Users;
 using MailKit;
+using IMailService = Application.Mail.IMailService;
 using Status = Domain.Statuses.Status;
 
 namespace Application.Statuses
@@ -14,9 +17,9 @@ namespace Application.Statuses
     {
         private readonly IStatusCollection _statusCollection;
         private readonly ITicketCollection _ticketCollection;
-        private readonly MailService _mailService;
+        private readonly IMailService _mailService;
 
-        public StatusService(IStatusCollection statusCollection, ITicketCollection ticketCollection, MailService mailService)
+        public StatusService(IStatusCollection statusCollection, ITicketCollection ticketCollection, IMailService mailService)
         {
             _statusCollection = statusCollection;
             _ticketCollection = ticketCollection;
@@ -43,6 +46,12 @@ namespace Application.Statuses
                 State = search.State,
                 TicketId = search.TicketId
             };
+
+            _mailService.SendEmail(new MailData()
+            {
+                EmailBody = $"Ticket number:{result.Id} is {result.State}",
+                EmailSubject = $"Your Ticket Status",
+            });
             
             return result;
         }

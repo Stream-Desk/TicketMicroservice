@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Models.Statuses;
 using Application.Statuses;
-using Domain.Statuses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
