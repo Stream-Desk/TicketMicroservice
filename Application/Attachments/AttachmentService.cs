@@ -49,6 +49,7 @@ namespace Application.Attachments
                     
                     // Add file Path to response
                     response.FileUrls.Add($"{request.BaseUrl}/api/Files/{fileId}");
+                    response.FileName = fileName;
                     
                     await _fileCollection.UploadFile(
                         new File

@@ -25,20 +25,20 @@ namespace Database.Collections
         
         public async Task<Status> CreateTicketStatus(Status status, CancellationToken cancellationToken = default)
         {
-           await _statusCollection.InsertOneAsync(status, cancellationToken);
+           await _statusCollection.InsertOneAsync(status, cancellationToken: cancellationToken);
            return status;
         }
 
         public async Task<Status> GetTicketStatus(string statusId, CancellationToken cancellationToken = default)
         {
-            var cursor = await _statusCollection.FindAsync(s => s.Id == statusId);
+            var cursor = await _statusCollection.FindAsync(s => s.Id == statusId, cancellationToken: cancellationToken);
             var status = await cursor.FirstOrDefaultAsync(cancellationToken);
             return status;
         }
 
         public async Task<List<Status>> GetAllTicketStatuses(CancellationToken cancellationToken = default)
         {
-            var cursor = await _statusCollection.FindAsync(x => true);
+            var cursor = await _statusCollection.FindAsync(x => true, cancellationToken: cancellationToken);
             var statuses = await cursor.ToListAsync(cancellationToken);
             return statuses;
         }
