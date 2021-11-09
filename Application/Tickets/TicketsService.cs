@@ -333,11 +333,7 @@ namespace Application.Tickets
             currentTicket.FileUrls = model.FileUrls;
 
             // Change Status to Modified when Edited
-            if (currentTicket.IsModified == true)
-            {
-                currentTicket.Status = Status.Pending;
-            }
-            
+
             if (currentTicket.Closed == true)
             {
                 currentTicket.Status = Status.Resolved;
