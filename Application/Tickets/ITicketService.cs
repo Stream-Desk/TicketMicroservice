@@ -16,6 +16,7 @@ namespace Application.Tickets
         Task<GetTicketModel> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default);
         Task<GetTicketModel> CreateTicket(AddTicketModel model, CancellationToken cancellationToken = default);
         void UpdateTicket(string ticketId, UpdateTicketModel model);
+        void UpdateTicketStatus(string ticketId, UpdateTicketModel model);
         void CloseTicket(string ticketId, UpdateTicketModel model);
         void DeleteTicketById(DeleteTicketModel model);
         void IsSoftDeleted(DeleteTicketModel model);

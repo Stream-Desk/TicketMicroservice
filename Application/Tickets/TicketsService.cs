@@ -348,6 +348,24 @@ namespace Application.Tickets
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
 
+        public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
+        {
+            if(string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("TicketId doesnt exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to Find Ticket");
+            }
+
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
+            currentTicket.Status = model.Status;
+            
+            _ticketCollection.UpdateTicketStatus(ticketId, currentTicket);
+        }
+
         public void CloseTicket(string ticketId, UpdateTicketModel model)
         {
             // Validation
