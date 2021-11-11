@@ -67,16 +67,20 @@ namespace API.Controllers
         }
         
         // PUT api/<TicketsController>/5
-        [HttpPut("Close/{id:Length(24)}")]
-        public IActionResult CloseTicket([FromRoute] string id, [FromBody] UpdateTicketModel model)
+        [HttpPost("Close/{id:Length(24)}")]
+        public IActionResult CloseTicket([FromRoute] string id)
         {
-            _ticketService.CloseTicket(id,model);
+            _ticketService.CloseTicket(new UpdateTicketModel()
+            {
+                Id = id,
+                Closed = true
+            });
             return NoContent();
         }
         
         // PUT api/<TicketsController>/5
         [HttpPut("EditStatus/{id:length(24)}")]
-        public IActionResult EditStatus([FromRoute] string id, [FromBody] UpdateTicketModel model)
+        public IActionResult EditStatus([FromRoute] string id, UpdateTicketModel model )
         {
             _ticketService.UpdateTicketStatus(id, model);
             return NoContent();
