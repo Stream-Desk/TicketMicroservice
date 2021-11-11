@@ -350,7 +350,7 @@ namespace Application.Tickets
 
         public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
         {
-            if(string.IsNullOrWhiteSpace(model.Id))
+            if(string.IsNullOrWhiteSpace(ticketId))
             {
                 throw new Exception("TicketId doesnt exist");
             }
@@ -360,10 +360,10 @@ namespace Application.Tickets
                 throw new Exception("Failed to Find Ticket");
             }
 
-            var currentTicket = _ticketCollection.GetTicketById(model.Id).Result;
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
             currentTicket.Status = model.Status;
             
-            _ticketCollection.UpdateTicketStatus(model.Id, currentTicket);
+            _ticketCollection.UpdateTicketStatus(ticketId, currentTicket);
         }
 
         public void CloseTicket(UpdateTicketModel model)
