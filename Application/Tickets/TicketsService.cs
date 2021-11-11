@@ -333,11 +333,7 @@ namespace Application.Tickets
             currentTicket.FileUrls = model.FileUrls;
 
             // Change Status to Modified when Edited
-            if (currentTicket.IsModified == true)
-            {
-                currentTicket.Status = Status.Pending;
-            }
-            
+
             if (currentTicket.Closed == true)
             {
                 currentTicket.Status = Status.Resolved;
@@ -352,10 +348,28 @@ namespace Application.Tickets
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
 
-        public void CloseTicket(string ticketId, UpdateTicketModel model)
+        public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
+        {
+            if(string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("TicketId doesnt exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to Find Ticket");
+            }
+
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
+            currentTicket.Status = model.Status;
+            
+            _ticketCollection.UpdateTicketStatus(ticketId, currentTicket);
+        }
+
+        public void CloseTicket(UpdateTicketModel model)
         {
             // Validation
-            if (string.IsNullOrWhiteSpace(ticketId))
+            if (string.IsNullOrWhiteSpace(model.Id))
             {
                 throw new Exception("Ticket Id does not exist");
             }
@@ -366,13 +380,13 @@ namespace Application.Tickets
             }
         
             // get ticket by Id
-            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
+            var currentTicket = _ticketCollection.GetTicketById(model.Id).Result;
 
             currentTicket.Closed = true;
             currentTicket.Status = Status.Resolved;
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             
-            _ticketCollection.CloseTicket(ticketId,currentTicket);
+            _ticketCollection.CloseTicket(model.Id,currentTicket);
         }
 
         public void DeleteTicketById(DeleteTicketModel model)

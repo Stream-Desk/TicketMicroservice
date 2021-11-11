@@ -66,6 +66,11 @@ namespace Database.Collections
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
         }
 
+        public void UpdateTicketStatus(string ticketId, Ticket ticket)
+        {
+            _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
+        }
+
         public void CloseTicket(string ticketId, Ticket ticket)
         {
             _ticketCollection.ReplaceOne(t => t.Id == ticketId, ticket);
