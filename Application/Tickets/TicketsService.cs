@@ -348,7 +348,7 @@ namespace Application.Tickets
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
 
-        public void UpdateTicketStatus(UpdateTicketModel model)
+        public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
         {
             if(string.IsNullOrWhiteSpace(model.Id))
             {
