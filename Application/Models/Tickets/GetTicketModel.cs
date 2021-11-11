@@ -28,6 +28,7 @@ namespace Application.Models.Tickets
         public bool Closed { get; set; }
         public string ClosureDateTime { get; set; }
         public List<string> FileUrls { get; set; } 
+        public List<string> FileNames { get; set; }
         public List<Comment> Comments { get; set; } 
     }
 }

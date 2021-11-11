@@ -131,6 +131,7 @@ namespace Application.Tickets
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
                FileUrls = search.FileUrls,
+               FileNames = search.FileNames,
                Comments = search.Comments
            };
            
@@ -167,6 +168,7 @@ namespace Application.Tickets
                 Closed = search.Closed,
                 ClosureDateTime = search.ClosureDateTime,
                 FileUrls = search.FileUrls,
+                FileNames = search.FileNames,
                 Comments = search.Comments
             };
             
@@ -234,7 +236,8 @@ namespace Application.Tickets
                 Status = Status.Open,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
-                FileUrls = model.FileUrls
+                FileUrls = model.FileUrls,
+                FileNames = model.FileNames
             };
             
             var search = await _ticketCollection.CreateTicket(ticket, cancellationToken);
@@ -253,6 +256,7 @@ namespace Application.Tickets
                 IsDeleted = search.IsDeleted,
                 IsModified = search.IsModified,
                 FileUrls = search.FileUrls,
+                FileNames = search.FileNames
             };
 
             await _backgroundTaskQueue.QueueBackgroundWorkItemAsync(async (stoppingToken) =>
@@ -331,6 +335,7 @@ namespace Application.Tickets
             currentTicket.ClosureDateTime = model.ClosureDateTime;
             currentTicket.Comments = model.Comments;
             currentTicket.FileUrls = model.FileUrls;
+            currentTicket.FileNames = model.FileNames;
 
             // Change Status to Modified when Edited
 
