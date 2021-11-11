@@ -26,6 +26,7 @@ namespace Domain.Tickets
         public string ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
+        public List<string> FileNames { get; set; }= new List<string>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 
