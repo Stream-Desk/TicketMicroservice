@@ -338,7 +338,11 @@ namespace Application.Tickets
             currentTicket.FileNames = model.FileNames;
 
             // Change Status to Modified when Edited
-
+            if (currentTicket.IsModified == true)
+            {
+                currentTicket.Status = Status.Open;
+            }
+            
             if (currentTicket.Closed == true)
             {
                 currentTicket.Status = Status.Resolved;
