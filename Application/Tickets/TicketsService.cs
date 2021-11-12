@@ -56,6 +56,7 @@ namespace Application.Tickets
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
                     IsModified = search.IsModified,
+                    IsAssigned = search.IsAssigned,
                     Closed = search.Closed,
                     ClosureDateTime = search.ClosureDateTime,
                     TicketNumber = search.TicketNumber,
@@ -92,6 +93,7 @@ namespace Application.Tickets
                     SubmitDate = searchResult.SubmitDate,
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
+                    IsAssigned = searchResult.IsAssigned,
                     Closed = searchResult.Closed,
                     ClosureDateTime = searchResult.ClosureDateTime
                 };
