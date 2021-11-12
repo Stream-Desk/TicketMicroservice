@@ -23,6 +23,7 @@ namespace Domain.Tickets
         public bool IsDeleted { get; set; }
         public bool IsModified { get; set; }
         public bool Closed { get; set; }
+        public bool IsAssigned { get; set; }
         public string ClosureDateTime { get; set; }
         public int ticketNumber { get; set; }
         public List<string> FileUrls { get; set; } = new List<string>();
@@ -39,10 +40,11 @@ namespace Domain.Tickets
 
     public enum Status
     {
-        Open = 1,
-        InProgress = 2,
-        Pending = 3,
-        Resolved = 4
+        New = 1,
+        Open = 2,
+        InProgress = 3,
+        Pending = 4,
+        Resolved = 5
     }
 
     public enum Category

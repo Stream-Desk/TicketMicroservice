@@ -3,6 +3,7 @@ using Application.Models.Tickets;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Tickets;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,6 +87,20 @@ namespace API.Controllers
             return NoContent();
         }
 
+        // Assign Ticket
+        [HttpPost("Assignticket/{id:length(24)}")]
+        public IActionResult Assign([FromRoute] string id)
+        {
+            _ticketService.AssignTicket(new UpdateTicketModel()
+            {
+                Id = id,
+                IsAssigned = true,
+                Status = Status.InProgress
+            });
+            
+            return NoContent();
+        }
+        
         // DELETE api/<TicketsController>/5
         [HttpDelete("Labo/{id:length(24)}")]
         public IActionResult Delete([FromRoute] string id)

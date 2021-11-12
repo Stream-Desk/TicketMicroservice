@@ -56,6 +56,7 @@ namespace Application.Tickets
                     Category = search.Category,
                     SubmitDate = search.SubmitDate,
                     IsModified = search.IsModified,
+                    IsAssigned = search.IsAssigned,
                     Closed = search.Closed,
                     ClosureDateTime = search.ClosureDateTime,
                     TicketNumber = search.TicketNumber,
@@ -92,6 +93,7 @@ namespace Application.Tickets
                     SubmitDate = searchResult.SubmitDate,
                     IsDeleted = searchResult.IsDeleted,
                     IsModified = searchResult.IsModified,
+                    IsAssigned = searchResult.IsAssigned,
                     Closed = searchResult.Closed,
                     ClosureDateTime = searchResult.ClosureDateTime
                 };
@@ -127,6 +129,7 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                IsDeleted = search.IsDeleted,
+               IsAssigned = search.IsAssigned,
                IsModified = search.IsModified,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
@@ -169,7 +172,8 @@ namespace Application.Tickets
                 ClosureDateTime = search.ClosureDateTime,
                 FileUrls = search.FileUrls,
                 FileNames = search.FileNames,
-                Comments = search.Comments
+                Comments = search.Comments,
+                IsAssigned = search.IsAssigned
             };
             
              _ticketCollection.UpdateTicket(result.Id, new Ticket()
@@ -186,8 +190,7 @@ namespace Application.Tickets
                 Closed = result.Closed,
                 FileUrls = result.FileUrls,
                 Comments = result.Comments,
-                Status = Status.Pending,
-                IsModified = true
+                Status = Status.Open
             });
 
             return result;
@@ -233,7 +236,7 @@ namespace Application.Tickets
                 Category = model.Category,
                 Priority = model.Priority, 
                 SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
-                Status = Status.Open,
+                Status = Status.New,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
                 FileUrls = model.FileUrls,
@@ -338,7 +341,11 @@ namespace Application.Tickets
             currentTicket.FileNames = model.FileNames;
 
             // Change Status to Modified when Edited
-
+            if (currentTicket.IsModified == true)
+            {
+                currentTicket.Status = Status.Open;
+            }
+            
             if (currentTicket.Closed == true)
             {
                 currentTicket.Status = Status.Resolved;
@@ -351,6 +358,31 @@ namespace Application.Tickets
             }
             
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
+        }
+
+        public void AssignTicket(UpdateTicketModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Id))
+            {
+                throw new Exception("Ticket doesnt exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to find the ticket");
+            }
+
+            var currentTicket = _ticketCollection.GetTicketById(model.Id).Result;
+
+            currentTicket.Status = model.Status;
+            currentTicket.IsAssigned = true;
+
+            if (currentTicket.IsAssigned == true)
+            {
+               currentTicket.Status = Status.InProgress;
+            }
+            
+            _ticketCollection.AssignTicket(model.Id, currentTicket);
         }
 
         public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
