@@ -357,6 +357,31 @@ namespace Application.Tickets
             _ticketCollection.UpdateTicket(ticketId, currentTicket);
         }
 
+        public void AssignTicket(string ticketId, UpdateTicketModel model)
+        {
+            if (string.IsNullOrWhiteSpace(ticketId))
+            {
+                throw new Exception("Ticket doesnt exist");
+            }
+
+            if (model == null)
+            {
+                throw new Exception("Failed to find the ticket");
+            }
+
+            var currentTicket = _ticketCollection.GetTicketById(ticketId).Result;
+
+            currentTicket.Status = model.Status;
+            currentTicket.IsAssigned = true;
+
+            if (currentTicket.IsAssigned == true)
+            {
+               currentTicket.Status = Status.InProgress;
+            }
+            
+            _ticketCollection.AssignTicket(ticketId, currentTicket);
+        }
+
         public void UpdateTicketStatus(string ticketId, UpdateTicketModel model)
         {
             if(string.IsNullOrWhiteSpace(ticketId))
