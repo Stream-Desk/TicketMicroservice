@@ -190,8 +190,7 @@ namespace Application.Tickets
                 Closed = result.Closed,
                 FileUrls = result.FileUrls,
                 Comments = result.Comments,
-                Status = Status.Open,
-                IsModified = true
+                Status = Status.Open
             });
 
             return result;
