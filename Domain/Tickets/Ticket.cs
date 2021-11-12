@@ -41,8 +41,9 @@ namespace Domain.Tickets
     {
         New = 1,
         Open = 2,
-        Pending = 3,
-        Resolved = 4
+        InProgress = 3,
+        Pending = 4,
+        Resolved = 5
     }
 
     public enum Category

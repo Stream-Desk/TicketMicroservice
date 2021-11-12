@@ -15,6 +15,7 @@ namespace Domain.Tickets
         Task<Ticket> GetTicketByIdLaboremus(string ticketId, CancellationToken cancellationToken = default);
         Task<Ticket> CreateTicket(Ticket ticket, CancellationToken cancellationToken = default);
         void UpdateTicket(string ticketId, Ticket ticket);
+        void AssignTicket(string ticketId, Ticket ticket);
         void UpdateTicketStatus(string ticketId, Ticket ticket);
         void CloseTicket(string ticketId, Ticket ticket);
         void DeleteTicketById(string ticketId);
