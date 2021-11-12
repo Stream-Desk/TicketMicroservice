@@ -27,6 +27,8 @@ namespace Application.Models.Tickets
         [DefaultValue(false)]
         public bool Closed { get; set; }
         public string ClosureDateTime { get; set; }
+        [BsonDefaultValue(false)]
+        [DefaultValue(false)]
         public bool IsAssigned { get; set; }
         public List<string> FileUrls { get; set; } 
         public List<string> FileNames { get; set; }

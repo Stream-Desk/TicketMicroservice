@@ -127,6 +127,7 @@ namespace Application.Tickets
                SubmitDate = search.SubmitDate,
                Status = search.Status,
                IsDeleted = search.IsDeleted,
+               IsAssigned = search.IsAssigned,
                IsModified = search.IsModified,
                Closed = search.Closed,
                ClosureDateTime = search.ClosureDateTime,
@@ -169,7 +170,8 @@ namespace Application.Tickets
                 ClosureDateTime = search.ClosureDateTime,
                 FileUrls = search.FileUrls,
                 FileNames = search.FileNames,
-                Comments = search.Comments
+                Comments = search.Comments,
+                IsAssigned = search.IsAssigned
             };
             
              _ticketCollection.UpdateTicket(result.Id, new Ticket()
