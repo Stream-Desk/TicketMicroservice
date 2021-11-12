@@ -186,7 +186,7 @@ namespace Application.Tickets
                 Closed = result.Closed,
                 FileUrls = result.FileUrls,
                 Comments = result.Comments,
-                Status = Status.Pending,
+                Status = Status.Open,
                 IsModified = true
             });
 
@@ -233,7 +233,7 @@ namespace Application.Tickets
                 Category = model.Category,
                 Priority = model.Priority, 
                 SubmitDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"),
-                Status = Status.Open,
+                Status = Status.New,
                 IsDeleted = model.IsDeleted,
                 IsModified = model.IsModified,
                 FileUrls = model.FileUrls,
