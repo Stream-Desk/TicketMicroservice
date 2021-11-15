@@ -270,7 +270,7 @@ namespace Application.Tickets
 
                 mailService.SendEmail(new MailData
                 {
-                    EmailBody = "Hello Daniel, your have raised a, you will receive feedback shortly",
+                    EmailBody = "Hello Daniel, you have raised a ticket, you will receive feedback shortly",
                     EmailSubject = "Ticket Raised",
                     EmailToId = "handsdani@gmail.com",
                     EmailToName = "Daniel"
@@ -301,8 +301,7 @@ namespace Application.Tickets
             {
                 throw new Exception("Ticket not found");
             }
-            
-           
+
             // Category to March Priority
             
             switch (currentTicket.Category)
@@ -351,7 +350,6 @@ namespace Application.Tickets
                 currentTicket.Status = Status.Resolved;
                 model.ClosureDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
             }
-            
             else
             {
                 model.Status = Status.Open;
